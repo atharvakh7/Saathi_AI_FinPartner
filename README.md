@@ -39,6 +39,19 @@ py -3.11 -m venv .venv
 .venv/Scripts/python -m app.ai.demo         # check every AI adapter (LLM, embeddings, STT, TTS, OCR, ...)
 ```
 
+## Background jobs
+
+By default (`CELERY_ENABLED=false`) background work such as memory extraction and insights runs inside the API process, so nothing else needs to run. To use Celery and the daily schedule (insights 08:30, reminders, nightly planner/schemes, purge):
+
+```
+# in backend/.env: CELERY_ENABLED=true
+cd backend
+.venv/Scripts/celery -A app.jobs.celery_app worker --pool=solo -l info   # Windows needs --pool=solo
+.venv/Scripts/celery -A app.jobs.celery_app beat -l info
+```
+
+Run any job once by hand: `.venv/Scripts/python -m app.jobs.run --list`, then e.g. `.venv/Scripts/python -m app.jobs.run insights.generate_all`.
+
 ## Deferred work
 
 - [GPU speech-to-text](docs/deferred/gpu-whisper.md): paused in step 7; why, where it got stuck, and how to finish it.

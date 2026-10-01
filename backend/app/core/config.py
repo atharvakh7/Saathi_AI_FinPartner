@@ -90,6 +90,13 @@ class Settings(BaseSettings):
     EXPO_PUSH_URL: str = "https://exp.host/--/api/v2/push/send"
     EXPO_ACCESS_TOKEN: str = ""
 
+    # Background jobs (spec §5.9–5.10). Off: work runs inside the API process and the beat schedule
+    # doesn't run (fine for a single dev machine). On: the API queues Celery tasks; run a worker + beat.
+    CELERY_ENABLED: bool = False
+    CELERY_BROKER_URL: str = "redis://localhost:6379/1"
+    INSIGHTS_DEBOUNCE_SEC: int = 60
+    PUSH_MAX_PER_DAY: int = 3
+
     # Request body limits (spec §8.3)
     MAX_JSON_BODY_BYTES: int = 64 * 1024
     MAX_UPLOAD_BODY_BYTES: int = 6 * 1024 * 1024

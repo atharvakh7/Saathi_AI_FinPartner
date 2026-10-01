@@ -17,15 +17,18 @@ from app.core.errors import register_error_handlers
 from app.core.logging import configure_logging
 from app.core.middleware import BodySizeLimitMiddleware, RateLimitMiddleware, RequestContextMiddleware
 from app.core.redis import redis_client
+from app.modules.admin.router import router as admin_router
 from app.modules.auth.router import router as auth_router
 from app.modules.chat.orchestrator import drain_background
 from app.modules.chat.router import router as chat_router
 from app.modules.finance.router import router as finance_router
 from app.modules.fraud.router import router as fraud_router
 from app.modules.goals.router import router as goals_router
+from app.modules.insights.router import router as insights_router
 from app.modules.learn.router import router as learn_router
 from app.modules.learn.translate import translate_missing
 from app.modules.memory.router import router as memory_router
+from app.modules.notifications.router import router as notifications_router
 from app.modules.planner.router import risk_router
 from app.modules.planner.router import router as planner_router
 from app.modules.schemes.router import router as schemes_router
@@ -55,7 +58,7 @@ async def lifespan(_: FastAPI):
     yield
     if not background.done():
         background.cancel()
-    await drain_background()  # finish memory work for the last replies
+    await drain_background(timeout=10)  # finish in-process jobs; delayed ones are dropped
     await redis_client.aclose()
     await engine.dispose()
     log.info("shutdown")
@@ -88,7 +91,7 @@ def create_app() -> FastAPI:
     for router in (
         system_router, auth_router, users_router, legal_router, finance_router, goals_router, planner_router,
         risk_router, learn_router, memory_router, schemes_router, fraud_router, voice_router,
-        chat_router,
+        chat_router, insights_router, notifications_router, admin_router,
     ):
         app.include_router(router, prefix=settings.API_PREFIX)
     return app

@@ -10,7 +10,6 @@ If the LLM is unavailable for a reply that needs it, the user message is removed
 Retry doesn't duplicate it) and UPSTREAM_AI_UNAVAILABLE is raised.
 """
 
-import asyncio
 import logging
 import uuid
 from dataclasses import dataclass
@@ -25,11 +24,11 @@ from app.ai import llm_client
 from app.ai.base import AIOutputError, AIUnavailable
 from app.ai.lang_detect import detect_text_language
 from app.ai.prompts import fence, language_name, render
-from app.core.db import SessionLocal
 from app.core.enums import LANGUAGES
 from app.core.errors import AppError
 from app.core.pii import redact_pii
 from app.core.storage import TTS_URL_TTL_SEC
+from app.jobs import dispatch
 from app.modules.chat import context as ctx
 from app.modules.chat import drafts, guardrails, intents, tools
 from app.modules.chat.models import Conversation, Message
@@ -39,8 +38,6 @@ from app.modules.finance.schemas import TransactionIn
 from app.modules.goals import service as goals_service
 from app.modules.goals.schemas import GoalIn
 from app.modules.learn import term_detector
-from app.modules.memory import extraction
-from app.modules.memory import service as memory_service
 from app.modules.users.models import User, UserProfile
 from app.modules.voice import service as voice_service
 
@@ -171,31 +168,16 @@ async def _llm_reply(c: ctx.Context, tool: tools.ToolResult, text: str, language
     return reply, suggested, (tokens[0], tokens[1])
 
 
-# --- Background memory work (Celery jobs memory.extract / memory.summarize in step 17) ---
+# --- Background memory work (Celery memory.extract / memory.summarize, spec §5.3 step 14) ---
 
-_background: set[asyncio.Task] = set()
-
-
-async def _memory_jobs(conversation_id: uuid.UUID) -> None:
-    try:
-        async with SessionLocal() as session:
-            await extraction.extract_facts(session, conversation_id)
-        async with SessionLocal() as session:
-            await memory_service.summarize_conversation(session, conversation_id)
-    except Exception:
-        log.exception("background memory work failed")
+async def _schedule_memory(conversation_id: uuid.UUID) -> None:
+    await dispatch.enqueue("memory.extract", conversation_id)
+    await dispatch.enqueue("memory.summarize", conversation_id)
 
 
-def _schedule_memory(conversation_id: uuid.UUID) -> None:
-    task = asyncio.create_task(_memory_jobs(conversation_id))
-    _background.add(task)
-    task.add_done_callback(_background.discard)
-
-
-async def drain_background() -> None:
-    """Wait for scheduled memory work (tests, shutdown)."""
-    while _background:
-        await asyncio.gather(*list(_background), return_exceptions=True)
+async def drain_background(timeout: float | None = None) -> None:
+    """Wait for in-process jobs (tests, shutdown)."""
+    await dispatch.drain(timeout)
 
 
 # --- Main --------------------------------------------------------------------------
@@ -251,7 +233,7 @@ async def handle(
 
     audio = await _audio(session, user, reply, language, input_mode, want_audio)
     if intent != "distress":  # don't turn a crisis into stored "facts"
-        _schedule_memory(conv.id)
+        await _schedule_memory(conv.id)
     return Outcome(conv, user_msg, assistant, audio)
 
 

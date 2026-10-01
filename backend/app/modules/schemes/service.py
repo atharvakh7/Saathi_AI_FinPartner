@@ -181,7 +181,17 @@ async def recompute(session: AsyncSession, user_id: uuid.UUID) -> dict:
 @events.on(events.ONBOARDING_COMPLETED)
 async def recompute_after_change(user_id: uuid.UUID) -> None:
     async with SessionLocal() as session:
-        await recompute(session, user_id)
+        result = await recompute(session, user_id)
+    await announce_new_matches(user_id, result["newly_eligible"])
+
+
+async def announce_new_matches(user_id: uuid.UUID, scheme_ids: list) -> None:
+    """Insight I09 "You may now qualify for {n} new schemes" (spec §5.9)."""
+    if not scheme_ids:
+        return
+    from app.jobs import dispatch  # queued: phrasing it in the user's language takes an LLM call
+
+    await dispatch.enqueue("insights.scheme_news", user_id, ",".join(str(i) for i in scheme_ids))
 
 
 async def ensure_matches(session: AsyncSession, user: User) -> None:
