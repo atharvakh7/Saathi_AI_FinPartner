@@ -1,0 +1,4 @@
+# Speech + audio runtimes (Python 3.11). Install: pip install -r requirements.txt -r requirements-ml.txt
+pywhispercpp==1.5.1
+piper-tts==1.8.0
+imageio-ffmpeg==0.6.0

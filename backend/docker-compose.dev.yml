@@ -1,0 +1,112 @@
+# Saathi — local development services (spec §3.3, §10 step 1)
+#
+#   docker compose -f backend/docker-compose.dev.yml up -d
+#   docker compose -f backend/docker-compose.dev.yml ps
+#
+# Long-running services (postgres, redis, minio, ollama) report "healthy".
+# The one-shot job ollama-init pulls the models and exits 0. MinIO creates its buckets itself.
+# Values below are local-dev defaults and can be overridden from backend/.env.
+
+name: saathi
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-saathi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-saathi}
+      POSTGRES_DB: ${POSTGRES_DB:-saathi}
+      TZ: UTC
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # MinIO no longer publishes free images (minio/minio is gone from Docker Hub).
+  # bitnamilegacy/minio is a frozen MinIO build — fine for local dev, not for production.
+  # It creates the buckets from spec §5.11 on startup (idempotent).
+  minio:
+    image: bitnamilegacy/minio:latest
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY:-saathi-minio}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY:-saathi-minio-secret}
+      MINIO_DEFAULT_BUCKETS: ${S3_BUCKET_MEDIA:-saathi-media},${S3_BUCKET_TTS:-saathi-tts-cache}
+      MINIO_CONSOLE_PORT_NUMBER: "9001"
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio_data:/bitnami/minio/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  ollama:
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    environment:
+      OLLAMA_KEEP_ALIVE: 24h  # keep models loaded; the first load takes ~1 min
+      OLLAMA_NUM_PARALLEL: ${LLM_MAX_CONCURRENCY:-2}
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    # NVIDIA GPU (Docker Desktop + WSL2 with a current NVIDIA driver). Remove this block on
+    # machines without an NVIDIA GPU; Ollama then runs on CPU (much slower).
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # One-shot: pull the LLM and embedding models (spec §7.5). First run downloads ~6 GB.
+  ollama-init:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      LLM_MODEL: ${LLM_MODEL:-gemma4:e4b-it-qat}
+      EMBED_MODEL: ${EMBED_MODEL:-bge-m3}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - ollama pull "$$LLM_MODEL" && ollama pull "$$EMBED_MODEL"
+    restart: "no"
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+  ollama_data:

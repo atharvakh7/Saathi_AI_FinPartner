@@ -1,0 +1,614 @@
+{
+  "_note": "Starter data (spec A9). Verify every scheme on its official website before relying on it; update via the admin API. last_verified_on = seed date.",
+  "last_verified_on": "2026-10-01",
+  "categories": [
+    {"slug": "health", "name_en": "Health", "icon": "heart-pulse", "sort_order": 1},
+    {"slug": "education", "name_en": "Education", "icon": "graduation-cap", "sort_order": 2},
+    {"slug": "housing", "name_en": "Housing", "icon": "house", "sort_order": 3},
+    {"slug": "employment", "name_en": "Employment", "icon": "briefcase", "sort_order": 4},
+    {"slug": "agriculture", "name_en": "Agriculture", "icon": "tractor", "sort_order": 5},
+    {"slug": "women", "name_en": "Women", "icon": "users", "sort_order": 6},
+    {"slug": "social-security", "name_en": "Social Security", "icon": "shield-check", "sort_order": 7}
+  ],
+  "schemes": [
+    {
+      "slug": "pm-kisan", "name_en": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+      "level": "central", "state_code": null, "category_slug": "agriculture",
+      "ministry_or_dept": "Ministry of Agriculture & Farmers Welfare", "benefit_type": "cash",
+      "benefit_summary_en": "₹6,000 per year in three installments of ₹2,000 for eligible farmer families",
+      "description_en": "PM-KISAN gives income support to landholding farmer families. The money is sent directly to the bank account linked with Aadhaar in three equal installments each year. Families where a member pays income tax, holds a constitutional post or is a serving/retired government officer (with some exceptions) are not eligible. e-KYC is required to keep receiving installments.",
+      "application_mode_en": "Online on the PM-KISAN portal, or at a Common Service Centre (CSC) or the local agriculture office",
+      "official_url": "https://pmkisan.gov.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Keep your Aadhaar card, bank passbook and land record (7/12 extract in Maharashtra) ready. Make sure your mobile number is linked to Aadhaar."},
+        {"title_en": "Register as a new farmer", "description_en": "Open pmkisan.gov.in and choose 'New Farmer Registration', or visit your nearest CSC or agriculture office for help."},
+        {"title_en": "Fill land and bank details", "description_en": "Enter your land details exactly as in the land record and your bank account details as in the passbook."},
+        {"title_en": "Complete e-KYC", "description_en": "Complete e-KYC using an OTP on your Aadhaar-linked mobile, or with fingerprint at a CSC."},
+        {"title_en": "Track status", "description_en": "Use 'Know Your Status' on the portal with your registration number to see verification and payment status."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook (account linked with Aadhaar)", "is_mandatory": true},
+        {"name": "Land record (7/12 extract in Maharashtra)", "is_mandatory": true},
+        {"name": "Mobile number linked to Aadhaar", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "pm-fasal-bima", "name_en": "PM Fasal Bima Yojana (Crop Insurance)",
+      "level": "central", "state_code": null, "category_slug": "agriculture",
+      "ministry_or_dept": "Ministry of Agriculture & Farmers Welfare", "benefit_type": "insurance",
+      "benefit_summary_en": "Crop insurance against loss from natural calamities, pests and diseases at low farmer-paid premium",
+      "description_en": "PMFBY covers notified crops against yield loss from drought, flood, pests, diseases and some post-harvest losses. The farmer pays a small share of the premium (usually 2% for kharif, 1.5% for rabi, 5% for commercial and horticultural crops) and the government pays the rest. Farmers with crop loans may be enrolled through their bank; others can enrol before the season's cut-off date.",
+      "application_mode_en": "Through your bank, a CSC, an insurance company office or the PMFBY portal before the seasonal cut-off date",
+      "official_url": "https://pmfby.gov.in",
+      "steps": [
+        {"title_en": "Check the cut-off date", "description_en": "Enrolment closes on a fixed date each season. Ask your bank, CSC or agriculture office for this season's date."},
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar, bank passbook, land record or tenancy agreement, and your sowing details ready."},
+        {"title_en": "Apply for your crop", "description_en": "Apply at your bank, a CSC or on pmfby.gov.in, choosing the notified crop and area you sowed."},
+        {"title_en": "Pay your premium share", "description_en": "Pay only your share of the premium and keep the receipt or policy number."},
+        {"title_en": "Report crop loss quickly", "description_en": "If your crop is damaged, report it within 72 hours through the Crop Insurance app, the helpline or your bank/insurer."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Land record or tenancy/sharecropping agreement", "is_mandatory": true},
+        {"name": "Sowing certificate / crop details", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "kisan-credit-card", "name_en": "Kisan Credit Card (KCC)",
+      "level": "central", "state_code": null, "category_slug": "agriculture",
+      "ministry_or_dept": "Ministry of Agriculture & Farmers Welfare / Department of Financial Services", "benefit_type": "loan",
+      "benefit_summary_en": "Short-term crop loans with interest subvention for timely repayment",
+      "description_en": "KCC gives farmers a credit limit from a bank for seeds, fertiliser, crop care and related needs, including animal husbandry and fisheries. Under the interest subvention scheme, eligible short-term loans up to a set limit carry a reduced interest rate, with an extra reduction for repaying on time. Interest rates and limits are set by the bank and government and can change.",
+      "application_mode_en": "At any commercial, cooperative or regional rural bank branch, or through the bank's website",
+      "official_url": "https://www.myscheme.gov.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar, a passport-size photo, land record and your bank passbook ready."},
+        {"title_en": "Visit your bank branch", "description_en": "Go to your bank branch (or a nearby cooperative/rural bank) and ask for the Kisan Credit Card form."},
+        {"title_en": "Fill the form", "description_en": "Fill details of your land, crops grown and the amount you need for the season."},
+        {"title_en": "Bank verification", "description_en": "The bank checks your land and crop details and decides your credit limit."},
+        {"title_en": "Repay on time", "description_en": "Repay before the due date to get the extra interest benefit and keep your limit active."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Land record (7/12 extract in Maharashtra)", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Passport-size photo", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "namo-shetkari-mahasanman-nidhi", "name_en": "Namo Shetkari Mahasanman Nidhi",
+      "level": "state", "state_code": "MH", "category_slug": "agriculture",
+      "ministry_or_dept": "Agriculture Department, Government of Maharashtra", "benefit_type": "cash",
+      "benefit_summary_en": "Additional ₹6,000 per year for PM-KISAN beneficiary farmers in Maharashtra",
+      "description_en": "Maharashtra adds ₹6,000 per year on top of PM-KISAN for farmers in the state who receive PM-KISAN. Beneficiaries are taken from the PM-KISAN list, so keeping your PM-KISAN registration, land records and e-KYC up to date is the main requirement.",
+      "application_mode_en": "Automatic for eligible PM-KISAN beneficiaries in Maharashtra; corrections through the agriculture office",
+      "official_url": "https://www.myscheme.gov.in",
+      "steps": [
+        {"title_en": "Register for PM-KISAN first", "description_en": "This benefit follows PM-KISAN. If you are not registered for PM-KISAN, register there first."},
+        {"title_en": "Complete e-KYC and land seeding", "description_en": "Make sure your PM-KISAN e-KYC is done and your land details are verified."},
+        {"title_en": "Link Aadhaar with your bank", "description_en": "The money comes to your Aadhaar-linked bank account, so check the link at your bank."},
+        {"title_en": "Check with the agriculture office", "description_en": "If money does not arrive, visit your taluka agriculture office with your PM-KISAN registration number."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook (account linked with Aadhaar)", "is_mandatory": true},
+        {"name": "Land record (7/12 extract)", "is_mandatory": true},
+        {"name": "PM-KISAN registration number", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "pm-jan-dhan", "name_en": "Pradhan Mantri Jan Dhan Yojana (PMJDY)",
+      "level": "central", "state_code": null, "category_slug": "social-security",
+      "ministry_or_dept": "Department of Financial Services, Ministry of Finance", "benefit_type": "savings",
+      "benefit_summary_en": "Zero-balance bank account, RuPay debit card, accident insurance cover, overdraft facility",
+      "description_en": "PMJDY lets anyone without a bank account open a basic savings account with no minimum balance. You get a RuPay debit card with accidental insurance cover, and after using the account well for some time you may get a small overdraft. Government benefits such as pensions and subsidies can be paid directly into this account.",
+      "application_mode_en": "At any bank branch or Bank Mitra (business correspondent) outlet",
+      "official_url": "https://pmjdy.gov.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Aadhaar is enough in most cases. Keep a passport-size photo and your mobile number handy."},
+        {"title_en": "Visit a bank or Bank Mitra", "description_en": "Go to any bank branch or a Bank Mitra near you and ask to open a Jan Dhan account."},
+        {"title_en": "Fill the account opening form", "description_en": "Fill the simple form and give your nominee's name."},
+        {"title_en": "Collect passbook and RuPay card", "description_en": "Collect your passbook and RuPay debit card. Never share the card PIN with anyone."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Passport-size photo", "is_mandatory": false},
+        {"name": "Mobile number linked to Aadhaar", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "pmjjby", "name_en": "Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY)",
+      "level": "central", "state_code": null, "category_slug": "social-security",
+      "ministry_or_dept": "Department of Financial Services, Ministry of Finance", "benefit_type": "insurance",
+      "benefit_summary_en": "₹2 lakh life cover for ₹436 per year premium auto-debited",
+      "description_en": "PMJJBY is a one-year renewable life insurance for people with a bank or post office account. If the insured person dies from any cause, the nominee gets ₹2 lakh. The yearly premium is auto-debited from your account each year, so keep enough balance at renewal time.",
+      "application_mode_en": "At your bank or post office branch, or through the bank's net banking / mobile app",
+      "official_url": "https://jansuraksha.gov.in",
+      "steps": [
+        {"title_en": "Check your bank account", "description_en": "You need an active savings account with Aadhaar linked."},
+        {"title_en": "Get the enrolment form", "description_en": "Ask your bank or post office for the PMJJBY form, or enrol in the bank's app."},
+        {"title_en": "Give auto-debit consent", "description_en": "Fill the form, add a nominee and agree to auto-debit of the premium."},
+        {"title_en": "Keep the acknowledgement", "description_en": "Keep the acknowledgement slip. Tell your nominee about the policy."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Nominee details", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "pmsby", "name_en": "Pradhan Mantri Suraksha Bima Yojana (PMSBY)",
+      "level": "central", "state_code": null, "category_slug": "social-security",
+      "ministry_or_dept": "Department of Financial Services, Ministry of Finance", "benefit_type": "insurance",
+      "benefit_summary_en": "₹2 lakh accidental death/full disability cover (₹1 lakh partial) for ₹20 per year",
+      "description_en": "PMSBY is a one-year renewable accident insurance. It pays ₹2 lakh for accidental death or total permanent disability and ₹1 lakh for partial permanent disability. The small yearly premium is auto-debited from your bank or post office account.",
+      "application_mode_en": "At your bank or post office branch, or through the bank's net banking / mobile app",
+      "official_url": "https://jansuraksha.gov.in",
+      "steps": [
+        {"title_en": "Check your bank account", "description_en": "You need an active savings account with Aadhaar linked."},
+        {"title_en": "Get the enrolment form", "description_en": "Ask your bank or post office for the PMSBY form, or enrol in the bank's app."},
+        {"title_en": "Give auto-debit consent", "description_en": "Fill the form, add a nominee and agree to auto-debit of the premium."},
+        {"title_en": "Keep the acknowledgement", "description_en": "Keep the acknowledgement slip safe and share the details with your family."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Nominee details", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "atal-pension-yojana", "name_en": "Atal Pension Yojana (APY)",
+      "level": "central", "state_code": null, "category_slug": "social-security",
+      "ministry_or_dept": "Ministry of Finance (administered by PFRDA)", "benefit_type": "pension",
+      "benefit_summary_en": "Guaranteed monthly pension of ₹1,000 to ₹5,000 from age 60 based on contribution",
+      "description_en": "APY helps workers build a pension. You choose a pension amount between ₹1,000 and ₹5,000 per month and pay a fixed monthly contribution from your bank account until age 60. The younger you join, the smaller the contribution. After you, your spouse gets the pension, and then the nominee gets the saved amount. Income-tax payers cannot join.",
+      "application_mode_en": "At the bank or post office where you have a savings account, or through the bank's app",
+      "official_url": "https://www.npscra.nsdl.co.in",
+      "steps": [
+        {"title_en": "Choose your pension amount", "description_en": "Decide the monthly pension you want at 60 (₹1,000 to ₹5,000). Your bank can show the monthly contribution for your age."},
+        {"title_en": "Fill the APY form", "description_en": "Fill the form at your bank or post office with Aadhaar, mobile and nominee details."},
+        {"title_en": "Set up auto-debit", "description_en": "Agree to auto-debit of the contribution every month. Keep balance to avoid penalties."},
+        {"title_en": "Save your PRAN", "description_en": "You will get a Permanent Retirement Account Number (PRAN). Keep it safe to check your account."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Mobile number linked to Aadhaar", "is_mandatory": true},
+        {"name": "Nominee and spouse details", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "ayushman-bharat-pmjay", "name_en": "Ayushman Bharat – PM Jan Arogya Yojana (PM-JAY)",
+      "level": "central", "state_code": null, "category_slug": "health",
+      "ministry_or_dept": "National Health Authority, Ministry of Health & Family Welfare", "benefit_type": "health_cover",
+      "benefit_summary_en": "Health cover up to ₹5 lakh per family per year for hospital care",
+      "description_en": "PM-JAY gives eligible poor and vulnerable families free treatment up to ₹5 lakh per family per year in empanelled government and private hospitals. It covers hospital stay, surgery, medicines and tests for listed treatments. Eligibility is based on government deprivation lists and state schemes; you can check your name using your mobile number or ration card.",
+      "application_mode_en": "Check eligibility and get the Ayushman card on the PM-JAY portal/app, at a CSC or an empanelled hospital",
+      "official_url": "https://pmjay.gov.in",
+      "steps": [
+        {"title_en": "Check if your family is listed", "description_en": "Use 'Am I Eligible' on the PM-JAY website or app with your mobile number, or ask at a CSC."},
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar and your ration card ready for every family member."},
+        {"title_en": "Get your Ayushman card", "description_en": "Complete e-KYC and download the Ayushman card, or get it made at a CSC or hospital help desk."},
+        {"title_en": "Use it at an empanelled hospital", "description_en": "Show the card at the Ayushman Mitra desk of an empanelled hospital for cashless treatment."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Ration card", "is_mandatory": true},
+        {"name": "Mobile number linked to Aadhaar", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "ayushman-vay-vandana", "name_en": "Ayushman Vay Vandana Card (PM-JAY for 70+)",
+      "level": "central", "state_code": null, "category_slug": "health",
+      "ministry_or_dept": "National Health Authority, Ministry of Health & Family Welfare", "benefit_type": "health_cover",
+      "benefit_summary_en": "Health cover up to ₹5 lakh per year for citizens aged 70 and above regardless of income",
+      "description_en": "All citizens aged 70 and above can get cashless hospital treatment up to ₹5 lakh per year under PM-JAY with the Ayushman Vay Vandana card, whatever their income. If the family is already covered by PM-JAY, the senior gets an additional top-up. Some people covered by other government health schemes may have to choose one.",
+      "application_mode_en": "Enrol on the Ayushman app or PM-JAY portal, or at a CSC or empanelled hospital",
+      "official_url": "https://pmjay.gov.in",
+      "steps": [
+        {"title_en": "Keep Aadhaar ready", "description_en": "Age is checked from Aadhaar, so keep the senior's Aadhaar card and linked mobile ready."},
+        {"title_en": "Enrol online or at a CSC", "description_en": "Use the Ayushman app or website, or visit a CSC or hospital help desk for enrolment."},
+        {"title_en": "Complete e-KYC", "description_en": "Complete e-KYC with an OTP or fingerprint and add a photo."},
+        {"title_en": "Download the card", "description_en": "Download the Vay Vandana card and show it at empanelled hospitals for cashless treatment."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Mobile number linked to Aadhaar", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "pm-mudra", "name_en": "Pradhan Mantri Mudra Yojana (PMMY)",
+      "level": "central", "state_code": null, "category_slug": "employment",
+      "ministry_or_dept": "Department of Financial Services, Ministry of Finance", "benefit_type": "loan",
+      "benefit_summary_en": "Collateral-free business loans in Shishu, Kishor and Tarun categories (up to ₹10 lakh; up to ₹20 lakh under Tarun Plus)",
+      "description_en": "Mudra loans help small non-farm businesses such as shops, vendors, repair services, transport and small manufacturing, and allied farm activities like dairy or poultry. Loans come from banks, NBFCs and microfinance institutions without collateral: Shishu (up to ₹50,000), Kishor (₹50,000 to ₹5 lakh), Tarun (₹5 lakh to ₹10 lakh) and Tarun Plus (up to ₹20 lakh for those who repaid a Tarun loan). Interest rates are set by the lender.",
+      "application_mode_en": "At a bank, NBFC or MFI branch, or online through the Udyamimitra / JanSamarth portals",
+      "official_url": "https://www.mudra.org.in",
+      "steps": [
+        {"title_en": "Plan your business need", "description_en": "Write down what the money is for (stock, machine, shop setup) and how much you need."},
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar, PAN, address proof, photos, bank statement and a simple business plan or quotations."},
+        {"title_en": "Apply at a lender", "description_en": "Visit a bank or MFI branch, or apply online on JanSamarth, and choose Shishu, Kishor or Tarun."},
+        {"title_en": "Verification", "description_en": "The lender checks your details and may visit your business."},
+        {"title_en": "Use and repay on time", "description_en": "Use the money only for the business and repay EMIs on time to qualify for bigger loans later. Never pay any agent a 'fee' for approval."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "PAN card", "is_mandatory": false},
+        {"name": "Bank statement (last 6 months)", "is_mandatory": true},
+        {"name": "Passport-size photo", "is_mandatory": true},
+        {"name": "Business proof or quotation for purchases", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "pm-svanidhi", "name_en": "PM SVANidhi (Street Vendor's AtmaNirbhar Nidhi)",
+      "level": "central", "state_code": null, "category_slug": "employment",
+      "ministry_or_dept": "Ministry of Housing & Urban Affairs", "benefit_type": "loan",
+      "benefit_summary_en": "Working capital loans for street vendors with interest subsidy on timely repayment",
+      "description_en": "PM SVANidhi gives street vendors small working-capital loans without collateral, in steps: a bigger loan becomes available after the first one is repaid. Vendors who repay on time get an interest subsidy, and digital payments earn cashback. A vending certificate or a Letter of Recommendation from the urban local body is needed.",
+      "application_mode_en": "Online on the PM SVANidhi portal, or through a CSC, bank or urban local body office",
+      "official_url": "https://pmsvanidhi.mohua.gov.in",
+      "steps": [
+        {"title_en": "Get vendor proof", "description_en": "Keep your vending certificate or ID card. If you don't have one, ask your municipality for a Letter of Recommendation."},
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar with linked mobile number and your bank passbook."},
+        {"title_en": "Apply online or at a CSC", "description_en": "Apply on the PM SVANidhi portal or visit a CSC or bank for help."},
+        {"title_en": "Receive and repay", "description_en": "After approval the loan comes to your bank account. Repay monthly on time to get the interest subsidy and the next, bigger loan."},
+        {"title_en": "Use digital payments", "description_en": "Accept UPI payments from customers to earn cashback under the scheme."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Vending certificate / ID or Letter of Recommendation", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Mobile number linked to Aadhaar", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "e-shram", "name_en": "e-Shram Card",
+      "level": "central", "state_code": null, "category_slug": "employment",
+      "ministry_or_dept": "Ministry of Labour & Employment", "benefit_type": "insurance",
+      "benefit_summary_en": "e-Shram card with ₹2 lakh accident insurance for unorganised workers",
+      "description_en": "e-Shram is a national database of unorganised workers such as construction workers, domestic workers, gig and platform workers, farm labourers and vendors. Registration is free and gives a Universal Account Number (UAN) card. Registered workers get accident insurance under PMSBY for the first year and can be reached for other welfare schemes. EPFO/ESIC members and income-tax payers cannot register.",
+      "application_mode_en": "Free self-registration on the e-Shram portal, or at a CSC",
+      "official_url": "https://eshram.gov.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Keep your Aadhaar, the mobile number linked to it and your bank account details."},
+        {"title_en": "Register on the portal", "description_en": "Go to eshram.gov.in and choose 'Register on e-Shram', or visit a CSC. Registration is free."},
+        {"title_en": "Verify with OTP", "description_en": "Verify with the OTP sent to your Aadhaar-linked mobile."},
+        {"title_en": "Fill work details", "description_en": "Fill your occupation, skills, address and bank details."},
+        {"title_en": "Download your e-Shram card", "description_en": "Download the UAN card and keep it safe."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Mobile number linked to Aadhaar", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "pm-shram-yogi-maandhan", "name_en": "PM Shram Yogi Maan-dhan (PM-SYM)",
+      "level": "central", "state_code": null, "category_slug": "social-security",
+      "ministry_or_dept": "Ministry of Labour & Employment", "benefit_type": "pension",
+      "benefit_summary_en": "Assured monthly pension of ₹3,000 after age 60",
+      "description_en": "PM-SYM is a voluntary pension scheme for unorganised workers earning up to ₹15,000 a month. You pay a small monthly contribution based on your joining age (₹55 to ₹200) and the government adds an equal amount. From age 60 you get ₹3,000 per month. Members of EPFO, ESIC or NPS and income-tax payers cannot join.",
+      "application_mode_en": "At a CSC or on the Maandhan portal",
+      "official_url": "https://maandhan.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar and a savings bank account or Jan Dhan account with IFSC."},
+        {"title_en": "Visit a CSC or apply online", "description_en": "Go to your nearest CSC or maandhan.in to enrol."},
+        {"title_en": "Pay the first contribution", "description_en": "Pay the first monthly contribution in cash at the CSC; later ones are auto-debited."},
+        {"title_en": "Get your Shram Yogi card", "description_en": "You get a Shram Yogi Pension Account number and card. Keep balance for monthly auto-debit."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook (with IFSC)", "is_mandatory": true},
+        {"name": "Income certificate or self-declaration of income", "is_mandatory": false},
+        {"name": "Mobile number", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "mgnrega", "name_en": "Mahatma Gandhi National Rural Employment Guarantee Scheme (MGNREGA)",
+      "level": "central", "state_code": null, "category_slug": "employment",
+      "ministry_or_dept": "Ministry of Rural Development", "benefit_type": "employment",
+      "benefit_summary_en": "Guaranteed 100 days of wage employment per rural household per year",
+      "description_en": "MGNREGA gives every rural household the legal right to at least 100 days of unskilled manual work a year at the notified wage. Adult members register at the gram panchayat and get a job card. Work should be given within 15 days of asking, near the village, and wages are paid into the bank account. If work is not given in time, an unemployment allowance is due.",
+      "application_mode_en": "Register at your gram panchayat",
+      "official_url": "https://nrega.nic.in",
+      "steps": [
+        {"title_en": "Register at the gram panchayat", "description_en": "Adult household members apply at the gram panchayat with photos and Aadhaar to register."},
+        {"title_en": "Get your job card", "description_en": "The panchayat issues a job card, free of cost, usually within 15 days."},
+        {"title_en": "Ask for work in writing", "description_en": "Apply for work at the panchayat and take a dated receipt."},
+        {"title_en": "Work and get paid to your bank", "description_en": "Work is given within 15 days. Wages come directly to your bank or post office account."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Passport-size photos of adult members", "is_mandatory": true},
+        {"name": "Bank or post office passbook", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "nsap-old-age-pension", "name_en": "Indira Gandhi National Old Age Pension (NSAP)",
+      "level": "central", "state_code": null, "category_slug": "social-security",
+      "ministry_or_dept": "Ministry of Rural Development", "benefit_type": "pension",
+      "benefit_summary_en": "Monthly old-age pension (₹200 for age 60–79, ₹500 for 80+ from Centre; states may add more)",
+      "description_en": "Under the National Social Assistance Programme, elderly people from BPL households get a monthly pension. The Centre pays ₹200 per month for ages 60–79 and ₹500 per month from age 80, and most states add their own share, so the amount you receive depends on your state.",
+      "application_mode_en": "Through the gram panchayat, block office or municipal office, or the state's social welfare portal",
+      "official_url": "https://nsap.nic.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Keep age proof, BPL card or ration card, Aadhaar and bank passbook."},
+        {"title_en": "Get the form", "description_en": "Get the old-age pension form from the panchayat, block office or municipal office."},
+        {"title_en": "Submit with documents", "description_en": "Submit the filled form with copies of documents and take a receipt."},
+        {"title_en": "Verification", "description_en": "Officials verify your details. After approval, pension comes to your bank account every month."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Age proof", "is_mandatory": true},
+        {"name": "BPL card or ration card", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Passport-size photo", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "pmay-gramin", "name_en": "Pradhan Mantri Awas Yojana – Gramin (PMAY-G)",
+      "level": "central", "state_code": null, "category_slug": "housing",
+      "ministry_or_dept": "Ministry of Rural Development", "benefit_type": "housing",
+      "benefit_summary_en": "Financial assistance to build a pucca house",
+      "description_en": "PMAY-G helps rural families who are houseless or live in kutcha or dilapidated houses to build a pucca house with basic facilities. Money is paid in installments to the bank account as construction progresses. Beneficiaries are selected from government survey lists and verified by the gram sabha; you can also get MGNREGA workdays for building your own house.",
+      "application_mode_en": "Through the gram panchayat / block office; beneficiaries come from the Awaas survey list",
+      "official_url": "https://pmayg.nic.in",
+      "steps": [
+        {"title_en": "Check the beneficiary list", "description_en": "Ask your gram panchayat whether your family is in the PMAY-G list, or search on pmayg.nic.in."},
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar, bank passbook, job card (if any) and land papers."},
+        {"title_en": "Registration and geo-tagging", "description_en": "The block office registers you and geo-tags the house site."},
+        {"title_en": "Build in stages", "description_en": "Money comes in installments as each stage of construction is completed and photographed."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "MGNREGA job card", "is_mandatory": false},
+        {"name": "Land ownership document", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "pmay-urban", "name_en": "Pradhan Mantri Awas Yojana – Urban (PMAY-U)",
+      "level": "central", "state_code": null, "category_slug": "housing",
+      "ministry_or_dept": "Ministry of Housing & Urban Affairs", "benefit_type": "housing",
+      "benefit_summary_en": "Interest subsidy/assistance for urban first-time home buyers and builders",
+      "description_en": "PMAY-Urban supports urban families from economically weaker sections, low and middle income groups who do not own a pucca house anywhere in India. Support can be help to build your own house, a subsidised house in a project, rental housing, or an interest subsidy on a home loan. The exact components and income limits depend on the current phase of the scheme.",
+      "application_mode_en": "Online on the PMAY-U portal, or through the urban local body or a CSC",
+      "official_url": "https://pmaymis.gov.in",
+      "steps": [
+        {"title_en": "Check the current phase", "description_en": "Check on the PMAY-U website which components are open in your city and the income limits."},
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar for all family members, income proof, bank passbook and a declaration that you don't own a pucca house."},
+        {"title_en": "Apply online or at the municipality", "description_en": "Apply on the portal or at your urban local body / CSC and note the application number."},
+        {"title_en": "Verification", "description_en": "The city office verifies your application before approval."},
+        {"title_en": "Track status", "description_en": "Track your application on the PMAY-U portal with your application number."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card (all family members)", "is_mandatory": true},
+        {"name": "Income certificate", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Self-declaration of not owning a pucca house", "is_mandatory": true},
+        {"name": "Passport-size photo", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "sukanya-samriddhi", "name_en": "Sukanya Samriddhi Yojana (SSY)",
+      "level": "central", "state_code": null, "category_slug": "women",
+      "ministry_or_dept": "Ministry of Finance (Department of Economic Affairs)", "benefit_type": "savings",
+      "benefit_summary_en": "Small-savings account for a girl child with government-set interest and tax benefits (deposit ₹250 to ₹1.5 lakh per year)",
+      "description_en": "Parents or guardians can open an SSY account for a daughter below 10 years of age. You deposit between ₹250 and ₹1.5 lakh a year for 15 years, and the account matures 21 years after opening. The interest rate is set by the government every quarter and deposits get income-tax benefits. Partial withdrawal is allowed for her education after she turns 18.",
+      "application_mode_en": "At a post office or authorised bank branch",
+      "official_url": "https://www.indiapost.gov.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Keep your daughter's birth certificate and your own Aadhaar and address proof."},
+        {"title_en": "Visit a post office or bank", "description_en": "Go to a post office or authorised bank and ask for the Sukanya Samriddhi account form."},
+        {"title_en": "Make the first deposit", "description_en": "Deposit at least ₹250 to open the account and collect the passbook."},
+        {"title_en": "Deposit every year", "description_en": "Deposit at least ₹250 every year to keep the account active, for 15 years."}
+      ],
+      "documents": [
+        {"name": "Birth certificate of the girl child", "is_mandatory": true},
+        {"name": "Aadhaar card of parent/guardian", "is_mandatory": true},
+        {"name": "PAN card of parent/guardian", "is_mandatory": false},
+        {"name": "Address proof", "is_mandatory": true},
+        {"name": "Passport-size photos", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "pm-vishwakarma", "name_en": "PM Vishwakarma",
+      "level": "central", "state_code": null, "category_slug": "employment",
+      "ministry_or_dept": "Ministry of Micro, Small & Medium Enterprises", "benefit_type": "loan",
+      "benefit_summary_en": "Skill training with stipend, toolkit incentive and collateral-free credit for traditional artisans",
+      "description_en": "PM Vishwakarma supports artisans and craftspeople in 18 traditional trades such as carpenters, blacksmiths, potters, tailors, cobblers, barbers and basket weavers. You get recognition as a Vishwakarma with a certificate and ID, skill training with a daily stipend, a toolkit incentive, collateral-free loans at a concessional rate in two tranches, and support for digital payments and marketing. Only one member per family can benefit.",
+      "application_mode_en": "Registration through a CSC, followed by verification at gram panchayat / urban local body level",
+      "official_url": "https://pmvishwakarma.gov.in",
+      "steps": [
+        {"title_en": "Check your trade", "description_en": "Check that your trade is one of the 18 listed trades on pmvishwakarma.gov.in."},
+        {"title_en": "Register at a CSC", "description_en": "Visit a CSC with Aadhaar, mobile and bank details for biometric registration."},
+        {"title_en": "Verification", "description_en": "Your application is verified by the gram panchayat or urban local body and then the district committee."},
+        {"title_en": "Get certificate and training", "description_en": "After approval, download your certificate and ID and attend skill training to get the stipend."},
+        {"title_en": "Apply for toolkit and loan", "description_en": "Use the toolkit incentive and apply for the collateral-free loan through the portal."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Mobile number linked to Aadhaar", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Ration card", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "national-scholarship-portal", "name_en": "National Scholarship Portal (NSP)",
+      "level": "central", "state_code": null, "category_slug": "education",
+      "ministry_or_dept": "Ministry of Education and participating ministries", "benefit_type": "scholarship",
+      "benefit_summary_en": "Gateway to central and state scholarships for students (individual scholarships have their own income/marks limits)",
+      "description_en": "The National Scholarship Portal is one place to apply for many central and state scholarships, including pre-matric, post-matric and merit-cum-means scholarships for SC, ST, OBC, minority and other students. Each scholarship has its own rules for family income, marks and course. Applications open once a year and money is paid directly to the student's bank account.",
+      "application_mode_en": "Online on scholarships.gov.in during the application window; verification by your institute",
+      "official_url": "https://scholarships.gov.in",
+      "steps": [
+        {"title_en": "Check open scholarships", "description_en": "Visit scholarships.gov.in to see which scholarships are open and their rules."},
+        {"title_en": "Register once", "description_en": "Register with Aadhaar and your mobile number to get a One Time Registration (OTR) number."},
+        {"title_en": "Fill the application", "description_en": "Fill course, marks, income and bank details, and upload documents."},
+        {"title_en": "Institute verification", "description_en": "Your school or college verifies the application online. Remind them before the deadline."},
+        {"title_en": "Track payment", "description_en": "Track status on the portal; the amount comes to your Aadhaar-linked bank account."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Bank passbook (in student's name)", "is_mandatory": true},
+        {"name": "Previous year marksheet", "is_mandatory": true},
+        {"name": "Income certificate", "is_mandatory": false},
+        {"name": "Caste certificate (if applicable)", "is_mandatory": false},
+        {"name": "Bonafide certificate from institute", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "pm-vidyalaxmi", "name_en": "PM-Vidyalaxmi",
+      "level": "central", "state_code": null, "category_slug": "education",
+      "ministry_or_dept": "Department of Higher Education, Ministry of Education", "benefit_type": "loan",
+      "benefit_summary_en": "Collateral-free, guarantor-free education loans for admission to top-ranked institutions",
+      "description_en": "PM-Vidyalaxmi helps students admitted to quality higher education institutions (based on national rankings) get education loans without collateral or a guarantor, covering tuition and related costs. Students from families with lower income can get interest subvention on part of the loan during the study period. Applications are made through a single online portal that connects to many banks.",
+      "application_mode_en": "Online on the PM-Vidyalaxmi portal",
+      "official_url": "https://pmvidyalaxmi.co.in",
+      "steps": [
+        {"title_en": "Check your institution", "description_en": "Check on the portal that your college or course is covered."},
+        {"title_en": "Register on the portal", "description_en": "Register with your mobile and email and fill the common education loan form."},
+        {"title_en": "Upload documents", "description_en": "Upload admission letter, fee structure, marksheets, ID and income proof."},
+        {"title_en": "Choose banks and apply", "description_en": "Select up to three banks and submit. Track the status on the portal."}
+      ],
+      "documents": [
+        {"name": "Admission letter", "is_mandatory": true},
+        {"name": "Fee structure from institute", "is_mandatory": true},
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Marksheets", "is_mandatory": true},
+        {"name": "Family income certificate", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "mukhyamantri-majhi-ladki-bahin", "name_en": "Mukhyamantri Majhi Ladki Bahin Yojana",
+      "level": "state", "state_code": "MH", "category_slug": "women",
+      "ministry_or_dept": "Women & Child Development Department, Government of Maharashtra", "benefit_type": "cash",
+      "benefit_summary_en": "₹1,500 per month for eligible women in Maharashtra",
+      "description_en": "Eligible women residents of Maharashtra aged 21 to 65 whose family income is up to ₹2.5 lakh a year receive ₹1,500 per month in their Aadhaar-linked bank account. Married, widowed, divorced, abandoned and destitute women and one unmarried woman per family can apply. Families with an income-tax payer or government employee, or owning a four-wheeler (except tractors), are generally excluded.",
+      "application_mode_en": "Online on the official Ladki Bahin portal or through anganwadi / ward offices",
+      "official_url": "https://www.myscheme.gov.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar, domicile proof (or ration card/birth certificate), income certificate or yellow/orange ration card, and bank passbook."},
+        {"title_en": "Apply online or offline", "description_en": "Apply on the official portal, or at an anganwadi centre or ward/setu office for help."},
+        {"title_en": "Link Aadhaar to your bank", "description_en": "Make sure your bank account is Aadhaar-seeded, because money is paid by DBT."},
+        {"title_en": "Track and complete e-KYC", "description_en": "Track your application status and complete e-KYC when asked to keep receiving payments."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Maharashtra domicile proof or ration card", "is_mandatory": true},
+        {"name": "Income certificate (or yellow/orange ration card)", "is_mandatory": true},
+        {"name": "Bank passbook (Aadhaar-linked)", "is_mandatory": true},
+        {"name": "Passport-size photo", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "lakshmir-bhandar", "name_en": "Lakshmir Bhandar",
+      "level": "state", "state_code": "WB", "category_slug": "women",
+      "ministry_or_dept": "Department of Women & Child Development and Social Welfare, Government of West Bengal", "benefit_type": "cash",
+      "benefit_summary_en": "Monthly income support for women in West Bengal (₹1,000; ₹1,200 for SC/ST)",
+      "description_en": "Lakshmir Bhandar gives monthly income support to women heads of family or women members aged 25 to 60 in West Bengal who are enrolled in the Swasthya Sathi scheme. Women in permanent government jobs or getting a government pension are not eligible. The amount is higher for SC/ST women and is paid to the bank account.",
+      "application_mode_en": "Apply at Duare Sarkar camps or the block / municipal office",
+      "official_url": "https://socialsecurity.wb.gov.in",
+      "steps": [
+        {"title_en": "Enrol in Swasthya Sathi", "description_en": "You need to be enrolled in Swasthya Sathi first. Check your card."},
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar, Swasthya Sathi card, bank passbook and caste certificate if SC/ST."},
+        {"title_en": "Apply at a Duare Sarkar camp", "description_en": "Fill the form at a Duare Sarkar camp or the BDO / municipal office."},
+        {"title_en": "Track payment", "description_en": "After verification, money comes to your bank account every month."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Swasthya Sathi card", "is_mandatory": true},
+        {"name": "Bank passbook", "is_mandatory": true},
+        {"name": "Caste certificate (SC/ST)", "is_mandatory": false},
+        {"name": "Passport-size photo", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "swasthya-sathi", "name_en": "Swasthya Sathi",
+      "level": "state", "state_code": "WB", "category_slug": "health",
+      "ministry_or_dept": "Department of Health & Family Welfare, Government of West Bengal", "benefit_type": "health_cover",
+      "benefit_summary_en": "Cashless health cover up to ₹5 lakh per family per year in West Bengal",
+      "description_en": "Swasthya Sathi is West Bengal's family health scheme giving cashless secondary and tertiary care up to ₹5 lakh per family per year in empanelled hospitals. The card is issued in the name of the senior woman of the family and covers her family members, including parents of both spouses.",
+      "application_mode_en": "Enrolment at Duare Sarkar camps or online on the Swasthya Sathi portal",
+      "official_url": "https://swasthyasathi.gov.in",
+      "steps": [
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar and residence proof for all family members."},
+        {"title_en": "Enrol", "description_en": "Apply at a Duare Sarkar camp or on the Swasthya Sathi portal with family details."},
+        {"title_en": "Collect the smart card", "description_en": "Collect the family smart card, issued in the senior woman's name."},
+        {"title_en": "Use at empanelled hospitals", "description_en": "Show the card at the Swasthya Sathi desk of an empanelled hospital for cashless care."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card (all members)", "is_mandatory": true},
+        {"name": "Residence proof in West Bengal", "is_mandatory": true},
+        {"name": "Passport-size photos", "is_mandatory": false}
+      ]
+    },
+    {
+      "slug": "swami-vivekananda-scholarship", "name_en": "Swami Vivekananda Merit-cum-Means Scholarship (SVMCM)",
+      "level": "state", "state_code": "WB", "category_slug": "education",
+      "ministry_or_dept": "Higher Education Department, Government of West Bengal", "benefit_type": "scholarship",
+      "benefit_summary_en": "Merit-cum-means scholarship for students in West Bengal",
+      "description_en": "SVMCM supports meritorious students from families with annual income up to ₹2.5 lakh in West Bengal, from Class 11 to postgraduate and professional courses. A minimum percentage in the last examination is required, and the scholarship amount depends on the course. Applications are made online once a year and renewed each year.",
+      "application_mode_en": "Online on the SVMCM portal during the application window; verification by your institution",
+      "official_url": "https://svmcm.wbhed.gov.in",
+      "steps": [
+        {"title_en": "Check marks and income rules", "description_en": "Check the minimum marks for your course and that family income is within the limit."},
+        {"title_en": "Register on the portal", "description_en": "Register on svmcm.wbhed.gov.in with your mobile and email."},
+        {"title_en": "Fill and upload", "description_en": "Fill details and upload marksheet, income certificate, admission proof and bank details."},
+        {"title_en": "Institute verification", "description_en": "Your institution verifies the application online before the deadline."},
+        {"title_en": "Renew every year", "description_en": "Renew the scholarship each year on the portal to keep receiving it."}
+      ],
+      "documents": [
+        {"name": "Previous examination marksheet", "is_mandatory": true},
+        {"name": "Income certificate", "is_mandatory": true},
+        {"name": "Admission receipt / ID card", "is_mandatory": true},
+        {"name": "Bank passbook (in student's name)", "is_mandatory": true},
+        {"name": "Aadhaar card", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "kalaignar-magalir-urimai-thogai", "name_en": "Kalaignar Magalir Urimai Thogai",
+      "level": "state", "state_code": "TN", "category_slug": "women",
+      "ministry_or_dept": "Government of Tamil Nadu", "benefit_type": "cash",
+      "benefit_summary_en": "₹1,000 per month for eligible women heads of family in Tamil Nadu",
+      "description_en": "Women heads of family in Tamil Nadu aged 21 and above receive ₹1,000 per month in their bank account if the family's annual income is up to ₹2.5 lakh and other conditions on land, electricity use and taxes are met. Families with government employees, income-tax payers or four-wheelers are generally excluded.",
+      "application_mode_en": "Apply at special camps or the ration shop area camp; appeals through the e-Sevai centre / RDO",
+      "official_url": "https://kmut.tn.gov.in",
+      "steps": [
+        {"title_en": "Check family card details", "description_en": "The woman head of family on the ration (family) card applies. Check the details are correct."},
+        {"title_en": "Keep documents ready", "description_en": "Keep Aadhaar, family card, electricity bill and bank passbook."},
+        {"title_en": "Apply at the camp", "description_en": "Submit the application at the camp announced for your ration shop area."},
+        {"title_en": "Track or appeal", "description_en": "Check status on kmut.tn.gov.in. If rejected, you can appeal through an e-Sevai centre."}
+      ],
+      "documents": [
+        {"name": "Aadhaar card", "is_mandatory": true},
+        {"name": "Family (ration) card", "is_mandatory": true},
+        {"name": "Electricity bill", "is_mandatory": true},
+        {"name": "Income certificate", "is_mandatory": false},
+        {"name": "Bank passbook", "is_mandatory": true}
+      ]
+    },
+    {
+      "slug": "cmchis-tn", "name_en": "Chief Minister's Comprehensive Health Insurance Scheme (CMCHIS)",
+      "level": "state", "state_code": "TN", "category_slug": "health",
+      "ministry_or_dept": "Health & Family Welfare Department, Government of Tamil Nadu", "benefit_type": "health_cover",
+      "benefit_summary_en": "Health insurance cover up to ₹5 lakh per family per year in Tamil Nadu",
+      "description_en": "CMCHIS gives families in Tamil Nadu with annual income up to ₹1.2 lakh cashless treatment up to ₹5 lakh per family per year for listed procedures in empanelled government and private hospitals. It works together with PM-JAY in the state.",
+      "application_mode_en": "Enrolment at the district CMCHIS kiosk (usually at the Collectorate) with an income certificate",
+      "official_url": "https://www.cmchistn.com",
+      "steps": [
+        {"title_en": "Get an income certificate", "description_en": "Get an income certificate from the Village Administrative Officer (VAO) showing income within the limit."},
+        {"title_en": "Keep documents ready", "description_en": "Keep the family card, income certificate and Aadhaar for all members."},
+        {"title_en": "Enrol at the kiosk", "description_en": "Visit the CMCHIS kiosk in your district with all family members for photo and fingerprint."},
+        {"title_en": "Use the card", "description_en": "Collect the card and show it at an empanelled hospital's CMCHIS desk for cashless treatment."}
+      ],
+      "documents": [
+        {"name": "Family (ration) card", "is_mandatory": true},
+        {"name": "Income certificate (from VAO)", "is_mandatory": true},
+        {"name": "Aadhaar card (all members)", "is_mandatory": true}
+      ]
+    }
+  ]
+}

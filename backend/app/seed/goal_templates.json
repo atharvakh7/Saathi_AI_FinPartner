@@ -1,0 +1,12 @@
+[
+  {"slug": "emergency_fund", "title_en": "Emergency Fund", "category": "emergency_fund", "sort_order": 1, "default_target_inr": null},
+  {"slug": "education", "title_en": "Education", "category": "education", "sort_order": 2, "default_target_inr": null},
+  {"slug": "vehicle", "title_en": "Buy a Vehicle", "category": "vehicle", "sort_order": 3, "default_target_inr": null},
+  {"slug": "home", "title_en": "Buy/Repair a Home", "category": "home", "sort_order": 4, "default_target_inr": null},
+  {"slug": "wedding", "title_en": "Wedding", "category": "wedding", "sort_order": 5, "default_target_inr": null},
+  {"slug": "medical", "title_en": "Medical Needs", "category": "medical", "sort_order": 6, "default_target_inr": null},
+  {"slug": "retirement", "title_en": "Retirement", "category": "retirement", "sort_order": 7, "default_target_inr": null},
+  {"slug": "business", "title_en": "Start/Grow a Business", "category": "business", "sort_order": 8, "default_target_inr": null},
+  {"slug": "farm_equipment", "title_en": "Farm Equipment", "category": "farm_equipment", "sort_order": 9, "default_target_inr": null},
+  {"slug": "custom", "title_en": "Custom", "category": "custom", "sort_order": 10, "default_target_inr": null}
+]

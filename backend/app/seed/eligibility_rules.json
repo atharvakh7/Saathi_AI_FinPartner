@@ -1,0 +1,122 @@
+{
+  "pm-kisan": [
+    {"rule_key": "farmer", "field": "occupation_type", "operator": "eq", "value": "farmer", "is_mandatory": true, "explanation_en": "You must be a farmer."},
+    {"rule_key": "land_owner", "field": "is_land_owner", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must own agricultural land."},
+    {"rule_key": "not_tax_payer", "field": "is_income_tax_payer", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "No one in your family should pay income tax."}
+  ],
+  "pm-fasal-bima": [
+    {"rule_key": "farmer", "field": "occupation_type", "operator": "eq", "value": "farmer", "is_mandatory": true, "explanation_en": "You must be a farmer (owner or tenant) growing a notified crop."}
+  ],
+  "kisan-credit-card": [
+    {"rule_key": "farmer", "field": "occupation_type", "operator": "eq", "value": "farmer", "is_mandatory": true, "explanation_en": "You must be a farmer, tenant farmer or in allied farm work."}
+  ],
+  "namo-shetkari-mahasanman-nidhi": [
+    {"rule_key": "state_mh", "field": "state_code", "operator": "eq", "value": "MH", "is_mandatory": true, "explanation_en": "You must live in Maharashtra."},
+    {"rule_key": "farmer", "field": "occupation_type", "operator": "eq", "value": "farmer", "is_mandatory": true, "explanation_en": "You must be a farmer."},
+    {"rule_key": "land_owner", "field": "is_land_owner", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must own agricultural land."},
+    {"rule_key": "not_tax_payer", "field": "is_income_tax_payer", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "No one in your family should pay income tax."}
+  ],
+  "pm-jan-dhan": [
+    {"rule_key": "no_bank_account", "field": "has_bank_account", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "This is for people who don't have a bank account yet."},
+    {"rule_key": "adult", "field": "age_years", "operator": "gte", "value": 18, "is_mandatory": true, "explanation_en": "You must be at least 18 years old."}
+  ],
+  "pmjjby": [
+    {"rule_key": "age_18_50", "field": "age_years", "operator": "between", "value": [18, 50], "is_mandatory": true, "explanation_en": "You must be between 18 and 50 years old to join."},
+    {"rule_key": "bank_account", "field": "has_bank_account", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You need a bank or post office savings account."}
+  ],
+  "pmsby": [
+    {"rule_key": "age_18_70", "field": "age_years", "operator": "between", "value": [18, 70], "is_mandatory": true, "explanation_en": "You must be between 18 and 70 years old."},
+    {"rule_key": "bank_account", "field": "has_bank_account", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You need a bank or post office savings account."}
+  ],
+  "atal-pension-yojana": [
+    {"rule_key": "age_18_40", "field": "age_years", "operator": "between", "value": [18, 40], "is_mandatory": true, "explanation_en": "You must be between 18 and 40 years old to join."},
+    {"rule_key": "bank_account", "field": "has_bank_account", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You need a bank or post office savings account."},
+    {"rule_key": "not_tax_payer", "field": "is_income_tax_payer", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "Income-tax payers cannot join."}
+  ],
+  "ayushman-bharat-pmjay": [
+    {"rule_key": "bpl", "field": "is_bpl_household", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "Your family must be listed as a poor (BPL/deprived) household."}
+  ],
+  "ayushman-vay-vandana": [
+    {"rule_key": "age_70_plus", "field": "age_years", "operator": "gte", "value": 70, "is_mandatory": true, "explanation_en": "You must be 70 years or older. Income does not matter."}
+  ],
+  "pm-mudra": [
+    {"rule_key": "adult", "field": "age_years", "operator": "gte", "value": 18, "is_mandatory": true, "explanation_en": "You must be at least 18 years old."},
+    {"rule_key": "business_activity", "field": "occupation_type", "operator": "in", "value": ["small_business_owner", "gig_worker", "farmer", "other"], "is_mandatory": true, "explanation_en": "You need a small business or plan to start one (including allied farm work like dairy)."}
+  ],
+  "pm-svanidhi": [
+    {"rule_key": "street_vendor", "field": "is_street_vendor", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must be a street vendor."}
+  ],
+  "e-shram": [
+    {"rule_key": "age_16_59", "field": "age_years", "operator": "between", "value": [16, 59], "is_mandatory": true, "explanation_en": "You must be between 16 and 59 years old."},
+    {"rule_key": "unorganised_worker", "field": "is_unorganised_worker", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must be an unorganised worker (no PF or ESIC)."},
+    {"rule_key": "not_tax_payer", "field": "is_income_tax_payer", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "Income-tax payers cannot register."}
+  ],
+  "pm-shram-yogi-maandhan": [
+    {"rule_key": "age_18_40", "field": "age_years", "operator": "between", "value": [18, 40], "is_mandatory": true, "explanation_en": "You must be between 18 and 40 years old to join."},
+    {"rule_key": "unorganised_worker", "field": "is_unorganised_worker", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must be an unorganised worker (no PF, ESIC or NPS)."},
+    {"rule_key": "income_up_to_15000", "field": "declared_monthly_income_max_inr", "operator": "lte", "value": 15000, "is_mandatory": true, "explanation_en": "Your monthly income must be ₹15,000 or less."},
+    {"rule_key": "not_tax_payer", "field": "is_income_tax_payer", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "Income-tax payers cannot join."}
+  ],
+  "mgnrega": [
+    {"rule_key": "rural", "field": "area_type", "operator": "eq", "value": "rural", "is_mandatory": true, "explanation_en": "You must live in a rural area."},
+    {"rule_key": "adult", "field": "age_years", "operator": "gte", "value": 18, "is_mandatory": true, "explanation_en": "You must be at least 18 years old."}
+  ],
+  "nsap-old-age-pension": [
+    {"rule_key": "age_60_plus", "field": "age_years", "operator": "gte", "value": 60, "is_mandatory": true, "explanation_en": "You must be 60 years or older."},
+    {"rule_key": "bpl", "field": "is_bpl_household", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "Your family must be a BPL household."}
+  ],
+  "pmay-gramin": [
+    {"rule_key": "rural", "field": "area_type", "operator": "eq", "value": "rural", "is_mandatory": true, "explanation_en": "You must live in a rural area."},
+    {"rule_key": "no_pucca_house", "field": "has_pucca_house", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "Your family must not own a pucca house."},
+    {"rule_key": "bpl", "field": "is_bpl_household", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "Your family must be a poor (BPL/deprived) household."}
+  ],
+  "pmay-urban": [
+    {"rule_key": "urban", "field": "area_type", "operator": "eq", "value": "urban", "is_mandatory": true, "explanation_en": "You must live in a town or city."},
+    {"rule_key": "no_pucca_house", "field": "has_pucca_house", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "Your family must not own a pucca house anywhere in India."}
+  ],
+  "sukanya-samriddhi": [
+    {"rule_key": "girl_below_10", "field": "has_girl_child_below_10", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must have a daughter younger than 10 years."}
+  ],
+  "pm-vishwakarma": [
+    {"rule_key": "traditional_artisan", "field": "is_traditional_artisan", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must work in one of the listed traditional crafts."},
+    {"rule_key": "adult", "field": "age_years", "operator": "gte", "value": 18, "is_mandatory": true, "explanation_en": "You must be at least 18 years old."}
+  ],
+  "national-scholarship-portal": [
+    {"rule_key": "student", "field": "is_student", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must be a student in school or college."}
+  ],
+  "pm-vidyalaxmi": [
+    {"rule_key": "student", "field": "is_student", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must be a student with admission in higher education."},
+    {"rule_key": "adult", "field": "age_years", "operator": "gte", "value": 18, "is_mandatory": true, "explanation_en": "You must be at least 18 years old."}
+  ],
+  "mukhyamantri-majhi-ladki-bahin": [
+    {"rule_key": "state_mh", "field": "state_code", "operator": "eq", "value": "MH", "is_mandatory": true, "explanation_en": "You must live in Maharashtra."},
+    {"rule_key": "female", "field": "gender", "operator": "eq", "value": "female", "is_mandatory": true, "explanation_en": "This scheme is for women."},
+    {"rule_key": "age_21_65", "field": "age_years", "operator": "between", "value": [21, 65], "is_mandatory": true, "explanation_en": "You must be between 21 and 65 years old."},
+    {"rule_key": "income_up_to_2_5_lakh", "field": "annual_household_income_inr", "operator": "lte", "value": 250000, "is_mandatory": true, "explanation_en": "Family income must be ₹2.5 lakh a year or less."}
+  ],
+  "lakshmir-bhandar": [
+    {"rule_key": "state_wb", "field": "state_code", "operator": "eq", "value": "WB", "is_mandatory": true, "explanation_en": "You must live in West Bengal."},
+    {"rule_key": "female", "field": "gender", "operator": "eq", "value": "female", "is_mandatory": true, "explanation_en": "This scheme is for women."},
+    {"rule_key": "age_25_60", "field": "age_years", "operator": "between", "value": [25, 60], "is_mandatory": true, "explanation_en": "You must be between 25 and 60 years old."},
+    {"rule_key": "not_govt_employee", "field": "is_govt_employee", "operator": "is_false", "value": null, "is_mandatory": true, "explanation_en": "You must not be a permanent government employee or pensioner."}
+  ],
+  "swasthya-sathi": [
+    {"rule_key": "state_wb", "field": "state_code", "operator": "eq", "value": "WB", "is_mandatory": true, "explanation_en": "You must live in West Bengal."}
+  ],
+  "swami-vivekananda-scholarship": [
+    {"rule_key": "state_wb", "field": "state_code", "operator": "eq", "value": "WB", "is_mandatory": true, "explanation_en": "You must live in West Bengal."},
+    {"rule_key": "student", "field": "is_student", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must be a student."},
+    {"rule_key": "income_up_to_2_5_lakh", "field": "annual_household_income_inr", "operator": "lte", "value": 250000, "is_mandatory": true, "explanation_en": "Family income must be ₹2.5 lakh a year or less."}
+  ],
+  "kalaignar-magalir-urimai-thogai": [
+    {"rule_key": "state_tn", "field": "state_code", "operator": "eq", "value": "TN", "is_mandatory": true, "explanation_en": "You must live in Tamil Nadu."},
+    {"rule_key": "female", "field": "gender", "operator": "eq", "value": "female", "is_mandatory": true, "explanation_en": "This scheme is for women."},
+    {"rule_key": "head_of_household", "field": "is_head_of_household", "operator": "is_true", "value": null, "is_mandatory": true, "explanation_en": "You must be the head of your family."},
+    {"rule_key": "age_21_plus", "field": "age_years", "operator": "gte", "value": 21, "is_mandatory": true, "explanation_en": "You must be at least 21 years old."},
+    {"rule_key": "income_up_to_2_5_lakh", "field": "annual_household_income_inr", "operator": "lte", "value": 250000, "is_mandatory": true, "explanation_en": "Family income must be ₹2.5 lakh a year or less."}
+  ],
+  "cmchis-tn": [
+    {"rule_key": "state_tn", "field": "state_code", "operator": "eq", "value": "TN", "is_mandatory": true, "explanation_en": "You must live in Tamil Nadu."},
+    {"rule_key": "income_up_to_1_2_lakh", "field": "annual_household_income_inr", "operator": "lte", "value": 120000, "is_mandatory": true, "explanation_en": "Family income must be ₹1.2 lakh a year or less."}
+  ]
+}

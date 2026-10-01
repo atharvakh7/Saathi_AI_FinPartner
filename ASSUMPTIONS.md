@@ -1,0 +1,220 @@
+# ASSUMPTIONS
+
+Decisions made where `SPEC.md` is ambiguous or contradictory, plus anything added that the spec does not list. Additions are marked "(Suggested)".
+
+## Spec corrections
+| # | Spec location | Issue | Decision |
+|---|---|---|---|
+| C1 | S08 / §7.4 confidence score | `round(sum−5)/20×100` is mis-parenthesized | `score_pct = round((sum − 5) / 20 × 100)` (matches the example: sum 15 → 50) |
+| C2 | S08 vs §7.4 skip | S08 says skip stores `null`; §7.4 says `[]` | Skip sends `answers: []`, stored as `confidence_answers = []`, so `/me.needs` does not re-ask |
+| C3 | §5.3 step 7 yes-set | Tamil "yes" typed as `आम்` (mixed scripts) | Use `ஆம்` (and accept `aam`) |
+| C4 | S23 categories | "2×3 grid" but 7 categories are seeded | 2-column grid with 4 rows (last row has one tile) |
+| C5 | S03 slide 1 | "Simulate decisions before making them" refers to the Phase 2 Simulate feature | Copy kept as written in the spec (deck text); revisit before release |
+| C6 | S01 logo | "teal 'CS' mark" | Treated as a typo; logo is a teal "S" mark + "Saathi" wordmark |
+| C8 | §9.1 `ADMIN_PHONE_E164` example | `+910000000000` violates the `users.phone_e164` CHECK (`^\+91[6-9]\d{9}$`) | Example left blank; blank means no admin user is seeded |
+| C7 | §5.10 per-user times | Celery beat cannot schedule per-user times directly | A beat task runs every 15 min and sends to users whose configured time falls in that window |
+
+## Step 1 — repo and local services
+- `docker-compose.dev.yml` lives in `backend/` (per the §5.1 folder tree). Run from the repo root with `docker compose -f backend/docker-compose.dev.yml up -d`.
+- MinIO no longer publishes free Docker images (`minio/minio` and `quay.io/minio/minio` are gone). Local dev uses `bitnamilegacy/minio`, a frozen MinIO build that creates the `saathi-media` and `saathi-tts-cache` buckets on startup via `MINIO_DEFAULT_BUCKETS`. It gets no security updates: **do not use it in production**; use a managed S3-compatible store there (the code only depends on the S3 API via `boto3`). TTS-cache expiry is handled by the `maintenance.purge` job (§5.10).
+- A one-shot job `ollama-init` pulls `LLM_MODEL` and `EMBED_MODEL`, then exits, so `docker compose ps` shows only the four long-running services. (Suggested)
+- Postgres extensions `pgcrypto` and `vector` are also created by an init SQL script; migrations will create them too.
+- `.env.example` uses `localhost` hostnames, which assumes the API runs on the host during development. §7.5 lists the in-network default `http://ollama:11434/v1`.
+- Extra compose-only variables (`POSTGRES_USER/PASSWORD/DB`, `*_PORT`) were added to `.env.example` so the compose file and `DATABASE_URL` stay in sync. (Suggested)
+- Ollama and the legacy MinIO image use `latest` tags because neither has a stable major-version tag.
+
+## Step 2 — backend skeleton
+- Python 3.11 venv at `backend/.venv` (the machine's default Python is 3.14, which the ML libraries don't support yet). Core deps are pinned in `backend/requirements.txt`; heavy ML runtimes (torch, transformers, pywhispercpp, piper-tts) will go in a separate `requirements-ml.txt` in step 7.
+- Added files not listed in §5.1: `core/redis.py` (shared client), `core/middleware.py` (ASGI middleware), `modules/system/router.py` (`/health`). (Suggested)
+- `/health` always returns HTTP 200 (liveness). `status` is `"ok"` when db and redis are up, otherwise `"degraded"`. Until the step-7 adapters exist, `stt`/`tts`/`ocr`/`classifier` report whether their model files/binaries are present.
+- `/health` is exempt from the global rate limits so uptime probes never get 429.
+- Global limits are enforced in middleware: 300/min per IP always, and 120/min per user when a valid bearer token is present. The client IP is the socket peer; behind a reverse proxy, trusted `X-Forwarded-For` handling must be added.
+- If Redis is unreachable, rate limiting fails open (request allowed, warning logged) rather than taking the API down.
+- Framework 405 (method not allowed) responses use code `NOT_FOUND` with HTTP 405, since §7.1 has no dedicated code.
+- The OTP hash is HMAC-SHA256 over `"{phone_e164}:{code}"`, so a code is only valid for the phone it was sent to.
+- PII redaction also masks 3–4 digit CVV/CVC codes and email addresses, beyond the list in §8.2. (Suggested)
+- `/docs` and `/openapi.json` are served only when `APP_ENV=local`.
+
+## Step 3 — database schema
+- Models live in each module's `models.py`; `app/models_registry.py` imports them all for Alembic. Enum values are defined once in `app/core/enums.py` and used for both DB CHECKs and API validation. (Suggested)
+- Alembic lives at `backend/app/migrations` with `backend/alembic.ini`; the DB URL comes from `backend/.env`. Run from `backend/`: `.venv/Scripts/alembic upgrade head`.
+- `updated_at` is maintained by the ORM (`onupdate=now()`), which §6 allows as an alternative to triggers. Raw SQL updates must set it themselves.
+- Every table with a UUID `id` also gets `created_at` (per the §6 convention), including tables whose column list omits it (e.g. `emergency_fund_plans`, `budgets`). Lookup tables keyed by slug (`scheme_categories`, `goal_templates`) have no timestamps.
+- Extra constraints beyond §6, all consistent with it (Suggested):
+  - `transactions.category` must belong to the list for its `type`, and income rows must have `is_essential = false`.
+  - `budgets.month` / `cashflow_forecasts.month` must be the 1st of a month.
+  - `schemes.state_code` is required when `level = 'state'`; `state_code` columns are checked against the 36 codes.
+  - `user_profiles.dependents_count` 0–19 and `land_holding_hectares` 0–500 (from S07); `declared_monthly_income_max_inr >= min`.
+  - Range checks on `fraud_checks.classifier_score` (0–1), `videos.duration_sec`, `lessons.duration_min`/`xp_reward`, learning-stats counters.
+  - `language` columns on `messages`, `insights`, `fraud_checks`, `videos` are checked against en/hi/mr/ta.
+- Extra indexes (Suggested): `device_tokens(user_id)`, `scheme_documents(scheme_id)`, `fraud_reports(text_hash)` (for `similar_reports_count` across users).
+- Extra column (Suggested): `scheme_documents.sort_order` so the documents checklist has a stable order.
+- `goal_templates.title_en`, `category`, `sort_order` are NOT NULL (the spec gives no nullability).
+- `emergency_fund_plans.goal_id` has no ON DELETE action (Postgres default NO ACTION), matching §7.4 where deleting the linked goal returns 409. Deleting a user still works because both rows cascade from `users` in the same statement.
+- `memory_facts.embedding` is fixed at `vector(1024)`; changing `EMBED_MODEL` to one with a different dimension needs a new migration.
+
+## Step 4 — seed data
+- Run from `backend/`: `.venv/Scripts/python -m app.seed.seed` (add `--check` to validate the JSON without writing). The seed validates before writing: rule fields and operators against the field registry, every string against its column length, glossary word limits (definition ≤ 40, takeaway ≤ 15), lesson length (150–300 words), 4–6 steps per scheme, glossary cross-links, and that fraud regexes compile.
+- Upserts overwrite seeded rows with the JSON content on every run. Content changed through the admin API should be copied back into the JSON files, or the next seed resets it.
+- Scheme categories live in `schemes.json` alongside the schemes, since §5.1 lists no separate categories file. `last_verified_on` is a fixed date in the file (2026-10-01) so re-seeding doesn't change it.
+- Scheme documents have no natural key, so each scheme's document list is replaced on every seed (the count stays the same).
+- `app/modules/schemes/field_registry.py` (listed in §5.1 for step 13) was written now so the seed can validate rules; it defines field types and the operators allowed per type.
+- Fraud rules — encoding choices for the engine (step 14) (Suggested):
+  - **R01**: the spec regex `\d{4,}` misses amounts written with commas ("Earn ₹50,000 daily"), so it uses `\d[\d,]{3,}` and also accepts "a day" and "/-".
+  - **R04** URL markers: `@ip_host`, `@punycode`, `@non_https` alongside the shortener hosts.
+  - **R04b**: patterns are `brand_token:official_domain` pairs.
+  - **R09** and **R14**: the "must co-occur" conditions use `requires_codes` (any-of). R14 also accepts R01b, which has the same "unrealistic returns" reason as R01.
+  - **S01**: patterns are the official domains; `requires_codes` entries prefixed with `!` must *not* have matched.
+- `scheme_eligibility_rules.value` stores SQL NULL (not JSON `null`) for `is_true` / `is_false` rules.
+- Glossary aliases exclude everyday words ("shares", "stock", "security", "liquid") that would be highlighted in almost every chat message or collide with scam phrases like "share OTP".
+- `goal_templates.default_target_inr` is null for all templates; the spec gives no defaults, and S09 asks the user for a target (the emergency-fund suggestion comes from the planner).
+- Lesson `how-to-invest-in-stock-market` is titled "How does the stock market work?", keeping it educational per the SEBI guardrails. The spec gives no title for this slug.
+- Scheme facts (amounts, age and income limits, steps) are starter content written from the §5.6 rules and general public information. Per A9, a content owner must verify each scheme on its official site before launch.
+
+## Step 5 — auth
+- `GET /me` and `PATCH /me` live in `modules/users/router.py` (the users module owns `/me` per §5.2), built in this step as §10 step 5 requires.
+- **Resend spacing:** a new OTP for the same phone is refused for 30 s after the previous one (`RATE_LIMITED` with `Retry-After`), enforcing the `resend_after_sec` the API returns. The 3/15 min, 10/day and 20/IP/hour limits apply on top. (Suggested)
+- **Lock:** 5 wrong attempts on a code burns it and locks the phone for 15 minutes (Redis key `otp_lock:{phone}`). While locked, both verify *and* requesting a new code return `OTP_LOCKED`; otherwise the lock could be bypassed by requesting a fresh code. (Suggested)
+- Only the newest unconsumed code for a phone can be verified; requesting a new code supersedes older ones. Verifying when no active code exists returns `OTP_EXPIRED`.
+- `OTP_LOCKED` details are `{minutes_remaining, retry_after_sec}` plus a `Retry-After` header.
+- **Deleted accounts:** logging in during the 30-day deletion window hard-deletes the old account immediately (completing the erasure request) and creates a fresh one, rather than blocking login for 30 days. (Suggested)
+- **Admin:** logging in with `ADMIN_PHONE_E164` sets `role='admin'` on new *and* existing users.
+- **Required profile fields** for `/me.needs = "profile"`: `full_name`, `age_years`, `state_code`, `area_type`, `occupation_type`, `income_pattern` (the S07 fields marked required).
+- **Console OTP provider:** the code is logged in a separate `dev_otp_code` field (the PII redactor masks codes next to the word "otp" in messages). The API refuses to start with `APP_ENV=production` and `OTP_PROVIDER=console`, or without MSG91 credentials. (Suggested)
+- **MSG91:** uses the v5 OTP endpoint (`POST https://control.msg91.com/api/v5/otp` with `template_id`, `mobile`, `otp`, `otp_expiry`, `authkey` header). Verify against MSG91's current docs and your DLT template before going live. A failed SMS rolls back the OTP row and returns `INTERNAL`.
+- If Redis is down, the OTP lock and rate limits fail open. Per-code attempts are also counted in Postgres, so each code still allows at most 5 guesses.
+- Refresh uses `SELECT … FOR UPDATE` so two concurrent refreshes with the same token can't both succeed; the second is treated as reuse and ends all sessions. The mobile client must serialize refresh calls (§4.1 already says "refresh once").
+- Backend lint config (`backend/pyproject.toml`): ruff with 120-column lines and sorted imports.
+
+## Step 6 — users
+- **Profile PUT** merges only the fields present in the body; an explicit `null` clears a field, except the S07-required fields and `voice_reply_enabled`, which cannot be cleared (422). Cross-field rules (`max income >= min`, `dependents <= household_size - 1`) are checked on the merged profile, so a partial update can't create an invalid combination. `confidence_*` and `onboarding_completed_at` can't be set through this endpoint.
+- **Side effects:** `app/modules/users/events.py` is a small hook registry. `profile_updated` (after PUT /me/profile) and `onboarding_completed` (first POST /me/onboarding-complete only) currently just log; steps 10/13/17 register the scheme-recompute, planner and insight jobs there. A failing handler never fails the user's request. (Suggested)
+- **Consents:** every POST appends one row per submitted consent (audit trail); the latest row per type is current. Required consents must be granted on the first submission; later withdrawal is allowed (DPDP), which sends `/me.needs` back to `consent`. Withdrawing `push_notifications` also sets `notification_settings.push_enabled = false`. (Suggested)
+- **Confidence skip** returns `{"score_pct": null, "level": null}`.
+- **Device tokens:** upsert by token; if the same device registers under another account, the token moves to that account. Token format checked as `ExponentPushToken[…]` / `ExpoPushToken[…]`.
+- **Notification settings PUT** accepts any subset; times are `"HH:MM"` (24-hour); fields cannot be set to null.
+- **Export** includes everything in §7.4's list plus `notification_settings`, `notifications` and goal contributions; chat messages and scam texts are decrypted (it is the user's own data); embeddings and internal `user_id` columns are left out. Rate-limited to 5 per hour. (Suggested)
+- **Delete:** `DELETE /me` takes a JSON body (`{"confirm": "DELETE"}`) as the spec says; clients must send a body with DELETE.
+- **Privacy notice:** `backend/app/seed/legal/privacy_{en,hi,mr,ta}.md`, version 1.0, with `{{GRIEVANCE_EMAIL}}` filled from env. Language comes from `?lang=`, then `Accept-Language`, then English (`app/core/i18n.py`, reused by later modules). The notice states chats are not sent to outside AI companies; **if a hosted LLM endpoint is configured (A7), the notice must be updated.** The text is a plain-language draft and should be reviewed by a lawyer before launch.
+
+## Step 7 — AI adapters
+- Adapters live in `backend/app/ai/` as §5.1 lists, plus `base.py` (shared `AIUnavailable` / `AIOutputError`, and a per-event-loop concurrency limiter), `warmup.py` and `demo.py`. (Suggested)
+- **Demo (the step's done-condition):** `.venv/Scripts/python -m app.ai.demo [llm embed lang tts stt ocr classifier]`. STT is tested by round trip (Piper speaks, ffmpeg converts, Whisper transcribes); OCR uses a generated scam screenshot in 4 scripts (Windows Nirmala UI font) or `--image`.
+- **LLM client:** plain `httpx` against any OpenAI-compatible API (no SDK). Structured output uses `response_format: json_schema` with the Pydantic model's schema, falls back to `json_object` if the server rejects it, and always re-validates with Pydantic. Unusable output raises `AIOutputError`; the server being down raises `AIUnavailable`. One retry on transport errors and 5xx.
+- **GPU:** `docker-compose.dev.yml` now reserves the NVIDIA GPU for Ollama (this laptop has an RTX 4050, 6 GB). qwen2.5:7b runs ~79% on GPU at ~28 tokens/s, versus ~9 tokens/s on CPU. On machines without an NVIDIA GPU, remove the `deploy:` block. `OLLAMA_KEEP_ALIVE` is 24h so the model isn't unloaded between uses.
+- **Warm-up:** on startup the API preloads the LLM, embeddings, language detector, Whisper and Piper voices in a background task (`AI_WARMUP=true`); the API serves requests immediately. The first LLM load after Ollama starts takes ~25–55 s.
+- **Language detection:** script first (Tamil letters -> ta; Devanagari -> lingua restricted to hi/mr, deferring to the preferred language when the two are close); Latin text uses a small list of romanized Hindi/Marathi/Tamil words ("kya", "aahe", "enna"), else English. `lingua` alone can't recognise romanized Indic text.
+- **STT:** whisper.cpp `small` via pywhispercpp on CPU; `WHISPER_THREADS=12` on this 16-thread machine (~4.4 s for a 4 s clip, vs ~11 s at 4 threads). Confidence = mean segment probability. Detected languages outside en/hi/mr/ta are replaced by the best of those four. If Whisper says hi/mr and the hint is hi/mr, the hint wins (Whisper often labels Marathi as Hindi).
+- **TTS voices:** Piper has voices for en, hi and mr but **none for Tamil** (Tamil uses on-device TTS, spec A8). The Marathi voice exists, unlike what A8 anticipated. **Licences:** the English (Blizzard 2013) and Hindi (CC BY-NC-SA 4.0) voices are **non-commercial**, fine for the hackathon but must be replaced before a commercial launch; the Marathi voice is CC BY-SA 4.0 (credit required). Details in `backend/ml_models/README.md`.
+- **ffmpeg** comes from the `imageio-ffmpeg` pip package unless `FFMPEG_CMD` is set; conversion lives in `app/modules/voice/audio.py` (the voice module's "audio utils", used from step 15) and runs via `subprocess` in a worker thread, which works with any event loop on Windows.
+- **OCR:** Tesseract 5.4 (UB Mannheim build via winget) with `eng+hin+mar+tam` from the project's own `ml_models/tessdata`; small images are upscaled to 1000 px wide before OCR.
+- **Scam classifier:** no fine-tuned model or labelled dataset exists, so it is disabled (`SCAM_MODEL_DIR` blank) and torch/transformers are not installed (`requirements-ml-classifier.txt` when needed). `scam_probability()` returns None and Fraud Shield uses rules only, as the spec permits.
+- **Extra prompt templates** beyond §5.1's list (Suggested): `goal_parse` (goal_action intent), `lesson_translate` (lessons are "translated like glossary", §5.8), `insight_phrase` (§5.9 LLM rewording). All user or third-party text goes through `prompts.fence()` inside `<message>` tags.
+- **Known quality limit:** qwen2.5:7b's Hindi/Marathi wording can be unnatural (e.g. "अपमानजनक" used for "unrealistic"). Numbers and verdicts come from code, not the LLM, so this affects tone, not facts. A larger or Indic-tuned model can be swapped in with `LLM_MODEL`.
+- **LLM switched to `gemma4:e4b-it-qat`** (from qwen2.5:7b) after benchmarking on Saathi tasks in hi/mr/ta: 20/20 vs 16/20, 2.3 s vs 11.2 s average, 3.1 GB fully on GPU, and far more natural Marathi/Tamil. `gemma4:e2b-it-qat` is kept as a low-memory fallback. `LLM_REASONING_EFFORT=none` is sent as `reasoning_effort` because Gemma 4 "thinks" by default, which broke structured output. Details: `docs/deferred/gpu-whisper.md` section 7; benchmark: `backend/scripts/benchmarks/bench_llm.py`.
+- **GPU speech-to-text is deferred** (see `docs/deferred/gpu-whisper.md`). `app/ai/stt.py` supports a whisper.cpp server (`WHISPER_SERVER_URL`) or in-process CPU; the CPU `small` model stays in use for now. Known limitation until finished: Marathi voice accuracy is poor (68.8% CER on real speech).
+
+## Step 8 — finance
+- **Shared helpers (Suggested):** `app/core/types.py` (`Money` serializes Decimal as a JSON number, IST `today_ist()`, month maths), `app/core/pagination.py` (opaque keyset cursors, `limit` 1–100, default 30), `app/core/events.py` (in-process events; `users/events.py` now wraps it). Events so far: `profile_updated`, `onboarding_completed`, `transactions_changed`, `debts_changed`; steps 10/13/17 attach handlers.
+- **Dates** (`occurred_on`, month filters, "today") use India time (`TIMEZONE=Asia/Kolkata`). A transaction can't be dated after today (IST).
+- **Transaction PATCH** re-validates the merged row (category must match the type) and recomputes `is_essential`. An empty note is stored as NULL.
+- **Transaction list:** `month` is optional (no month = all time; the app sends the current month by default per S14). Order: `occurred_on` desc, then `created_at` desc.
+- **Debts:** `principal_outstanding_inr` must be > 0 on create (S16) but may be set to 0 later when paid off; `status: "closed"` removes a debt from the Home total. Listed active first, largest first.
+- **Summary additions (Suggested):** `active_debts_count` (Debt card "{n} active", S10) and `has_transactions` (S10 empty state "no transactions ever"). With no emergency fund plan: `{"exists": false, "pct": 0, "expected_pct": 0, "on_track": null}`. `risk` is null until step 10 creates snapshots; step 10 also adds the spec's compute-on-demand.
+- **Summary cache:** Redis `summary:{user}:{YYYY-MM}`, 60 s, dropped on transaction and debt writes. The unread-notification count can be up to 60 s stale until step 17 also clears it.
+- **Parse:** text without any digit (or "hundred/thousand/lakh/k") is rejected before calling the LLM. A category the model invents is replaced with `other_income`/`other_expense` and caps confidence at 0.6. Dates after today are clamped to today. Unparseable output -> `VALIDATION_ERROR`; LLM down -> `UPSTREAM_AI_UNAVAILABLE`.
+
+## Step 9 — goals
+- **Tabs:** `GET /goals?status=active` (the default) returns active **and paused** goals, since S17 has only Active | Completed tabs and S18 allows pausing; `completed` returns completed; `all` includes cancelled too.
+- **Starting amount:** `current_amount_inr` on create is an opening balance, not a contribution row, so it doesn't inflate the 3-month projection rate.
+- **Projection:** monthly rate = net contributions in the last 3 *full* calendar months ÷ 3 (months with nothing count as 0; the current part-month is excluded). "today + N months" keeps the day of month, clamped to month end. For a completed goal, `projected_completion` = its completion date. With a target date but no positive rate, `on_track` is `false` (no projection can meet it); without a target date it is `null`.
+- **Completion rules (Suggested):** reaching the target (by deposit or by lowering the target) completes the goal; a withdrawal or a higher target that drops it below the target reopens it as active. A completed goal can't be paused or resumed (409, "raise the target"), only cancelled. A cancelled goal can't take contributions (409) or be reactivated.
+- **Contributions** lock the goal row (`SELECT … FOR UPDATE`), so concurrent deposits are never lost. Dates can't be in the future; withdrawals can't exceed the saved amount (422).
+- **Emergency fund:** the DB's partial unique index becomes `409 CONFLICT` for a second active/paused emergency-fund goal. A goal linked to an `emergency_fund_plans` row can't be deleted (409, spec wording). Goal changes clear the Home summary cache and emit `goals_changed`.
+- `GET /goals/{id}` returns the 50 most recent contributions.
+- `projection.required_monthly()` (amount per month needed to hit the target date) is added for insight I06 in step 17.
+
+## Step 10 — planner and risk
+- **Completed months only** feed the statistics (income series, average/essential expenses, the 3-month risk averages, income variability). The current month is in progress and would look like a lean month. It is still shown in `income_history` (never flagged lean) and in "spent so far".
+- **Current month's budget:** the stored forecast starts next month (§5.5), so the budget for month M uses the same forecast formula evaluated for M.
+- **"Last N months with data":** the most recent completed months (within 24) that have the relevant data — essential spend for `avg_essential`, any expense for expected expense, any transaction for the risk averages.
+- **Income series** follows §5.5 literally: only months with ≥ 1 income transaction count. For seasonal earners this ignores zero-income months, which the forecast's ±σ range and the lean-month logic then reflect.
+- **Recalculation:** `regenerate()` = forecast (next 6 months) + budgets (current and next month) + emergency-fund plan refresh + today's risk snapshot. It runs on `POST /plan/budget/regenerate` (6/hour) and synchronously after transaction/debt/goal/profile changes via `app/core/events.py`. Step 17 moves the event-driven runs to debounced Celery jobs and adds the 02:00/03:00 IST schedules.
+- **Emergency fund:** `PUT /plan/emergency-fund` creates the plan and its goal, **or links an existing active/paused emergency-fund goal** (e.g. one created in onboarding S09) instead of creating a duplicate. `target_months` from PUT overrides the default (3 or 6) and is kept on later recalculations; the target follows the user's essential spending as it changes. GET without a plan returns a computed suggestion (`exists: false`) that points at an existing goal if there is one. With no income or expense data, PUT returns 422 (nothing to size the fund from).
+- **Risk:** `GET /risk/current` computes today's snapshot on demand if the latest is older than today; `404` with "Add income and expenses to see your score." when there is no data at all (S12 empty state). Components return English `label`/`tip` plus `tip_key` (`risk.tip.<key>`) for the app's translations. With zero average income, any spending gives `e = 1` and any debt payment gives `d = 1`. An unknown income pattern uses cv 0.6 (as "irregular"). Score rounding is half-up (2.65 -> 2.7).
+- **Pattern label** with < 3 income months comes from the declared `income_pattern` (fixed_monthly -> steady, irregular -> ups_and_downs, seasonal -> seasonal).
+- **Overview addition (Suggested):** `has_data` drives the S20 empty state ("Tell me about your income").
+- The Home summary (`/finance/summary`) now shows the risk score, computed on demand.
+
+## Step 11 — learn
+- **Language** for glossary and lessons: `?lang=`, then `Accept-Language`, then the user's `preferred_language`. Content falls back to English when no translation exists; responses include `language` (what was actually served) and `translation_source` (`llm`/`human`/null) so the app can show "Simplified by AI". (Suggested)
+- **Term detector:** per-language regex built from `term_en` + `aliases` (all languages) + `term_local` (that language), longest first, max 5 terms, first occurrence per term. Latin-script terms need word boundaries on both sides; Devanagari/Tamil terms need one only before them, so attached endings still match ("एसआयपीमध्ये" -> "एसआयपी"). A bracketed gloss in a translation ("एसआईपी (नियमित निवेश)") is also matched without the bracket. **Offsets are UTF-16 code units** (what JavaScript strings use), so emoji in a reply don't shift the highlights. The compiled patterns are cached per process and rebuilt when the Redis key `glossary:version` changes (writers call `term_detector.invalidate()`); workers check it at most every 10 s.
+- **Search** (`GET /learn/terms`) matches `term_en`, the slug, the localized `term_local` and aliases (case-insensitive substring); prefix matches come first, then alphabetical by displayed term. `short` = first sentence of the localized definition (≤ 120 chars).
+- **Streak:** activity = completing a lesson or viewing a term detail. The stored streak follows §5.8; the API reports `streak_days` as **0 when the last activity is older than yesterday** (the streak is broken even though the row isn't updated until the next activity). `longest_streak` is kept.
+- **XP:** completing a lesson awards `xp_reward` once; repeated or concurrent completions award 0 (the stats row is locked and `lesson_progress` is unique). `level = max(1, xp // 100)`.
+- **Translations** (`app/modules/learn/translate.py`): LLM fills missing `glossary_translations` and `lesson_translations` for hi/mr/ta with `generated_by='llm', reviewed=false`; existing rows are never overwritten. Output that fails validation or exceeds column limits is skipped (logged), not truncated. Runs via `python -m app.modules.learn.translate`, and in the background at API startup after warm-up (`TRANSLATE_ON_STARTUP=true`); a Redis lock prevents two concurrent runs. Step 17 adds it as the `glossary.translate_missing` job. LLM translations should be reviewed by a native speaker before launch (spec: admins can overwrite them as `human`).
+- **Videos:** `core/storage.py` signs MinIO/S3 URLs (videos and thumbnails valid 60 min, §5.11). No videos are seeded; the card is hidden when `video` is null (A12).
+- Stats `total_lessons` counts active lessons (12 seeded; the §7.4 example shows 20).
+
+## Step 12 — memory
+- **Extraction** (`memory/extraction.py`): the last 6 messages plus up to 40 known facts (so the LLM avoids repeats) -> ≤ 3 English facts. `source_message_id` = the latest user message in the window. Facts are trimmed to 200 characters.
+- **PII guard (Suggested):** a proposed fact is dropped if the log redactor (`core/pii.py`) would change it, i.e. it contains something that looks like a phone, account, card, Aadhaar, PAN or OTP number, even if the prompt's rules were ignored.
+- **Dedupe threshold 0.90** (spec) checked with bge-m3: a close paraphrase scores ~0.94 (merged); the same sentence with a different crop/city ~0.79 (kept separate); a loose paraphrase ~0.90 can slip through as a near-duplicate.
+- **Cap:** beyond 200 active facts, the lowest-importance facts are deactivated first, then the least recently used (`last_used_at`, falling back to `created_at`).
+- **Retrieval:** 15 nearest by cosine distance, re-ranked by `similarity × (0.9 + 0.025 × importance)`, top 5 returned and stamped `last_used_at`. If embeddings are down, chat continues with no recalled facts. (The spec says "importance-weighted" without a formula; this one only lets importance break near-ties.)
+- **Deleting memory is a hard delete.** `DELETE /memory` also removes facts the cap had deactivated (the user asked Saathi to forget everything). `GET /memory` lists active facts, newest first.
+- **Summaries:** `conversations.summary_updated_at` stores the created_at of the **last message folded into the summary** (not the wall-clock time), so the next run summarizes only newer messages and passes the previous summary in. Trigger: > 30 messages and ≥ 20 not yet covered; the last 10 messages are never summarized. Summary is English, cut to 150 words.
+- `extract_facts` and `summarize_conversation` never raise for AI failures (they log and return). The chat orchestrator (step 16) calls them after replies; step 17 runs them as Celery jobs `memory.extract` / `memory.summarize`.
+
+## Step 13 — schemes
+- **Applicable schemes** = active and (central, or a state scheme of the user's `state_code`). With no profile, only central schemes apply. Changing state deletes the stored matches of the old state's schemes.
+- **"Prefer not to say"** (`gender`, `social_category`) evaluates as `unknown`, so it can neither pass nor fail a rule, and is not asked again (the profile value is not null). Question `options` leave it out (the app's "Not sure" covers it).
+- **Questions** count only **possibly-eligible** schemes: an eligible scheme has nothing unknown, and answering for a scheme that already fails another rule can't change its result (spec says "applicable schemes"; e.g. a man is never asked household income just for a women-only scheme). Ties are broken by field-registry order. Types map `bool -> boolean`, `int -> number`, enum/str -> `enum`.
+- **POST /schemes/eligibility/check** type-checks answers strictly against the field registry (booleans must be JSON `true/false`, numbers whole numbers, enums from the list), then reuses `PUT /me/profile` validation and saving, so it also fires `profile_updated` (planner regenerate). `null` answers are not saved. `total` = eligible + possibly eligible.
+- **Match items (Suggested addition):** `reasons` — the failed mandatory rules with localized explanations, for S25's "Show schemes I don't qualify for". Order: eligible, possibly (fewest missing answers first), not eligible; then by name.
+- **Recompute:** synchronously on `profile_updated` / `onboarding_completed` (step 17 moves it to Celery), always on `/eligibility/check`, and on read when the stored matches are older than 24 h or their count differs from the applicable schemes (a scheme was added/deactivated). `recompute()` returns `newly_eligible` scheme ids for insight I09 (step 17).
+- **Detail** evaluates the user's match live (so it is current even before a recompute) and adds `language` (what was served) and a localized `disclaimer` (A9). Rules are listed mandatory first, then by `rule_key` (rule ids are random, so there is no seed order to keep).
+- **List** is ordered by English name (case-insensitive, byte order) with keyset cursors; `status=` filters by match status; `q` also matches the localized name. Category names are English (`name_en` only in the schema); the app translates by slug.
+- **Translations:** generated on the first `GET /schemes/{id}?lang=hi|mr|ta` (≈15–30 s on the RTX 4050; later requests are instant) and by `python -m app.modules.schemes.translate` / at API startup (`schemes.translate_missing`, after the glossary/lessons). Rejected and retried once if: step/document counts or rule keys change, any text is empty, most document names are left in English, another Indian script is mixed in (Devanagari inside Tamil and vice versa), or **any number from the English text is missing** (Indic digits count, `₹1,50,000` == `150000`). A per-item Redis lock stops concurrent requests generating the same translation; the loser shows English that time. If the stored translation's step/document count no longer matches the English rows, those lists fall back to English.
+- Fixed a latent bug from Step 11: `extra={"created": …}` collides with a reserved logging attribute and crashed the translate CLI at its final log line (the data was already saved). Renamed to `rows_created`.
+
+## Step 14 — fraud
+- **Pipeline** (`fraud/rules.py`, `fraud/explain.py`, `fraud/service.py`): normalize (NFKC, whitespace collapsed, Devanagari/Tamil digits -> 0-9) -> rules -> classifier (if installed) -> score -> verdict -> reasons -> LLM summary/advice -> store. `service.analyze_text` is what the chat's `scam_check` intent will call (step 16).
+- **Critical-sign floor (Suggested deviation).** The spec weights assume the ML classifier adds to the score; it is off by default (step 7), so classic single-trick scams scored only "Suspicious" ("install AnyDesk" 50, "scan ₹1 to receive" 55, digital arrest + Aadhaar 65). Rules that are fraud on their own by RBI/NPCI guidance — **R02** OTP/PIN/ID request, **R05** APK/app install, **R06** advance fee, **R11** remote access, **R13** UPI pay-to-receive — lift the score to **70 (dangerous) when at least one other rule also matches**. Alone they keep their spec weight, so a genuine bank OTP SMS ("…is your OTP, do not share") stays Safe (30). Constant `CRITICAL_CODES` in `rules.py`.
+- **R01 seed fix:** added a second regex for Hindi/Marathi/Tamil word order ("रोज ₹10000 कमाएं" — daily, amount, then the verb); the spec's regex only matched the English order.
+- **Keyword matching:** lowercased text; Latin keywords need a word start, and keywords of ≤ 4 letters also a word end ("trai" ≠ "train", but "prize" matches "prizes"); Indic keywords match anywhere. Multi-word keywords allow any whitespace between words.
+- **Links:** `http(s)://` and `www.` links plus bare domains with a common TLD. R04 "non-HTTPS" counts only an explicit `http://` (a bare "sbi.co.in" mention is not penalised). Non-ASCII hosts count as punycode. Brand look-alike (R04b): tokens of ≥ 5 letters match anywhere in the host, shorter ones ("sbi", "axis", "hdfc", "npci") only at the start of a host label or after a hyphen, so "taxis.com" isn't an Axis look-alike. Official domains include their subdomains (`m.paytm.com`).
+- **S01** (only official links) needs at least one link; the total is floored at 0.
+- **Reasons:** heaviest first, max 6, one per `reason_key` (R01 and R01b share "Promises unrealistic returns"); each carries `code`, `key` (for app translations) and English `title`/`text`. Weights still add for every matched rule.
+- **Explanation language:** request `language`, else the user's `preferred_language` (not the message's language). The LLM reply is replaced by the template if it repeats a link or phone number from the message, contains an 8+ digit number, gives "click/call/pay/install" advice without a negation, or is too long. Templates exist for en/hi/mr/ta × safe/suspicious/dangerous.
+- **Similar reports** = distinct **other** users who reported the same text hash, or a near-duplicate (identical set of positive rule codes and at least one shared link domain). Computed when the check is read, so it grows as others report. The reporter's own report isn't counted for them. `reported` = this user has reported this text.
+- **Deleting a check** is a hard delete; reports made from it remain (`fraud_check_id` -> NULL; reports hold no message text), so the community count isn't lost.
+- **Screenshots:** jpg/png/webp, ≤ 5 MB (413), other types or unreadable bytes -> 415; fewer than 10 non-space OCR characters -> `OCR_NO_TEXT`. Image bytes are only in memory. OCR down -> 503 `UPSTREAM_AI_UNAVAILABLE`. Language/source come as form fields.
+- Fraud patterns are cached in Redis for 10 min (`fraud:patterns`); admin writes (step 18) call `rules.invalidate_patterns()`.
+
+## Step 15 — voice
+- **Endpoints:** `POST /chat/transcribe` (multipart `audio`, optional `language`; 20/min) and `POST /chat/tts` (`{text ≤ 1000, language?}`; 30/min) live in `modules/voice/router.py` under `/chat`; `/chat/voice` comes with the chat orchestrator (step 16) and reuses `voice.service`.
+- **Accepted audio:** the spec's `audio/m4a|mp4|mpeg|wav|webm` plus the names phones and browsers actually send for the same formats (`audio/x-m4a`, `audio/aac`, `audio/mp3`, `audio/x-wav`, `audio/wave`, `video/webm`). Over 5 MB -> 413; longer than 60 s -> 413 "Recordings can be up to 60 seconds."; not decodable -> 415. The upload lives only in a temp folder deleted in `finally`.
+- **`TRANSCRIPTION_FAILED`** when the text is empty after removing Whisper's non-speech markers (`[BLANK_AUDIO]`, `[Music]`, `(applause)`, ♪ — silence used to come back as the text "[BLANK_AUDIO]") or confidence < 0.3.
+- **Language prior:** with no `language` hint, the user's `preferred_language` is the hint. When Whisper guesses a language outside en/hi/mr/ta (small/CPU labelled some Marathi clips as Bengali/Sinhala), the hint is used instead of English — falling back to English made Whisper *translate* Marathi into English.
+- **Marathi is decoded with Whisper's Hindi decoder** (`WHISPER_MR_DECODE_AS=hi`, result still labelled `mr`). Measured on FLEURS Marathi with whisper-small/CPU: native Marathi decoder **73% CER** (4 of 8 clips unusable, 163 s), Hindi decoder **42% CER** (34 s); trying Marathi first and falling back reached 40.5% but costs both runs. Both scripts are Devanagari, so the text reads as Marathi. Set `WHISPER_MR_DECODE_AS=mr` to re-test once GPU Whisper with a larger model is running.
+- **TTS cache:** whitespace is collapsed before hashing, key `tts/{sha256(lang + text)}.wav` in `saathi-tts-cache`, presigned URL 10 min. No voice for the language (Tamil) -> `200 {"url": null, "reason": "no_voice_for_language"}`, and the app uses on-device speech (A8). Synthesis or MinIO failure -> 503 `UPSTREAM_AI_UNAVAILABLE` (the chat will send `audio: null` instead).
+- **Ops note:** Docker Desktop's WSL VM froze twice during long LLM translation runs (all container ports and `wsl -d docker-desktop` stopped responding; no GPU-driver or resource events in the Windows log). A restart fixes it (`wsl --shutdown`, start Docker Desktop, `docker compose up -d`). Cause not yet identified.
+
+## Step 16 — chat orchestrator
+- **Module layout:** `chat/intents.py` (rules + LLM router), `context.py` (prompt context), `tools.py` (one tool per intent), `drafts.py` (confirmations in Redis), `guardrails.py`, `texts.py` (fixed texts in en/hi/mr/ta), `orchestrator.py` (`handle()`), `service.py` (history, greeting), `router.py`.
+- **Fixed replies, no LLM:** distress (Tele-MANAS 14416 and 112), out-of-scope redirect, transaction/goal confirmation questions and results, "paste the message" for a bare "is this a scam?", and scam results (the reply is the fraud check's own summary + advice, already in the user's language). They are faster and can't be improvised.
+- **Distress** is detected by keyword rules in all four languages *before* routing (never left to the LLM alone); the LLM router can still return it. Distress exchanges are never mined for memory: the turn schedules no extraction, later extractions skip the distress reply and the message it answered, and `memory_extract.md` forbids storing self-harm or crisis content. (The first exploratory run stored "expresses suicidal thoughts" — fixed and tested.)
+- **Routing tweaks:** a money verb without a number still routes to `log_transaction` (the flow asks "How much was it?" without an LLM call). A "what is …" question about the user's own things ("what is **my** budget", मेरा/माझं…) is not treated as jargon.
+- **Language (§5.3 step 2), two deviations:** romanized messages of fewer than 4 words that look English ("Namaste Saathi!", "ok thanks") use the preferred language; Devanagari text from a user whose preference is not hi/mr uses the hi/mr detector (leaning Hindi when unsure) instead of always Hindi — otherwise Marathi questions got Hindi answers.
+- **Confirmations:** `draft:{user_id}` holds one pending transaction or goal for 10 min. The next message is checked against the yes/no sets first; anything else drops the draft and is handled normally. A goal without an amount keeps `goal_needs_amount`, so the next message ("5 lakh in 3 years") completes it. Saved transactions get `source='chat'` (or `'voice'`).
+- **Confirmation wording** carries grammatical gender: "₹250 **का** खर्च" but "₹4,500 **की** आमदनी"; Marathi "**चा** खर्च" / "**चे** उत्पन्न".
+- **Guardrails:** forbidden promises (guaranteed/sure/assured/risk-free returns or profits, in en/hi/mr/ta) and requests for OTP/PIN/CVV/password/Aadhaar are rejected **unless negated nearby** ("there are no guaranteed returns", "never share your OTP" are correct warnings). On a violation the reply is regenerated once with a stricter instruction, then replaced by a fixed SEBI-adviser fallback.
+- **LLM output:** JSON `{reply, suggested_replies}`; when the JSON is unusable, the raw text is the reply and no chips are shown (`AIOutputError` now carries `raw_text`). The system prompt now says not to open replies with a greeting unless the user greets.
+- **LLM down:** the user message (and a conversation created for it) is deleted again before returning 503, so the app's Retry doesn't duplicate it. Fixed-reply paths don't need the LLM.
+- **Mascot pose** is stored in `messages.tool_calls` (`{"calls": [...], "routing": "rules|llm|fallback|confirmation|draft", "mascot_pose": ...}`) because the schema has no pose column; user messages return `mascot_pose: null`.
+- **Memory work** (`memory.extract`, then `memory.summarize`) runs as an asyncio background task after each reply until Celery arrives in step 17; shutdown waits for pending tasks.
+- **Greeting:** facts are the first active goal, the latest unread insight and the last transaction; cached 6 h per user and language; on LLM failure a static localized greeting with the first name is returned (not cached, so the next call tries the LLM again).
+- **Jargon lookup:** term detector match, then exact name/alias/local name, then embedding similarity ≥ 0.55 over the glossary (vectors cached in-process). The term card uses the localized glossary entry.
+- **Scheme answers** use `schemes.top_matches` (eligible / possibly eligible, max 5) as grounding and remind the user to confirm on the official website.
+- Deleting a conversation removes its messages; memory facts learned from it stay (their source link becomes NULL) and are managed on the Memory screen.

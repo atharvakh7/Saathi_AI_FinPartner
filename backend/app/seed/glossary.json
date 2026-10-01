@@ -1,0 +1,601 @@
+[
+  {
+    "slug": "sip",
+    "term_en": "SIP",
+    "category": "investing",
+    "aliases": [
+      "systematic investment plan",
+      "एसआईपी",
+      "எஸ்ஐபி"
+    ],
+    "definition_en": "A Systematic Investment Plan (SIP) means putting a small fixed amount into a mutual fund every month, automatically from your bank account, instead of investing a big amount at once.",
+    "example_en": "Aman puts ₹500 every month into a mutual fund through a SIP. In one year he has invested ₹6,000, bought at many different prices, without needing a big amount at once.",
+    "analogy_en": "SIP is like planting a tree regularly and watching it grow over time.",
+    "key_takeaway_en": "SIP is a smart way to build wealth without timing the market.",
+    "related_slugs": [
+      "mutual-fund",
+      "nav",
+      "compound-interest",
+      "diversification"
+    ]
+  },
+  {
+    "slug": "mutual-fund",
+    "term_en": "Mutual Fund",
+    "category": "investing",
+    "aliases": [
+      "mutual funds",
+      "म्यूचुअल फंड",
+      "म्युच्युअल फंड",
+      "மியூச்சுவல் ஃபண்ட்"
+    ],
+    "definition_en": "A mutual fund collects money from many people and a professional manager invests it in shares, bonds or other assets. Each investor owns a small part of the whole basket. Returns are not guaranteed.",
+    "example_en": "If 1,000 people each put ₹1,000 into a fund, the manager invests ₹10 lakh together. If the fund grows 8% in a year, each person's ₹1,000 becomes about ₹1,080.",
+    "analogy_en": "It is like a shared tiffin where everyone adds food and everyone gets a mixed plate.",
+    "key_takeaway_en": "Mutual funds spread your money across many investments, but carry market risk.",
+    "related_slugs": [
+      "sip",
+      "nav",
+      "diversification",
+      "equity"
+    ]
+  },
+  {
+    "slug": "nav",
+    "term_en": "NAV",
+    "category": "investing",
+    "aliases": [
+      "net asset value",
+      "एनएवी"
+    ],
+    "definition_en": "Net Asset Value (NAV) is the price of one unit of a mutual fund on a given day. It is the fund's total value divided by the number of units.",
+    "example_en": "If a fund's NAV is ₹25 and you invest ₹1,000, you get 40 units. If the NAV rises to ₹30, your units are worth ₹1,200.",
+    "analogy_en": "NAV is like today's rate for one kilo of onions in the mandi; it changes every day.",
+    "key_takeaway_en": "NAV tells the price of one fund unit; it changes daily.",
+    "related_slugs": [
+      "mutual-fund",
+      "sip"
+    ]
+  },
+  {
+    "slug": "compound-interest",
+    "term_en": "Compound Interest",
+    "category": "basics",
+    "aliases": [
+      "compounding",
+      "चक्रवृद्धि ब्याज",
+      "चक्रवाढ व्याज",
+      "கூட்டு வட்டி"
+    ],
+    "definition_en": "Compound interest is interest earned on your original money plus on the interest already added. Over time your money grows faster because the interest itself starts earning.",
+    "example_en": "₹10,000 at 10% a year becomes ₹11,000 after one year. In the second year you earn ₹1,100, not ₹1,000, so you have ₹12,100.",
+    "analogy_en": "It is like a snowball rolling down a hill, getting bigger faster as it rolls.",
+    "key_takeaway_en": "Start saving early; time makes compounding powerful.",
+    "related_slugs": [
+      "simple-interest",
+      "interest-rate",
+      "sip",
+      "fixed-deposit"
+    ]
+  },
+  {
+    "slug": "simple-interest",
+    "term_en": "Simple Interest",
+    "category": "basics",
+    "aliases": [
+      "साधारण ब्याज",
+      "सरळ व्याज",
+      "தனி வட்டி"
+    ],
+    "definition_en": "Simple interest is calculated only on the original amount you saved or borrowed, not on interest added earlier. It is the same amount every year.",
+    "example_en": "Borrow ₹10,000 at 12% simple interest for 2 years: interest is ₹1,200 each year, so ₹2,400 in total, and you repay ₹12,400.",
+    "analogy_en": "It is like fixed rent for a room: the same amount every month, no matter how long you stay.",
+    "key_takeaway_en": "Simple interest is charged only on the original amount.",
+    "related_slugs": [
+      "compound-interest",
+      "interest-rate"
+    ]
+  },
+  {
+    "slug": "emergency-fund",
+    "term_en": "Emergency Fund",
+    "category": "savings",
+    "aliases": [
+      "emergency savings",
+      "आपातकालीन निधि",
+      "इमरजेंसी फंड",
+      "आपत्कालीन निधी",
+      "அவசர நிதி"
+    ],
+    "definition_en": "An emergency fund is money kept aside only for unexpected needs like illness, job loss or crop failure, usually enough to cover 3 to 6 months of essential expenses.",
+    "example_en": "If your family needs ₹15,000 a month for food, rent and medicines, a 6-month emergency fund is ₹90,000, kept in a savings account or RD.",
+    "analogy_en": "It is like the spare tyre in a vehicle: you hope not to use it, but you are safe when you need it.",
+    "key_takeaway_en": "Keep 3–6 months of expenses ready for surprises.",
+    "related_slugs": [
+      "budget",
+      "liquidity",
+      "recurring-deposit"
+    ]
+  },
+  {
+    "slug": "inflation",
+    "term_en": "Inflation",
+    "category": "basics",
+    "aliases": [
+      "महंगाई",
+      "महागाई",
+      "பணவீக்கம்"
+    ],
+    "definition_en": "Inflation is the rise in prices of things over time. When prices rise, the same money buys less than before.",
+    "example_en": "If a bag of groceries costs ₹1,000 today and inflation is 6% a year, the same bag may cost about ₹1,060 next year.",
+    "analogy_en": "Inflation is like a slow leak in a water tank: if you don't refill, the level keeps dropping.",
+    "key_takeaway_en": "Savings should grow faster than prices to keep their value.",
+    "related_slugs": [
+      "interest-rate",
+      "compound-interest"
+    ]
+  },
+  {
+    "slug": "kyc",
+    "term_en": "KYC",
+    "category": "basics",
+    "aliases": [
+      "know your customer",
+      "e-kyc",
+      "ekyc",
+      "केवाईसी",
+      "கேஒய்சி"
+    ],
+    "definition_en": "KYC (Know Your Customer) is the process banks and financial companies use to verify your identity and address, usually with Aadhaar, PAN and a photo, before giving services.",
+    "example_en": "To open a bank account or start a ₹500 SIP, you complete KYC once with your documents. Banks never ask you to 'update KYC' through a link in a message.",
+    "analogy_en": "KYC is like a teacher checking your ID card before letting you sit for the exam.",
+    "key_takeaway_en": "Do KYC only at the bank or official app, never via message links.",
+    "related_slugs": [
+      "upi",
+      "demat-account"
+    ]
+  },
+  {
+    "slug": "upi",
+    "term_en": "UPI",
+    "category": "basics",
+    "aliases": [
+      "unified payments interface",
+      "यूपीआई",
+      "யுபிஐ",
+      "upi pin"
+    ],
+    "definition_en": "UPI (Unified Payments Interface) lets you send and receive money instantly from your phone using a UPI ID or QR code. Your UPI PIN is needed only to send money.",
+    "example_en": "You pay ₹250 at a shop by scanning its QR code and entering your UPI PIN. To receive ₹250, you never need to enter your PIN.",
+    "analogy_en": "UPI is like a postman who delivers money instantly, but only you hold the key (PIN) to your letterbox.",
+    "key_takeaway_en": "Your UPI PIN is only for paying, never for receiving money.",
+    "related_slugs": [
+      "kyc"
+    ]
+  },
+  {
+    "slug": "emi",
+    "term_en": "EMI",
+    "category": "loans",
+    "aliases": [
+      "equated monthly installment",
+      "equated monthly instalment",
+      "ईएमआई",
+      "किस्त",
+      "हप्ता",
+      "இஎம்ஐ"
+    ],
+    "definition_en": "EMI (Equated Monthly Installment) is the fixed amount you pay every month to repay a loan. Each EMI has two parts: interest and a part of the loan amount.",
+    "example_en": "A ₹50,000 loan for 1 year at 12% interest has an EMI of about ₹4,440. Over 12 months you pay about ₹53,300 in total.",
+    "analogy_en": "EMI is like paying for a big item in equal monthly pieces instead of all at once.",
+    "key_takeaway_en": "Keep total EMIs low compared to your monthly income.",
+    "related_slugs": [
+      "interest-rate",
+      "credit-score",
+      "collateral"
+    ]
+  },
+  {
+    "slug": "credit-score",
+    "term_en": "Credit Score",
+    "category": "loans",
+    "aliases": [
+      "cibil score",
+      "cibil",
+      "क्रेडिट स्कोर",
+      "सिबिल स्कोर",
+      "கிரெடிட் ஸ்கோர்"
+    ],
+    "definition_en": "A credit score is a number, usually between 300 and 900, that shows how reliably you have repaid loans and credit cards. Lenders use it to decide whether to lend and at what rate.",
+    "example_en": "If you repay every ₹2,000 credit-card bill on time, your score rises. Missing EMIs can drop it, making the next loan costlier or harder to get.",
+    "analogy_en": "It is like your report card for borrowing: good marks open more doors.",
+    "key_takeaway_en": "Pay every EMI and bill on time to keep a good score.",
+    "related_slugs": [
+      "emi",
+      "interest-rate"
+    ]
+  },
+  {
+    "slug": "insurance-premium",
+    "term_en": "Insurance Premium",
+    "category": "insurance",
+    "aliases": [
+      "premium",
+      "प्रीमियम",
+      "பிரீமியம்"
+    ],
+    "definition_en": "A premium is the amount you pay to an insurance company, monthly or yearly, to keep your insurance active. If you stop paying, the cover can stop.",
+    "example_en": "Under PMSBY you pay a premium of ₹20 a year and get ₹2 lakh accident cover. Under PMJJBY the premium is ₹436 a year for ₹2 lakh life cover.",
+    "analogy_en": "A premium is like a small monthly fee to keep an umbrella ready for a storm.",
+    "key_takeaway_en": "Pay premiums on time so your family stays protected.",
+    "related_slugs": [
+      "term-insurance",
+      "health-insurance",
+      "crop-insurance"
+    ]
+  },
+  {
+    "slug": "term-insurance",
+    "term_en": "Term Insurance",
+    "category": "insurance",
+    "aliases": [
+      "term plan",
+      "term life insurance",
+      "टर्म इंश्योरेंस",
+      "टर्म विमा"
+    ],
+    "definition_en": "Term insurance is pure life insurance for a fixed period. If the insured person dies during that period, the family gets a large sum. There is no money back if nothing happens.",
+    "example_en": "A 30-year-old may pay around ₹8,000–₹10,000 a year for ₹50 lakh cover for 30 years. If they die during this time, the family receives ₹50 lakh.",
+    "analogy_en": "It is like a helmet: it costs little and protects your family if the worst happens.",
+    "key_takeaway_en": "Term insurance gives big family protection for a small premium.",
+    "related_slugs": [
+      "insurance-premium",
+      "nominee",
+      "health-insurance"
+    ]
+  },
+  {
+    "slug": "health-insurance",
+    "term_en": "Health Insurance",
+    "category": "insurance",
+    "aliases": [
+      "medical insurance",
+      "mediclaim",
+      "स्वास्थ्य बीमा",
+      "आरोग्य विमा",
+      "மருத்துவ காப்பீடு"
+    ],
+    "definition_en": "Health insurance pays for hospital treatment up to a limit, so a medical emergency does not wipe out your savings. Government schemes like Ayushman Bharat give free cover to eligible families.",
+    "example_en": "A surgery costing ₹1.5 lakh is paid by your ₹5 lakh health cover, and you pay nothing or only a small part.",
+    "analogy_en": "It is like a strong roof: you don't notice it on sunny days, but it saves you in heavy rain.",
+    "key_takeaway_en": "One hospital bill can erase years of savings; get covered.",
+    "related_slugs": [
+      "insurance-premium",
+      "term-insurance",
+      "emergency-fund"
+    ]
+  },
+  {
+    "slug": "fixed-deposit",
+    "term_en": "Fixed Deposit",
+    "category": "savings",
+    "aliases": [
+      "fd",
+      "term deposit",
+      "एफडी",
+      "सावधि जमा",
+      "मुदत ठेव",
+      "நிலை வைப்பு"
+    ],
+    "definition_en": "A fixed deposit (FD) is money you keep in a bank or post office for a fixed time at a fixed interest rate. Taking it out early may reduce the interest.",
+    "example_en": "You put ₹20,000 in a 1-year FD at 7%. After one year you get back about ₹21,400.",
+    "analogy_en": "An FD is like storing grain in a locked godown for a season and getting a little extra back.",
+    "key_takeaway_en": "FDs are safe and predictable, good for money you won't need soon.",
+    "related_slugs": [
+      "recurring-deposit",
+      "interest-rate",
+      "liquidity"
+    ]
+  },
+  {
+    "slug": "recurring-deposit",
+    "term_en": "Recurring Deposit",
+    "category": "savings",
+    "aliases": [
+      "rd",
+      "आरडी",
+      "आवर्ती जमा",
+      "आवर्त ठेव",
+      "தொடர் வைப்பு"
+    ],
+    "definition_en": "A recurring deposit (RD) lets you save a fixed amount every month in a bank or post office for a fixed period and earn interest, like an FD built step by step.",
+    "example_en": "You deposit ₹1,000 every month for 12 months in an RD at 6.5%. At the end you get about ₹12,400 back.",
+    "analogy_en": "An RD is like filling a pot with one cup of water every day until it is full.",
+    "key_takeaway_en": "RDs build the habit of saving a little every month.",
+    "related_slugs": [
+      "fixed-deposit",
+      "emergency-fund",
+      "budget"
+    ]
+  },
+  {
+    "slug": "ppf",
+    "term_en": "PPF",
+    "category": "savings",
+    "aliases": [
+      "public provident fund",
+      "पीपीएफ"
+    ],
+    "definition_en": "Public Provident Fund (PPF) is a government-backed long-term savings account with a 15-year lock-in. The government sets the interest rate, and interest and maturity amount are tax-free.",
+    "example_en": "Saving ₹1,000 a month (₹12,000 a year) in PPF for 15 years means ₹1.8 lakh deposited, which can grow to about ₹3.2 lakh at around 7% interest.",
+    "analogy_en": "PPF is like a mango tree you plant for your future; it takes years but gives safe fruit.",
+    "key_takeaway_en": "PPF is safe, tax-free long-term saving backed by the government.",
+    "related_slugs": [
+      "compound-interest",
+      "fixed-deposit",
+      "nps"
+    ]
+  },
+  {
+    "slug": "nps",
+    "term_en": "NPS",
+    "category": "savings",
+    "aliases": [
+      "national pension system",
+      "national pension scheme",
+      "एनपीएस",
+      "राष्ट्रीय पेंशन प्रणाली"
+    ],
+    "definition_en": "The National Pension System (NPS) is a government-regulated retirement savings scheme. You contribute during your working years, the money is invested, and at 60 you get a lump sum plus a monthly pension.",
+    "example_en": "If you put ₹2,000 a month into NPS from age 30, you invest ₹7.2 lakh by 60, which may grow much more depending on market returns.",
+    "analogy_en": "NPS is like storing seeds each season so you still have a harvest when you can no longer farm.",
+    "key_takeaway_en": "Start retirement saving early; even small monthly amounts add up.",
+    "related_slugs": [
+      "ppf",
+      "compound-interest",
+      "equity"
+    ]
+  },
+  {
+    "slug": "interest-rate",
+    "term_en": "Interest Rate",
+    "category": "basics",
+    "aliases": [
+      "rate of interest",
+      "interest",
+      "ब्याज दर",
+      "ब्याज",
+      "व्याज दर",
+      "व्याज",
+      "வட்டி விகிதம்",
+      "வட்டி"
+    ],
+    "definition_en": "The interest rate is the percentage charged for borrowing money or paid for saving it, usually per year. High rates are good when saving but costly when borrowing.",
+    "example_en": "A moneylender charging 3% per month is 36% a year: ₹10,000 costs ₹3,600 in interest yearly. A bank loan at 12% a year costs ₹1,200.",
+    "analogy_en": "Interest is like rent for money: you pay it when you borrow and earn it when you lend.",
+    "key_takeaway_en": "Always compare interest per year before borrowing.",
+    "related_slugs": [
+      "simple-interest",
+      "compound-interest",
+      "emi"
+    ]
+  },
+  {
+    "slug": "collateral",
+    "term_en": "Collateral",
+    "category": "loans",
+    "aliases": [
+      "गिरवी",
+      "जमानत",
+      "तारण",
+      "அடமானம்"
+    ],
+    "definition_en": "Collateral is something valuable, like land, gold or a house, that you pledge to a lender. If you don't repay the loan, the lender can take it.",
+    "example_en": "For a ₹1 lakh gold loan, you pledge gold jewellery worth about ₹1.3 lakh. If you repay, you get the gold back.",
+    "analogy_en": "It is like leaving your ID card with the shopkeeper while you borrow his cycle.",
+    "key_takeaway_en": "Only pledge collateral if you are sure you can repay.",
+    "related_slugs": [
+      "emi",
+      "interest-rate",
+      "credit-score"
+    ]
+  },
+  {
+    "slug": "nominee",
+    "term_en": "Nominee",
+    "category": "basics",
+    "aliases": [
+      "nomination",
+      "नॉमिनी",
+      "नामांकित",
+      "वारस",
+      "நாமினி"
+    ],
+    "definition_en": "A nominee is the person you name to receive the money in your bank account, insurance or investments if something happens to you.",
+    "example_en": "Ramesh names his wife as nominee on his ₹2 lakh PMJJBY policy and his savings account, so she can claim the money easily.",
+    "analogy_en": "Naming a nominee is like handing a spare key of your house to someone you trust.",
+    "key_takeaway_en": "Add a nominee to every account and policy today.",
+    "related_slugs": [
+      "term-insurance",
+      "insurance-premium"
+    ]
+  },
+  {
+    "slug": "diversification",
+    "term_en": "Diversification",
+    "category": "investing",
+    "aliases": [
+      "diversify",
+      "विविधीकरण",
+      "विविधता",
+      "பல்வகைப்படுத்தல்"
+    ],
+    "definition_en": "Diversification means spreading your money across different types of savings and investments so that a loss in one does not hurt you too much.",
+    "example_en": "Instead of putting all ₹50,000 in one thing, you keep ₹20,000 in an FD, ₹20,000 in a mutual fund and ₹10,000 in savings.",
+    "analogy_en": "Don't put all your eggs in one basket; farmers also grow more than one crop.",
+    "key_takeaway_en": "Spread your money to reduce risk.",
+    "related_slugs": [
+      "mutual-fund",
+      "equity",
+      "fixed-deposit"
+    ]
+  },
+  {
+    "slug": "equity",
+    "term_en": "Equity",
+    "category": "investing",
+    "aliases": [
+      "इक्विटी"
+    ],
+    "definition_en": "Equity means owning a share of a company. If the company grows, the share value can rise; if it does badly, the value can fall. Equity can grow more over long periods but is risky.",
+    "example_en": "You buy 10 shares at ₹100 each for ₹1,000. If the price goes to ₹130, they are worth ₹1,300; if it falls to ₹80, they are worth ₹800.",
+    "analogy_en": "Owning equity is like being a small partner in a shop: you share its profits and losses.",
+    "key_takeaway_en": "Equity can grow wealth long-term but prices go up and down.",
+    "related_slugs": [
+      "mutual-fund",
+      "demat-account",
+      "sensex-nifty",
+      "diversification"
+    ]
+  },
+  {
+    "slug": "demat-account",
+    "term_en": "Demat Account",
+    "category": "investing",
+    "aliases": [
+      "demat",
+      "डीमैट खाता",
+      "डीमॅट खाते",
+      "டீமேட் கணக்கு"
+    ],
+    "definition_en": "A demat account holds your shares and some other investments in electronic form, like a bank account holds your money. You need one to buy shares directly.",
+    "example_en": "When you buy 5 shares worth ₹2,000 through a broker app, they are stored in your demat account instead of on paper.",
+    "analogy_en": "It is like a locker in the bank, but for your shares instead of jewellery.",
+    "key_takeaway_en": "A demat account stores shares safely in electronic form.",
+    "related_slugs": [
+      "equity",
+      "kyc",
+      "sensex-nifty"
+    ]
+  },
+  {
+    "slug": "sensex-nifty",
+    "term_en": "Sensex and Nifty",
+    "category": "investing",
+    "aliases": [
+      "sensex",
+      "nifty",
+      "nifty 50",
+      "सेंसेक्स",
+      "निफ्टी",
+      "சென்செக்ஸ்",
+      "நிஃப்டி"
+    ],
+    "definition_en": "Sensex and Nifty are stock market indexes. Sensex tracks 30 big companies on the BSE and Nifty 50 tracks 50 big companies on the NSE. They show how the market is doing overall.",
+    "example_en": "If the Nifty goes up 1% today, most big company shares rose; a ₹10,000 index fund would be worth about ₹10,100.",
+    "analogy_en": "They are like the average mandi price that tells you whether crop prices are rising or falling today.",
+    "key_takeaway_en": "Indexes show the overall mood of the stock market.",
+    "related_slugs": [
+      "equity",
+      "mutual-fund",
+      "demat-account"
+    ]
+  },
+  {
+    "slug": "liquidity",
+    "term_en": "Liquidity",
+    "category": "basics",
+    "aliases": [
+      "तरलता",
+      "रोकड़ता",
+      "நீர்மை"
+    ],
+    "definition_en": "Liquidity means how quickly you can turn something into cash without losing value. Cash in a savings account is very liquid; land or a long FD is not.",
+    "example_en": "₹10,000 in a savings account can be used today. ₹10,000 locked in PPF may not be available for years.",
+    "analogy_en": "Liquidity is like water in a bucket versus water frozen as ice: both are water, but one you can use now.",
+    "key_takeaway_en": "Keep emergency money where you can get it quickly.",
+    "related_slugs": [
+      "emergency-fund",
+      "fixed-deposit",
+      "ppf"
+    ]
+  },
+  {
+    "slug": "budget",
+    "term_en": "Budget",
+    "category": "basics",
+    "aliases": [
+      "budgeting",
+      "बजट",
+      "अंदाजपत्रक",
+      "பட்ஜெட்"
+    ],
+    "definition_en": "A budget is a simple plan for how you will use your money each month: how much for needs, how much for wants and how much to save.",
+    "example_en": "With ₹20,000 income, you might plan ₹12,000 for needs like food and rent, ₹4,000 for wants and ₹4,000 for savings.",
+    "analogy_en": "A budget is like planning which crops to sow in which part of your field before the season.",
+    "key_takeaway_en": "Plan your money before you spend it.",
+    "related_slugs": [
+      "emergency-fund",
+      "net-worth",
+      "recurring-deposit"
+    ]
+  },
+  {
+    "slug": "net-worth",
+    "term_en": "Net Worth",
+    "category": "basics",
+    "aliases": [
+      "नेट वर्थ",
+      "निवल संपत्ति",
+      "निव्वळ संपत्ती",
+      "நிகர மதிப்பு"
+    ],
+    "definition_en": "Net worth is everything you own (savings, gold, land, investments) minus everything you owe (loans, dues). It shows your true financial position.",
+    "example_en": "You own ₹2 lakh in savings and gold and owe ₹50,000 on a loan. Your net worth is ₹1.5 lakh.",
+    "analogy_en": "Net worth is like weighing your harvest after taking out what you owe the seed seller.",
+    "key_takeaway_en": "Grow what you own and reduce what you owe.",
+    "related_slugs": [
+      "budget",
+      "emi"
+    ]
+  },
+  {
+    "slug": "subsidy",
+    "term_en": "Subsidy",
+    "category": "basics",
+    "aliases": [
+      "सब्सिडी",
+      "अनुदान",
+      "மானியம்"
+    ],
+    "definition_en": "A subsidy is help from the government that lowers the cost of something for you, such as fertiliser, cooking gas, loan interest or insurance premium.",
+    "example_en": "On a ₹1 lakh loan at 9%, interest is ₹9,000 a year. With a 3% interest subsidy for timely repayment, you effectively pay ₹6,000.",
+    "analogy_en": "A subsidy is like a discount coupon from the government for essential things.",
+    "key_takeaway_en": "Subsidies reduce your cost; check which ones you qualify for.",
+    "related_slugs": [
+      "crop-insurance",
+      "interest-rate"
+    ]
+  },
+  {
+    "slug": "crop-insurance",
+    "term_en": "Crop Insurance",
+    "category": "insurance",
+    "aliases": [
+      "pmfby",
+      "fasal bima",
+      "फसल बीमा",
+      "पीक विमा",
+      "பயிர் காப்பீடு"
+    ],
+    "definition_en": "Crop insurance pays farmers when crops are damaged by drought, flood, pests or disease. Under PM Fasal Bima Yojana, farmers pay a small premium and the government pays the rest.",
+    "example_en": "A farmer pays about ₹1,000 premium to insure a kharif crop worth ₹50,000. If floods destroy the crop, the claim helps cover the loss.",
+    "analogy_en": "It is like an umbrella for your harvest when the weather turns bad.",
+    "key_takeaway_en": "Insure your crop every season before the cut-off date.",
+    "related_slugs": [
+      "insurance-premium",
+      "subsidy",
+      "emergency-fund"
+    ]
+  }
+]

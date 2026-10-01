@@ -1,0 +1,137 @@
+[
+  {
+    "code": "R01", "pattern_type": "regex", "weight": 35,
+    "description": "Promises of large daily earnings",
+    "patterns": ["(earn|कमाएं|कमाओ|कमवा|சம்பாதி)\\s*(₹|rs\\.?|inr)?\\s*\\d[\\d,]{3,}\\s*(/-)?\\s*(daily|per day|a day|रोज|प्रतिदिन|दररोज|தினமும்)", "(daily|per day|रोज|रोज़|रोजाना|प्रतिदिन|दररोज|रोज़ाना|தினமும்)\\s*(₹|rs\\.?|inr)?\\s*\\d[\\d,]{3,}\\s*(/-|रुपये|रुपए|रुपया|ரூபாய்)?\\s*(earn|कमाएं|कमाओ|कमाइए|कमवा|சம்பாதி)"],
+    "requires_codes": null,
+    "reason_key": "unrealistic_returns", "reason_title_en": "Promises unrealistic returns",
+    "reason_text_en": "Offers like 'Earn ₹50,000 daily' are usually fake. Real jobs and investments don't pay like this."
+  },
+  {
+    "code": "R01b", "pattern_type": "keyword", "weight": 35,
+    "description": "Guaranteed or risk-free return language",
+    "patterns": ["guaranteed return", "double your money", "100% profit", "risk free", "risk-free", "no risk", "पैसे दुगने", "गारंटीड रिटर्न", "हमी परतावा", "உத்தரவாத லாபம்"],
+    "requires_codes": null,
+    "reason_key": "unrealistic_returns", "reason_title_en": "Promises unrealistic returns",
+    "reason_text_en": "No real investment can guarantee profit or be free of risk. This is a common trick."
+  },
+  {
+    "code": "R02", "pattern_type": "keyword", "weight": 30,
+    "description": "Requests for OTP, PIN, CVV, passwords or ID numbers",
+    "patterns": ["share otp", "send otp", "your otp", "tell otp", "cvv", "atm pin", "upi pin", "net banking password", "aadhaar number", "pan number", "card number", "ओटीपी बताएं", "पिन बताएं", "ओटीपी शेअर", "ஓடிபி பகிர"],
+    "requires_codes": null,
+    "reason_key": "asks_personal_info", "reason_title_en": "Asks for personal or payment information",
+    "reason_text_en": "Banks and government offices never ask for your OTP, PIN, CVV or password by message or call."
+  },
+  {
+    "code": "R03", "pattern_type": "keyword", "weight": 15,
+    "description": "Pressure through urgency",
+    "patterns": ["urgent", "immediately", "within 24 hours", "last chance", "act now", "expires today", "जल्दी करें", "तुरंत", "आजच", "உடனடியாக"],
+    "requires_codes": null,
+    "reason_key": "urgency", "reason_title_en": "Uses urgency to pressure you",
+    "reason_text_en": "Scammers rush you so you don't stop to think or check with someone."
+  },
+  {
+    "code": "R04", "pattern_type": "url", "weight": 20,
+    "description": "Suspicious link: URL shortener, IP address, punycode or non-HTTPS",
+    "patterns": ["bit.ly", "tinyurl.com", "t.co", "cutt.ly", "rb.gy", "is.gd", "shorturl.at", "@ip_host", "@punycode", "@non_https"],
+    "requires_codes": null,
+    "reason_key": "suspicious_link", "reason_title_en": "Contains a suspicious link",
+    "reason_text_en": "The link hides where it really goes or is not secure. Don't open it."
+  },
+  {
+    "code": "R04b", "pattern_type": "url", "weight": 30,
+    "description": "Look-alike brand host. Each pattern is brand_token:official_domain; a host containing the token that is not the official domain (or its subdomain) matches.",
+    "patterns": ["paytm:paytm.com", "sbi:sbi.co.in", "hdfc:hdfcbank.com", "icici:icicibank.com", "axis:axisbank.com", "npci:npci.org.in", "incometax:incometax.gov.in", "uidai:uidai.gov.in", "pmkisan:pmkisan.gov.in"],
+    "requires_codes": null,
+    "reason_key": "fake_brand_link", "reason_title_en": "Link pretends to be a trusted brand",
+    "reason_text_en": "The website name looks like a bank or government site but it is not the official one."
+  },
+  {
+    "code": "R05", "pattern_type": "regex", "weight": 30,
+    "description": "Asks to install an app or APK",
+    "patterns": ["\\.apk\\b", "install (this )?app", "download (the )?app from"],
+    "requires_codes": null,
+    "reason_key": "install_app", "reason_title_en": "Asks you to install an unknown app",
+    "reason_text_en": "Apps sent through messages can read your OTPs and steal money. Install apps only from the Play Store or App Store."
+  },
+  {
+    "code": "R06", "pattern_type": "keyword", "weight": 30,
+    "description": "Advance fee before loan or prize",
+    "patterns": ["processing fee", "registration fee", "advance payment", "insurance fee for loan", "pay first", "प्रोसेसिंग फीस", "अग्रिम शुल्क"],
+    "requires_codes": null,
+    "reason_key": "advance_fee", "reason_title_en": "Asks for money before giving a loan or prize",
+    "reason_text_en": "Genuine lenders and prizes don't ask you to pay a fee first."
+  },
+  {
+    "code": "R07", "pattern_type": "keyword", "weight": 25,
+    "description": "Threat to block account / KYC expiry",
+    "patterns": ["kyc expired", "kyc update", "account will be blocked", "account suspended", "card blocked", "केवाईसी अपडेट", "खाता बंद", "கேஒய்சி"],
+    "requires_codes": null,
+    "reason_key": "account_threat", "reason_title_en": "Threatens to block your account",
+    "reason_text_en": "Banks don't block accounts through random messages. Check directly with your bank branch or official app."
+  },
+  {
+    "code": "R08", "pattern_type": "keyword", "weight": 25,
+    "description": "Prize or lottery claims",
+    "patterns": ["you have won", "lottery", "lucky draw", "congratulations", "prize", "जीत लिया", "इनाम", "लॉटरी", "பரிசு"],
+    "requires_codes": null,
+    "reason_key": "fake_prize", "reason_title_en": "Says you won a prize you never entered for",
+    "reason_text_en": "You can't win a lottery or draw you never joined."
+  },
+  {
+    "code": "R09", "pattern_type": "keyword", "weight": 20,
+    "description": "Impersonates a government office or bank. Counts only together with R02 or R03.",
+    "patterns": ["rbi", "income tax department", "customs", "cbi", "police", "trai", "courier", "sim will be blocked", "digital arrest"],
+    "requires_codes": ["R02", "R03"],
+    "reason_key": "impersonation", "reason_title_en": "Pretends to be a government office or bank",
+    "reason_text_en": "Government offices never threaten arrest or ask for money on calls or chats. 'Digital arrest' is not real."
+  },
+  {
+    "code": "R10", "pattern_type": "keyword", "weight": 20,
+    "description": "Fake job / task-and-earn",
+    "patterns": ["like and earn", "complete tasks", "task and earn", "work from home", "part time job", "youtube subscribe", "telegram group"],
+    "requires_codes": null,
+    "reason_key": "fake_job", "reason_title_en": "Typical fake job/task scam",
+    "reason_text_en": "Paying you for likes or small tasks is a trap. Later they ask you to 'invest' to unlock bigger payouts."
+  },
+  {
+    "code": "R11", "pattern_type": "keyword", "weight": 35,
+    "description": "Remote access apps",
+    "patterns": ["anydesk", "teamviewer", "quicksupport", "rustdesk", "screen share"],
+    "requires_codes": null,
+    "reason_key": "remote_access", "reason_title_en": "Asks for remote access to your phone",
+    "reason_text_en": "Screen-sharing apps let strangers see and control your phone, including your bank app."
+  },
+  {
+    "code": "R12", "pattern_type": "keyword", "weight": 20,
+    "description": "Unregistered investment tips",
+    "patterns": ["crypto", "bitcoin", "forex", "trading tips", "stock tips", "sure shot", "insider", "vip group"],
+    "requires_codes": null,
+    "reason_key": "investment_tips", "reason_title_en": "Unregistered investment tips",
+    "reason_text_en": "Tip groups promising sure profits are usually not SEBI-registered and often vanish with your money."
+  },
+  {
+    "code": "R13", "pattern_type": "regex", "weight": 30,
+    "description": "UPI collect / pay-to-receive trick",
+    "patterns": ["(scan|send|pay)\\s*(₹|rs\\.?)?\\s*1\\b.*(receive|get|refund|cashback)", "collect request", "accept the request to receive"],
+    "requires_codes": null,
+    "reason_key": "upi_trick", "reason_title_en": "Trick to make you send money by UPI",
+    "reason_text_en": "You never need to scan a QR code or enter your UPI PIN to receive money."
+  },
+  {
+    "code": "R14", "pattern_type": "regex", "weight": 10,
+    "description": "Pushes contact with an unknown mobile number. Counts only together with R01, R01b, R06 or R10.",
+    "patterns": ["(call|whatsapp|contact|message|msg)\\D{0,20}(\\+?91[\\s-]?)?[6-9]\\d{9}\\b", "(\\+?91[\\s-]?)?\\b[6-9]\\d{9}\\D{0,20}(call|whatsapp)"],
+    "requires_codes": ["R01", "R01b", "R06", "R10"],
+    "reason_key": "unknown_number", "reason_title_en": "Pushes you to contact an unknown number",
+    "reason_text_en": "Moving the chat to a personal number is how scammers avoid official checks."
+  },
+  {
+    "code": "S01", "pattern_type": "negative", "weight": -20,
+    "description": "All links are official domains and none of R02/R05/R06/R11 matched. Patterns are the official domains; requires_codes entries prefixed with ! must NOT have matched.",
+    "patterns": ["paytm.com", "sbi.co.in", "hdfcbank.com", "icicibank.com", "axisbank.com", "npci.org.in", "incometax.gov.in", "uidai.gov.in", "pmkisan.gov.in"],
+    "requires_codes": ["!R02", "!R05", "!R06", "!R11"],
+    "reason_key": null, "reason_title_en": null, "reason_text_en": null
+  }
+]
