@@ -1,0 +1,517 @@
+{
+  "common": {
+    "appName": "Saathi",
+    "continue": "Continue",
+    "next": "Next",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "tryAgain": "Try again",
+    "done": "Done",
+    "yes": "Yes",
+    "no": "No",
+    "notSure": "Not sure",
+    "skip": "Skip",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "seeAll": "See all",
+    "search": "Search",
+    "ok": "OK",
+    "confirm": "Confirm",
+    "offline": "You're offline",
+    "loading": "Loading…",
+    "optional": "Optional",
+    "required": "Required",
+    "listen": "Listen",
+    "stop": "Stop",
+    "share": "Share",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "comingSoon": "Coming soon in the next update."
+  },
+  "tabs": {
+    "home": "Home",
+    "plan": "Plan",
+    "saathi": "Saathi",
+    "learn": "Learn",
+    "profile": "Profile"
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{{count}} min ago",
+    "hoursAgo": "{{count}} h ago",
+    "daysAgo": "{{count}} d ago"
+  },
+  "language": {
+    "en": "English",
+    "hi": "हिन्दी",
+    "mr": "मराठी",
+    "ta": "தமிழ்",
+    "greeting": {
+      "en": "Hello! How can I help?",
+      "hi": "नमस्ते! मैं आपकी कैसे मदद करूँ?",
+      "mr": "नमस्कार! मी तुमची कशी मदत करू?",
+      "ta": "வணக்கம்! நான் எப்படி உதவலாம்?"
+    }
+  },
+  "mascot": {
+    "alt": "Saathi, your money friend"
+  },
+  "errors": {
+    "VALIDATION_ERROR": "Some of the information is not valid.",
+    "UNAUTHENTICATED": "Please log in again.",
+    "TOKEN_EXPIRED": "Your session has expired. Please log in again.",
+    "FORBIDDEN": "You don't have permission to do this.",
+    "NOT_FOUND": "We couldn't find that.",
+    "CONFLICT": "This conflicts with something you already have.",
+    "ONBOARDING_INCOMPLETE": "Please finish setting up your profile first.",
+    "OTP_INVALID": "Wrong code. Please check and try again.",
+    "OTP_EXPIRED": "This code has expired. Please request a new one.",
+    "OTP_LOCKED": "Too many wrong attempts. Please try again later.",
+    "RATE_LIMITED": "Too many attempts. Please try again in a little while.",
+    "PAYLOAD_TOO_LARGE": "The file or message is too large.",
+    "UNSUPPORTED_MEDIA_TYPE": "This file type is not supported.",
+    "TRANSCRIPTION_FAILED": "I couldn't hear that. Please try again.",
+    "OCR_NO_TEXT": "I couldn't read any text in this image. Try a clearer screenshot.",
+    "UPSTREAM_AI_UNAVAILABLE": "I'm having trouble right now. Please try again.",
+    "INTERNAL": "Something went wrong. Please try again.",
+    "NETWORK": "Can't reach Saathi. Check your internet connection.",
+    "TIMEOUT": "This is taking too long. Please try again.",
+    "phone_invalid": "Enter a valid 10-digit mobile number starting with 6, 7, 8 or 9."
+  },
+  "options": {
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other",
+      "prefer_not_to_say": "Prefer not to say"
+    },
+    "area": {
+      "rural": "Village / rural",
+      "urban": "Town / city"
+    },
+    "occupation": {
+      "farmer": "Farmer",
+      "student": "Student",
+      "gig_worker": "Gig / daily-wage worker",
+      "senior_citizen": "Senior citizen",
+      "small_business_owner": "Small business owner",
+      "salaried": "Salaried job",
+      "other": "Other"
+    },
+    "incomePattern": {
+      "fixed_monthly": "Same every month",
+      "irregular": "Changes month to month",
+      "seasonal": "Comes in seasons (e.g. harvest)"
+    },
+    "social": {
+      "general": "General",
+      "obc": "OBC",
+      "sc": "SC",
+      "st": "ST",
+      "prefer_not_to_say": "Prefer not to say"
+    }
+  },
+  "eligibility": {
+    "q": {
+      "age_years": "How old are you?",
+      "gender": "What is your gender?",
+      "state_code": "Which state do you live in?",
+      "area_type": "Do you live in a village or a town/city?",
+      "occupation_type": "What work do you do?",
+      "is_land_owner": "Do you or your family own farm land?",
+      "annual_household_income_inr": "What is your family's total income in a year (₹)?",
+      "declared_monthly_income_max_inr": "In a good month, how much do you earn (₹)?",
+      "social_category": "Which social category do you belong to?",
+      "is_bpl_household": "Does your family have a BPL (below poverty line) card?",
+      "is_income_tax_payer": "Does anyone in your family pay income tax?",
+      "has_bank_account": "Do you have a bank account?",
+      "is_student": "Are you studying right now?",
+      "is_street_vendor": "Do you sell goods on the street or at a stall?",
+      "is_unorganised_worker": "Do you work without a formal job contract (daily wages, home-based, etc.)?",
+      "is_traditional_artisan": "Are you a traditional artisan or craftsperson (carpenter, potter, tailor…)?",
+      "has_pucca_house": "Does your family own a pucca (brick/concrete) house?",
+      "has_girl_child_below_10": "Do you have a daughter below 10 years of age?",
+      "is_head_of_household": "Are you the head of your household?",
+      "is_govt_employee": "Does anyone in your family have a government job?"
+    },
+    "field": {
+      "age_years": "Age",
+      "gender": "Gender",
+      "state_code": "State",
+      "area_type": "Village or city",
+      "occupation_type": "Work",
+      "is_land_owner": "Land ownership",
+      "annual_household_income_inr": "Yearly family income",
+      "declared_monthly_income_max_inr": "Monthly income",
+      "social_category": "Social category",
+      "is_bpl_household": "BPL card",
+      "is_income_tax_payer": "Income tax",
+      "has_bank_account": "Bank account",
+      "is_student": "Student",
+      "is_street_vendor": "Street vendor",
+      "is_unorganised_worker": "Unorganised worker",
+      "is_traditional_artisan": "Artisan",
+      "has_pucca_house": "Pucca house",
+      "has_girl_child_below_10": "Daughter below 10",
+      "is_head_of_household": "Head of household",
+      "is_govt_employee": "Government job"
+    }
+  },
+  "category": {
+    "health": "Health",
+    "education": "Education",
+    "housing": "Housing",
+    "employment": "Employment",
+    "agriculture": "Agriculture",
+    "women": "Women",
+    "social-security": "Social Security"
+  },
+  "txcat": {
+    "crop_sale": "Crop sale",
+    "wages": "Wages",
+    "salary": "Salary",
+    "gig_payout": "Gig payout",
+    "allowance": "Allowance",
+    "pension": "Pension",
+    "business": "Business",
+    "other_income": "Other income",
+    "food": "Food",
+    "housing_rent": "Rent",
+    "utilities": "Bills",
+    "transport": "Transport",
+    "health": "Health",
+    "education": "Education",
+    "farm_inputs": "Farm inputs",
+    "debt_repayment": "Loan repayment",
+    "insurance_premium": "Insurance premium",
+    "subscriptions": "Subscriptions",
+    "entertainment": "Entertainment",
+    "other_expense": "Other expense"
+  },
+  "goalcat": {
+    "emergency_fund": "Emergency Fund",
+    "education": "Education",
+    "vehicle": "Buy a Vehicle",
+    "home": "Buy/Repair a Home",
+    "wedding": "Wedding",
+    "medical": "Medical Needs",
+    "retirement": "Retirement",
+    "business": "Start/Grow a Business",
+    "farm_equipment": "Farm Equipment",
+    "custom": "Custom"
+  },
+  "verdict": {
+    "safe": "Safe",
+    "suspicious": "Suspicious",
+    "dangerous": "Dangerous",
+    "subtitle": {
+      "safe": "No scam signs found",
+      "suspicious": "Be careful",
+      "dangerous": "High risk of fraud detected"
+    },
+    "helpline": "If you lost money, call 1930 (National Cyber Crime Helpline) or report at cybercrime.gov.in."
+  },
+  "risk": {
+    "title": "Money risk score",
+    "level": {
+      "low": "Low risk",
+      "medium": "Medium risk",
+      "high": "High risk"
+    },
+    "component": {
+      "expense": "Spending vs income",
+      "emergency": "Emergency fund gap",
+      "volatility": "Income ups and downs",
+      "debt": "Debt burden"
+    },
+    "tip": {
+      "expense": "Try to keep spending below 70% of what you earn.",
+      "emergency": "Build an emergency fund worth 3–6 months of expenses.",
+      "volatility": "Save more in good months to cover the lean ones.",
+      "debt": "Keep loan repayments under 40% of your income; repay costly loans first."
+    },
+    "improve_prompt": "How can I improve my money risk score?"
+  },
+  "insight": {
+    "I01": {
+      "title": "Food spending is up",
+      "body": "You spent {{pct}}% more on food this month. Try cooking at home to save about ₹{{amt}} monthly."
+    },
+    "I02": {
+      "title": "A chance to save more",
+      "body": "You can save ₹{{amt}} more monthly. Cut unnecessary subscriptions and boost savings."
+    },
+    "I03": {
+      "title": "Emergency fund {{pct}}% done",
+      "body": "Emergency fund goal is {{pct}}% complete. You're closer to financial safety."
+    },
+    "I04": {
+      "title": "Your savings grew!",
+      "body": "Great! Your savings increased by {{pct}}%."
+    },
+    "I05": {
+      "title": "Tight months ahead",
+      "body": "Money may be tight in {{months}}. Try to save ₹{{amt}} extra now."
+    },
+    "I06": {
+      "title": "'{{title}}' needs a push",
+      "body": "'{{title}}' is behind. Adding ₹{{amt}} monthly will get you there by {{date}}."
+    },
+    "I07": {
+      "title": "Add your recent income",
+      "body": "Have you earned anything recently? Add it so I can plan better."
+    },
+    "I08": {
+      "title": "Scheme deadline soon",
+      "body": "Deadline near for {{scheme}}: {{date}}."
+    },
+    "I09": {
+      "title": "New schemes for you",
+      "body": "You may now qualify for {{n}} new schemes."
+    }
+  },
+  "scheme": {
+    "disclaimer": "Please confirm details on the official website before applying.",
+    "level": {
+      "central": "Central",
+      "state": "State"
+    },
+    "status": {
+      "eligible": "Eligible",
+      "possibly_eligible": "Possibly eligible",
+      "not_eligible": "Not eligible"
+    }
+  },
+  "gallery": {
+    "title": "Component gallery",
+    "sample": "Sample text in the current language"
+  },
+  "form": {
+    "required": "Please fill this in.",
+    "range": "Please enter a number in the allowed range.",
+    "invalid": "Please check this value.",
+    "nameLength": "Please enter 2 to 80 letters.",
+    "ageRange": "Age must be between 18 and 100.",
+    "tooLong": "This is too long.",
+    "maxGteMin": "Highest must be more than or equal to lowest.",
+    "dependents": "Dependents must be fewer than the people in your household.",
+    "dependentsRange": "Enter a number from 0 to 19.",
+    "householdRange": "Enter a number from 1 to 20.",
+    "landRange": "Enter land between 0 and 500 hectares."
+  },
+  "onboarding": {
+    "welcome": {
+      "tagline": "Your Financial Companion",
+      "subtitle": "Understand · Plan · Grow · Protect",
+      "language": "Language",
+      "start": "Get Started"
+    },
+    "intro": {
+      "slide1": {
+        "title": "See your financial future.",
+        "body": "Simulate decisions before making them."
+      },
+      "slide2": {
+        "title": "Guidance you can trust.",
+        "body": "Personalized insights in your own language."
+      },
+      "start": "Get Started →"
+    },
+    "phone": {
+      "bubble": "Let's get you started! I'll send a code to your phone.",
+      "title": "Your mobile number",
+      "label": "Mobile number",
+      "helper": "We use your number only to log you in. No spam.",
+      "send": "Send OTP",
+      "waitSeconds": "Too many attempts. Try again in {{count}} seconds."
+    },
+    "otp": {
+      "title": "Enter the 6-digit code",
+      "sentTo": "Sent by SMS to {{phone}}",
+      "checking": "Checking…",
+      "wrongLeft": "Wrong code. {{count}} attempts left.",
+      "locked": "Too many wrong codes. Try again in {{count}} minutes.",
+      "resendIn": "Resend code in {{count}} s",
+      "resend": "Resend code",
+      "resent": "A new code has been sent.",
+      "changeNumber": "Change number"
+    },
+    "consent": {
+      "title": "Your data, your choice",
+      "collectTitle": "What we collect",
+      "collect": "Your phone number, your profile, the money entries you add, your chats with Saathi and scam messages you check. Voice recordings are turned into text and then deleted.",
+      "purposeTitle": "Why",
+      "purpose": "To give you money guidance, find schemes for you, and keep you safe from scams.",
+      "retentionTitle": "How long",
+      "retention": "Until you delete it. You can delete your chats, memories or your whole account any time.",
+      "rightsTitle": "Your rights",
+      "rights": "You can see, correct, download or delete your data, and raise a complaint.",
+      "readFull": "Read the full Privacy Notice",
+      "privacyTitle": "Privacy Notice",
+      "item": {
+        "terms_privacy": "I agree to the Terms and Privacy Notice",
+        "personalization": "Use my data to personalize guidance",
+        "push_notifications": "Send me reminders and insights"
+      }
+    },
+    "profile": {
+      "title": "About you",
+      "step1": "About you",
+      "step2": "Work & income",
+      "step3": "Basics",
+      "fullName": "Full name",
+      "choose": "Choose",
+      "district": "District",
+      "incomePattern": "How does your income come?",
+      "incomeRange": "Roughly how much do you earn in a month? (lowest – highest)",
+      "lowest": "Lowest",
+      "highest": "Highest",
+      "householdSize": "People in household",
+      "dependents": "Dependents",
+      "socialHelper": "Used only to find schemes for you.",
+      "landHectares": "Land (hectares)",
+      "landHelper": "1 hectare ≈ 2.5 acres",
+      "saveContinue": "Save & Continue"
+    },
+    "confidence": {
+      "progress": "Question {{n}} of {{total}}",
+      "q1": "How confident are you in making a monthly budget?",
+      "q2": "How confident are you in understanding words like SIP, interest or premium?",
+      "q3": "How confident are you in spotting a scam message?",
+      "q4": "How confident are you in knowing which government schemes you can get?",
+      "q5": "How confident are you in saving regularly?",
+      "low": "Not at all",
+      "high": "Very confident",
+      "finish": "Finish"
+    },
+    "goals": {
+      "bubble": "What are you saving for? Pick one or more.",
+      "target": "Target amount",
+      "targetRequired": "Enter an amount more than ₹0.",
+      "byWhen": "By when?",
+      "noDate": "No fixed date",
+      "inMonths": "In {{count}} months",
+      "inYears": "In {{count}} years",
+      "customTitle": "Name your goal",
+      "efSuggestion": "Suggested for you: {{amount}}",
+      "finish": "Finish",
+      "skip": "Skip for now"
+    }
+  },
+  "state": {
+    "AN": "Andaman & Nicobar Islands",
+    "AP": "Andhra Pradesh",
+    "AR": "Arunachal Pradesh",
+    "AS": "Assam",
+    "BR": "Bihar",
+    "CH": "Chandigarh",
+    "CG": "Chhattisgarh",
+    "DN": "Dadra & Nagar Haveli and Daman & Diu",
+    "DL": "Delhi",
+    "GA": "Goa",
+    "GJ": "Gujarat",
+    "HR": "Haryana",
+    "HP": "Himachal Pradesh",
+    "JK": "Jammu & Kashmir",
+    "JH": "Jharkhand",
+    "KA": "Karnataka",
+    "KL": "Kerala",
+    "LA": "Ladakh",
+    "LD": "Lakshadweep",
+    "MP": "Madhya Pradesh",
+    "MH": "Maharashtra",
+    "MN": "Manipur",
+    "ML": "Meghalaya",
+    "MZ": "Mizoram",
+    "NL": "Nagaland",
+    "OD": "Odisha",
+    "PY": "Puducherry",
+    "PB": "Punjab",
+    "RJ": "Rajasthan",
+    "SK": "Sikkim",
+    "TN": "Tamil Nadu",
+    "TS": "Telangana",
+    "TR": "Tripura",
+    "UP": "Uttar Pradesh",
+    "UK": "Uttarakhand",
+    "WB": "West Bengal"
+  },
+  "settings": {
+    "editProfile": "Edit profile",
+    "confidence": "Financial confidence",
+    "notTaken": "Not taken",
+    "retake": "Tap to retake the 5 questions",
+    "about": "About Saathi",
+    "version": "Version {{version}}",
+    "logout": "Log out",
+    "logoutConfirm": "Log out of Saathi on this phone?",
+    "saved": "Saved",
+    "notSaved": "Couldn't save. Please try again.",
+    "eligibilityAnswers": "Your answers for schemes",
+    "confidenceLevel": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "language": {
+      "title": "Language",
+      "header": "Choose your language",
+      "apply": "Apply Language",
+      "bubble": "Saathi will always talk to you in your language."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "push": "Allow notifications",
+      "pushHint": "Turn off to stop all reminders.",
+      "dailyInsight": "Daily money tip",
+      "at": "Time",
+      "incomeReminder": "Reminder to add income",
+      "weekly": "Once a week",
+      "goalReminder": "Goal reminders",
+      "schemeDeadline": "Scheme deadlines",
+      "leanMonth": "Tight month alerts",
+      "streak": "Learning streak reminder"
+    },
+    "privacy": {
+      "title": "Privacy & data",
+      "consents": "Your consents",
+      "requiredHint": "Needed to use Saathi",
+      "yourData": "Your data",
+      "exportHint": "Get a copy of everything Saathi has about you, as a file.",
+      "export": "Download my data",
+      "exportShared": "Your data file is ready to share or save.",
+      "exportDone": "Your data file has been downloaded.",
+      "deleteHint": "Deleting removes your account and all your data. This can't be undone after 30 days.",
+      "delete": "Delete my account and data",
+      "deleteTitle": "Delete your account?",
+      "deleteWarning": "Your profile, chats, money entries, goals and memories will be deleted. You will be logged out.",
+      "typeDelete": "Type DELETE to confirm",
+      "typeDeleteHint": "This is the last step.",
+      "typeExactly": "Type DELETE in capital letters.",
+      "deleteNow": "Delete now",
+      "deleted": "Your account will be deleted.",
+      "grievance": "Questions or complaints",
+      "grievanceHint": "Write to our grievance officer:"
+    },
+    "memory": {
+      "title": "Memory",
+      "intro": "These are things I remember to help you better. Delete anything you like.",
+      "empty": "Saathi hasn't remembered anything yet.",
+      "forgetAll": "Forget everything",
+      "forgetAllTitle": "Forget everything?",
+      "forgetAllWarning": "Saathi will forget everything it remembers about you.",
+      "forgetOneTitle": "Forget this?",
+      "forgotOne": "Forgotten.",
+      "forgotAll": "Saathi has forgotten everything.",
+      "category": {
+        "preference": "Preference",
+        "fact": "About you",
+        "goal_context": "Goal",
+        "concern": "Worry",
+        "behavior": "Habit"
+      }
+    }
+  }
+}

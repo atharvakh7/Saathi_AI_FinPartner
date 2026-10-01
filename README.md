@@ -39,6 +39,18 @@ py -3.11 -m venv .venv
 .venv/Scripts/python -m app.ai.demo         # check every AI adapter (LLM, embeddings, STT, TTS, OCR, ...)
 ```
 
+## Mobile app (Expo)
+
+```
+cd mobile
+npm install
+npx expo start          # scan the QR code with the Expo Go app (Android/iOS)
+```
+
+- Phone and PC must be on the same Wi-Fi. For screens that call the API, set `EXPO_PUBLIC_API_BASE_URL` in `mobile/.env` to `http://<your PC's LAN IP>:8000/api/v1` and run the API with `--host 0.0.0.0` (the Android emulator uses `10.0.2.2`).
+- Checks: `npm run typecheck`, `npm test`, `npm run check:i18n -- --used`, `npx expo-doctor`.
+- Component gallery (development only): open `/dev/gallery` (`npx expo start --web`, or `saathi://dev/gallery` on the phone).
+
 ## Background jobs
 
 By default (`CELERY_ENABLED=false`) background work such as memory extraction and insights runs inside the API process, so nothing else needs to run. To use Celery and the daily schedule (insights 08:30, reminders, nightly planner/schemes, purge):
