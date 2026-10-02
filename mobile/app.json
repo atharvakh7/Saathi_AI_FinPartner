@@ -38,7 +38,28 @@
         }
       ],
       "expo-image",
-      "expo-sharing"
+      "expo-sharing",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Saathi uses the microphone so you can ask questions by voice."
+        }
+      ],
+      "expo-asset",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Saathi reads a screenshot you pick to check it for scam signs.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#0E5D66"
+        }
+      ]
     ],
     "scheme": "saathi",
     "experiments": {

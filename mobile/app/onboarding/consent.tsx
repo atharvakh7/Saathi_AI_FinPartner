@@ -50,7 +50,7 @@ export default function Consent() {
   return (
     <Screen footer={<Button label={t('common.continue')} disabled={!ready} loading={save.isPending} onPress={() => save.mutate()} />}>
       <View style={styles.center}>
-        <Mascot pose="thinking" size={110} />
+        <Mascot pose="thinking" size={110} variant="bust" />
         <AppText variant="h2" align="center">{t('onboarding.consent.title')}</AppText>
       </View>
       <Card>

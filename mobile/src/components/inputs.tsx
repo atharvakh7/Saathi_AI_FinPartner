@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import type { Language } from '@/i18n';
 import { groupIndian, parseAmount } from '@/lib/format';
 import { useLanguageStore } from '@/stores/language';
-import { color, fontFor, MAX_FONT_SCALE, MIN_TOUCH, radius, space } from '@/theme';
+import { color, fontFor, MAX_FONT_SCALE, MIN_TOUCH, radius, shadow, space } from '@/theme';
 import { AppText } from './AppText';
 
 export interface TextFieldProps extends Omit<TextInputProps, 'style'> {
@@ -152,14 +152,14 @@ export function LanguageOption({ language, selected, onPress }: { language: Lang
 const styles = StyleSheet.create({
   flex: { flex: 1 },
   field: { gap: space.xs, minWidth: 0 },
-  label: { color: color.text },
+  label: { color: color.textMuted },
   inputRow: {
-    flexDirection: 'row', alignItems: 'center', gap: space.sm, minHeight: MIN_TOUCH + 4, paddingHorizontal: space.lg,
-    borderWidth: 1, borderColor: color.border, borderRadius: radius.md, backgroundColor: color.surface,
+    flexDirection: 'row', alignItems: 'center', gap: space.sm, minHeight: MIN_TOUCH + 6, paddingHorizontal: space.lg,
+    borderWidth: 1.5, borderColor: 'transparent', borderRadius: radius.md, backgroundColor: color.fill,
   },
-  focused: { borderColor: color.primary, borderWidth: 1.5 },
-  errored: { borderColor: color.danger },
-  disabled: { backgroundColor: color.bg },
+  focused: { borderColor: color.primary, backgroundColor: color.surface },
+  errored: { borderColor: color.danger, backgroundColor: color.dangerTint },
+  disabled: { opacity: 0.6 },
   input: { flex: 1, minWidth: 0, fontSize: 16, color: color.text, paddingVertical: space.md, outlineWidth: 0 } as object,
   backdrop: { flex: 1, backgroundColor: 'rgba(20,35,43,0.4)' },
   sheet: {
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   optionOn: { backgroundColor: color.primaryTint },
   langRow: {
     flexDirection: 'row', alignItems: 'center', gap: space.md, minHeight: 64, padding: space.lg,
-    borderWidth: 1.5, borderColor: color.border, borderRadius: radius.md, backgroundColor: color.surface,
+    borderWidth: 1.5, borderColor: 'transparent', borderRadius: radius.md, backgroundColor: color.surface, ...shadow,
   },
   langOn: { borderColor: color.primary, backgroundColor: color.primaryTint },
   radio: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: color.border, alignItems: 'center', justifyContent: 'center' },

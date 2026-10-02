@@ -35,7 +35,9 @@
     "plan": "Plan",
     "saathi": "Saathi",
     "learn": "Learn",
-    "profile": "Profile"
+    "profile": "Profile",
+    "services": "Services",
+    "goals": "Goals"
   },
   "time": {
     "justNow": "Just now",
@@ -232,7 +234,20 @@
       "volatility": "Save more in good months to cover the lean ones.",
       "debt": "Keep loan repayments under 40% of your income; repay costly loans first."
     },
-    "improve_prompt": "How can I improve my money risk score?"
+    "improve_prompt": "How can I improve my money risk score?",
+    "report": "Risk Report",
+    "empty": "Add income and expenses to see your score.",
+    "summary": {
+      "low": "Your money is in good shape. Keep it up!",
+      "medium": "A few things need attention. Small changes will help.",
+      "high": "Your money is under strain. Let's fix the biggest part first."
+    },
+    "updated": "Updated {{date}}",
+    "whatAdds": "What adds to your score",
+    "whatAddsHint": "Lower is better. Each part adds points out of 5.",
+    "points": "+{{points}}",
+    "history": "Last 90 days",
+    "historyA11y": "Score went from {{from}} to {{to}}"
   },
   "insight": {
     "I01": {
@@ -299,7 +314,8 @@
     "dependents": "Dependents must be fewer than the people in your household.",
     "dependentsRange": "Enter a number from 0 to 19.",
     "householdRange": "Enter a number from 1 to 20.",
-    "landRange": "Enter land between 0 and 500 hectares."
+    "landRange": "Enter land between 0 and 500 hectares.",
+    "choose": "Choose"
   },
   "onboarding": {
     "welcome": {
@@ -317,7 +333,11 @@
         "title": "Guidance you can trust.",
         "body": "Personalized insights in your own language."
       },
-      "start": "Get Started →"
+      "start": "Get Started →",
+      "slide0": {
+        "title": "Finance made simple.",
+        "body": "Understand money without confusing jargon."
+      }
     },
     "phone": {
       "bubble": "Let's get you started! I'll send a code to your phone.",
@@ -343,7 +363,7 @@
       "collectTitle": "What we collect",
       "collect": "Your phone number, your profile, the money entries you add, your chats with Saathi and scam messages you check. Voice recordings are turned into text and then deleted.",
       "purposeTitle": "Why",
-      "purpose": "To give you money guidance, find schemes for you, and keep you safe from scams.",
+      "purpose": "To give you money guidance, find schemes for you, and keep you safe from scams. Saathi's replies are written with Google's Gemini AI, which receives your chats and profile details for that.",
       "retentionTitle": "How long",
       "retention": "Until you delete it. You can delete your chats, memories or your whole account any time.",
       "rightsTitle": "Your rights",
@@ -472,7 +492,9 @@
       "goalReminder": "Goal reminders",
       "schemeDeadline": "Scheme deadlines",
       "leanMonth": "Tight month alerts",
-      "streak": "Learning streak reminder"
+      "streak": "Learning streak reminder",
+      "pushDenied": "Notifications are blocked. Allow them in your phone settings.",
+      "pushInAppOnly": "Phone alerts aren't available here; you'll see them in the app's notifications."
     },
     "privacy": {
       "title": "Privacy & data",
@@ -511,6 +533,515 @@
         "goal_context": "Goal",
         "concern": "Worry",
         "behavior": "Habit"
+      }
+    }
+  },
+  "date": {
+    "weekdays": "S,M,T,W,T,F,S",
+    "other": "Other date",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month"
+  },
+  "home": {
+    "hello": "Namaste, {{name}} 👋",
+    "helloNoName": "Namaste 👋",
+    "morning": "Good morning! Let's make smart money choices today.",
+    "afternoon": "Good afternoon! How is your money doing today?",
+    "evening": "Good evening! Let's look at your day's money.",
+    "empty": "Tell me about your income and spending, and I'll show you where your money goes.",
+    "addIncome": "Add income",
+    "addExpense": "Add expense",
+    "quickSummary": "Quick summary",
+    "income": "Income",
+    "expenses": "Expenses",
+    "savings": "Savings",
+    "thisMonth": "This month",
+    "debt": "Debt",
+    "debtActive": "Active debts: {{count}}",
+    "noDebt": "No debts",
+    "goals": "Goals",
+    "goalsActive": "Active goals: {{count}}",
+    "viewAll": "View All",
+    "topGoals": "Top Goals",
+    "setGoal": "Set your first goal",
+    "setGoalHint": "Saving is easier with a target.",
+    "goodGoing": "Good going!",
+    "services": "Services",
+    "spentShare": "You've spent {{pct}}% of this month's income"
+  },
+  "finance": {
+    "filter": {
+      "all": "All",
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "transactions": {
+      "title": "Transactions",
+      "add": "Add entry",
+      "empty": "No entries for this month yet."
+    },
+    "form": {
+      "addTitle": "Add entry",
+      "editTitle": "Edit entry",
+      "amount": "Amount",
+      "category": "Category",
+      "date": "Date",
+      "note": "Note",
+      "notePlaceholder": "e.g. vegetables from the market",
+      "saved": "Saved",
+      "deleted": "Deleted",
+      "deleteTitle": "Delete this entry?",
+      "deleteMessage": "This can't be undone.",
+      "amountRequired": "Enter an amount more than ₹0.",
+      "amountTooLarge": "That amount is too large.",
+      "categoryRequired": "Choose a category.",
+      "noFuture": "The date can't be in the future."
+    },
+    "parse": {
+      "title": "Tell me in words",
+      "placeholder": "e.g. spent 250 on vegetables today",
+      "fill": "Fill it for me",
+      "check": "I filled the form. Please check it and save.",
+      "notUnderstood": "I couldn't understand that. Please include the amount, like \"spent 250 on food\"."
+    },
+    "debt": {
+      "title": "Debts",
+      "add": "Add debt",
+      "addTitle": "Add debt",
+      "editTitle": "Edit debt",
+      "empty": "No debts added. If you owe money to anyone, add it here so I can help you plan.",
+      "total": "Total still to pay",
+      "allPaid": "All your debts are paid off. Well done!",
+      "paidOffSection": "Paid off",
+      "paidOff": "Paid off",
+      "left": "left to pay",
+      "ratePerYear": "{{rate}}% a year",
+      "perMonth": "{{amount}} a month",
+      "dueOn": "Due on day {{day}}",
+      "lender": "Who did you borrow from?",
+      "lenderPlaceholder": "e.g. SBI, Ramesh bhai",
+      "lenderLength": "Please enter 2 to 80 letters.",
+      "type": "Type of loan",
+      "amountLeft": "Amount still to pay",
+      "rate": "Interest",
+      "rateHint": "Per year",
+      "rateRange": "Enter a rate from 0 to 120.",
+      "dueDay": "Due day of month",
+      "noDueDay": "Not fixed",
+      "monthly": "Monthly payment",
+      "markPaid": "Mark as paid off",
+      "markedPaid": "Marked as paid off",
+      "reopen": "Still paying this",
+      "deleteTitle": "Delete this debt?"
+    }
+  },
+  "debttype": {
+    "bank_loan": "Bank loan",
+    "kisan_credit_card": "Kisan Credit Card",
+    "credit_card": "Credit card",
+    "microfinance": "Microfinance / SHG",
+    "moneylender": "Moneylender",
+    "family_friend": "Family or friend",
+    "other": "Other"
+  },
+  "goals": {
+    "title": "Your Goals",
+    "subtitle": "Small steps. Big future.",
+    "new": "New goal",
+    "create": "Create goal",
+    "editTitle": "Edit goal",
+    "tab": {
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "totalSaved": "Saved across your goals",
+    "pctComplete": "{{pct}}% complete",
+    "empty": "No goals yet. What are you saving for?",
+    "emptyCompleted": "Goals you finish will show here.",
+    "byDate": "By {{date}}",
+    "onTrack": "On track",
+    "behind": "Needs more",
+    "status": {
+      "paused": "Paused",
+      "completed": "Completed"
+    },
+    "saved": "Saved",
+    "target": "Target",
+    "left": "Still needed",
+    "proj": {
+      "done": "Goal reached. Well done!",
+      "paused": "This goal is paused. Resume it when you're ready.",
+      "onTrack": "You're on track to reach this by {{date}}.",
+      "behind": "Save about {{amount}} a month to reach this by {{date}}.",
+      "atPace": "At {{rate}} a month, you'll reach this by {{date}}.",
+      "start": "Add money regularly and I'll show when you'll reach this goal."
+    },
+    "reached": "You reached your goal!",
+    "withdrawn": "Money taken out",
+    "added": "Money added",
+    "completedBubble": "You did it! Raise the target if you want to keep saving.",
+    "addMoney": "Add money",
+    "withdraw": "Withdraw",
+    "history": "History",
+    "noHistory": "No money added yet.",
+    "pause": "Pause goal",
+    "resume": "Resume goal",
+    "delete": "Delete goal",
+    "withdrawHint": "You have {{amount}} saved in this goal.",
+    "tooMuch": "You can't take out more than you have saved.",
+    "deleteTitle": "Delete this goal?",
+    "deleteMessage": "The goal and its history will be removed.",
+    "efNoDelete": "Your emergency fund goal can't be deleted. You can pause it instead.",
+    "form": {
+      "whatFor": "What are you saving for?",
+      "name": "Goal name",
+      "namePlaceholder": "e.g. New bike",
+      "hasDate": "Set a target date",
+      "alreadySaved": "Already saved",
+      "pickCategory": "Choose what you're saving for.",
+      "dateFuture": "Choose a date after today."
+    }
+  },
+  "plan": {
+    "title": "Income Planner",
+    "subtitle": "Built for irregular incomes",
+    "empty": "Tell me about your income and I'll plan your months with you.",
+    "lean": "lean month",
+    "income": "Income",
+    "spending": "Spending",
+    "likelyRange": "Likely income range",
+    "snapshot": "Monthly snapshot",
+    "leanHint": "Amber bars are lean months, well below your usual income.",
+    "tightMonths": "Tight months ahead: {{months}}. Keep some money aside now.",
+    "outlook": "Cash flow outlook",
+    "outlookHint": "Next {{count}} months, based on your past entries",
+    "recommended": "Recommended savings",
+    "saveThisMonth": "Save {{amount}} this month",
+    "pctOfIncome": "That's {{pct}}% of the income we plan with",
+    "riskEmpty": "Add income and expenses to see this.",
+    "seeReport": "See detailed report",
+    "recalculated": "Plan updated",
+    "budget": "Budget for {{month}}",
+    "planningIncome": "Planned on an income of {{amount}}",
+    "needs": "Needs",
+    "wants": "Wants",
+    "savings": "Savings",
+    "over": "{{amount}} over the limit",
+    "recalculate": "Recalculate",
+    "pattern": {
+      "steady": "Steady income",
+      "ups_and_downs": "Income goes up and down",
+      "seasonal": "Seasonal income"
+    },
+    "confidence": {
+      "low": "Early estimate",
+      "medium": "Fair estimate",
+      "high": "Good estimate"
+    },
+    "mode": {
+      "lean": "Tight month",
+      "normal": "Normal month",
+      "surplus": "Good month"
+    },
+    "ef": {
+      "title": "Emergency Fund",
+      "setUp": "Set it up",
+      "setUpButton": "Set up emergency fund",
+      "update": "Update target",
+      "why": "An emergency fund protects you when income stops or a big expense comes up.",
+      "covers": "Covers {{months}} months of essentials ({{amount}} a month).",
+      "notSet": "Not set up yet. Choose how many months below.",
+      "suggest": "Add about {{amount}} a month.",
+      "eta": "Ready by {{date}}",
+      "howMany": "How many months should it cover?",
+      "months": "{{count}} months",
+      "monthsHint": "3 months if your income is steady, 6 or more if it changes a lot.",
+      "essential": "Your essential spending: {{amount}} a month",
+      "target": "Target: {{amount}} ({{count}} months)",
+      "needData": "Add some income and expenses first so I can size your fund."
+    }
+  },
+  "chat": {
+    "subtitle": "Your money friend · ask in your language",
+    "typing": "Saathi is thinking…",
+    "history": "Past chats",
+    "newChat": "New chat",
+    "placeholder": "Ask Saathi anything about money…",
+    "send": "Send",
+    "fallbackGreeting": "Namaste! Ask me about saving, loans, schemes or a message you're unsure about.",
+    "disclaimer": "Saathi explains and guides. It is not a SEBI-registered adviser.",
+    "historyEmpty": "No chats yet. Say hello to Saathi!",
+    "untitled": "Chat",
+    "deleteTitle": "Delete this chat?",
+    "deleteMessage": "Its messages will be removed. Things Saathi remembers stay in Memory."
+  },
+  "voice": {
+    "open": "Speak to Saathi",
+    "listening": "Listening…",
+    "thinking": "Thinking…",
+    "speaking": "Speaking…",
+    "tapToSpeak": "Tap the mic to speak",
+    "prompt": "How can I help you today?",
+    "stopAndSend": "Stop and send",
+    "notHeard": "I couldn't hear that clearly. Please try again, a little closer to the phone.",
+    "micDenied": "Please allow the microphone so you can talk to Saathi.",
+    "micError": "The microphone isn't available right now.",
+    "tooShort": "That was very short. Tap the mic and speak a little longer.",
+    "keyboard": "Keyboard",
+    "end": "End"
+  },
+  "learn": {
+    "title": "Learn",
+    "subtitle": "Money words, made simple",
+    "xp": "XP",
+    "level": "Level",
+    "streak": "Day streak",
+    "lessonsDone": "{{done}} of {{total}} lessons done",
+    "toNextLevel": "{{xp}} XP to next level",
+    "jargon": "Jargon Explainer",
+    "searchPlaceholder": "Search a term (EMI, SIP, NAV…)",
+    "noTerms": "No term found for \"{{q}}\". Try asking Saathi.",
+    "popular": "Popular terms",
+    "lessons": "Lessons",
+    "category": {
+      "basics": "Basics",
+      "savings": "Savings",
+      "investing": "Investing",
+      "insurance": "Insurance"
+    },
+    "glossaryCategory": {
+      "basics": "Basics",
+      "investing": "Investing",
+      "savings": "Savings",
+      "insurance": "Insurance",
+      "loans": "Loans"
+    },
+    "noLessons": "No lessons here yet.",
+    "minutes": "{{count}} min",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium"
+    },
+    "completed": "Completed",
+    "simplifiedByAi": "Simplified by AI",
+    "watch": "Watch ({{sec}} sec)",
+    "example": "Example",
+    "thinkOfIt": "Think of it like…",
+    "remember": "Remember",
+    "related": "Related terms",
+    "helpful": "Was this helpful?",
+    "thanks": "Thanks for telling us!",
+    "askSaathi": "Ask Saathi about it",
+    "lesson": "Lesson",
+    "xpEarned": "+{{xp}} XP! Streak: {{streak}} days",
+    "alreadyDone": "You've already finished this lesson.",
+    "markComplete": "Mark as complete (+{{xp}} XP)",
+    "doneBubble": "Well done! Pick another lesson to keep your streak going."
+  },
+  "schemes": {
+    "title": "Scheme Scout",
+    "subtitle": "Find schemes you qualify for",
+    "profileMatch": "Your profile match",
+    "found": "{{eligible}} eligible, {{possibly}} possibly eligible",
+    "checkTitle": "Check my eligibility",
+    "checkHint": "{{count}} quick questions to find more schemes.",
+    "checkButton": "Start the questions",
+    "searchPlaceholder": "Search schemes (PM Kisan, pension…)",
+    "categories": "Categories",
+    "count": "{{count}} schemes",
+    "seeResults": "See my results",
+    "noQuestions": "Nothing more to ask. Your matches are up to date.",
+    "seeMatches": "See my matches",
+    "questionOf": "Question {{n}} of {{total}}",
+    "affects": "Helps check {{count}} schemes",
+    "matchesTitle": "Your matches",
+    "noneYet": "No matches yet. Answer a few questions so I can find schemes for you.",
+    "answerMore": "Answer more questions",
+    "possiblyHint": "You may qualify. Answer the questions shown to be sure.",
+    "showNot": "Show schemes I don't qualify for ({{count}})",
+    "hideNot": "Hide schemes I don't qualify for",
+    "resultsFor": "\"{{q}}\"",
+    "all": "All schemes",
+    "noResults": "No schemes found.",
+    "detailTitle": "Scheme details",
+    "loadingDetail": "Getting the details in your language…",
+    "benefit": "What you get",
+    "deadline": "Apply by {{date}}",
+    "yourMatch": "Your match",
+    "about": "About this scheme",
+    "howToApply": "How to apply",
+    "documents": "Documents you need",
+    "official": "Open official website",
+    "verified": "Last checked {{date}}",
+    "track": {
+      "saved": "Save",
+      "applied": "I've applied",
+      "dismissed": "Not for me",
+      "savedDone": "Saved",
+      "appliedDone": "Marked as applied",
+      "dismissedDone": "Hidden from your list",
+      "cleared": "Removed"
+    }
+  },
+  "fraud": {
+    "title": "Fraud Shield",
+    "subtitle": "Detect. Analyze. Protect.",
+    "history": "History",
+    "intro": "Forward any message, SMS or screenshot. I'll check it for scam signs.",
+    "pasteLabel": "Paste the message",
+    "pastePlaceholder": "Paste the SMS or WhatsApp message here…",
+    "tooShort": "Paste a bit more of the message (at least 10 characters).",
+    "tooLong": "That's too long. Paste up to 5000 characters.",
+    "from": "From:",
+    "source": {
+      "whatsapp": "WhatsApp",
+      "sms": "SMS",
+      "other": "Other"
+    },
+    "check": "Check this message",
+    "uploadScreenshot": "Upload a screenshot",
+    "imageTooBig": "That image is over 5 MB. Try a smaller screenshot.",
+    "ocrUnavailable": "Reading screenshots isn't available right now. Please paste the message text instead.",
+    "checking": "Checking the message for scam signs…",
+    "readingImage": "Reading the screenshot and checking it…",
+    "recent": "Recent checks",
+    "resultTitle": "Scam check",
+    "riskLevel": "RISK LEVEL",
+    "redFlags": "Red flags detected",
+    "whatToDo": "What you should do",
+    "othersReported": "{{count}} other people reported a message like this.",
+    "report": "Report this scam",
+    "reported": "Thanks — you reported this. It helps protect others.",
+    "call1930": "Call 1930",
+    "youChecked": "You checked (from {{source}}):",
+    "checkAnother": "Check another message",
+    "deleteTitle": "Delete this check?",
+    "deleteMessage": "It will be removed from your history. Reports you made stay.",
+    "kept": "Checks are kept for 180 days.",
+    "historyEmpty": "No checks yet. Paste a message you're unsure about."
+  },
+  "fraudReason": {
+    "unrealistic_returns": {
+      "title": "Promises unrealistic returns",
+      "text": "Offers like 'Earn ₹50,000 daily' are usually fake. Real jobs and investments don't pay like this."
+    },
+    "asks_personal_info": {
+      "title": "Asks for personal or payment information",
+      "text": "Banks and government offices never ask for your OTP, PIN, CVV or password by message or call."
+    },
+    "urgency": {
+      "title": "Uses urgency to pressure you",
+      "text": "Scammers rush you so you don't stop to think or check with someone."
+    },
+    "suspicious_link": {
+      "title": "Contains a suspicious link",
+      "text": "The link hides where it really goes or is not secure. Don't open it."
+    },
+    "fake_brand_link": {
+      "title": "Link pretends to be a trusted brand",
+      "text": "The website name looks like a bank or government site but it is not the official one."
+    },
+    "install_app": {
+      "title": "Asks you to install an unknown app",
+      "text": "Apps sent through messages can read your OTPs and steal money. Install apps only from the Play Store or App Store."
+    },
+    "advance_fee": {
+      "title": "Asks for money before giving a loan or prize",
+      "text": "Genuine lenders and prizes don't ask you to pay a fee first."
+    },
+    "account_threat": {
+      "title": "Threatens to block your account",
+      "text": "Banks don't block accounts through random messages. Check directly with your bank branch or official app."
+    },
+    "fake_prize": {
+      "title": "Says you won a prize you never entered for",
+      "text": "You can't win a lottery or draw you never joined."
+    },
+    "impersonation": {
+      "title": "Pretends to be a government office or bank",
+      "text": "Government offices never threaten arrest or ask for money on calls or chats. 'Digital arrest' is not real."
+    },
+    "fake_job": {
+      "title": "Typical fake job/task scam",
+      "text": "Paying you for likes or small tasks is a trap. Later they ask you to 'invest' to unlock bigger payouts."
+    },
+    "remote_access": {
+      "title": "Asks for remote access to your phone",
+      "text": "Screen-sharing apps let strangers see and control your phone, including your bank app."
+    },
+    "investment_tips": {
+      "title": "Unregistered investment tips",
+      "text": "Tip groups promising sure profits are usually not SEBI-registered and often vanish with your money."
+    },
+    "upi_trick": {
+      "title": "Trick to make you send money by UPI",
+      "text": "You never need to scan a QR code or enter your UPI PIN to receive money."
+    },
+    "unknown_number": {
+      "title": "Pushes you to contact an unknown number",
+      "text": "Moving the chat to a personal number is how scammers avoid official checks."
+    }
+  },
+  "insights": {
+    "title": "Insights for you",
+    "savings": "Savings",
+    "spending": "Spending",
+    "open": "Open",
+    "empty": "No insights yet. Add your income and expenses and I'll share tips here."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "readAll": "Mark all read",
+    "unread": "Unread",
+    "unreadCount": "Notifications, {{count}} unread",
+    "empty": "No notifications yet."
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "Everything Saathi can help with",
+    "planProtect": "Plan & protect",
+    "discover": "Discover",
+    "yourMoney": "Your money",
+    "item": {
+      "planner": {
+        "title": "Income Planner",
+        "hint": "Budget and next 6 months"
+      },
+      "risk": {
+        "title": "Risk Report",
+        "hint": "Your money risk score"
+      },
+      "emergency": {
+        "title": "Emergency Fund",
+        "hint": "Your safety cushion"
+      },
+      "fraud": {
+        "title": "Fraud Shield",
+        "hint": "Check a suspicious message"
+      },
+      "schemes": {
+        "title": "Scheme Scout",
+        "hint": "Government schemes for you"
+      },
+      "learn": {
+        "title": "Learn",
+        "hint": "Money words and lessons"
+      },
+      "insights": {
+        "title": "Insights",
+        "hint": "Tips about your money"
+      },
+      "transactions": {
+        "title": "Transactions",
+        "hint": "Income and expenses"
+      },
+      "debts": {
+        "title": "Debts",
+        "hint": "Loans and what's left"
+      },
+      "addEntry": {
+        "title": "Add entry",
+        "hint": "Log income or an expense"
       }
     }
   }

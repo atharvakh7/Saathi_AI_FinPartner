@@ -2,7 +2,7 @@
  * S38 Notification Settings (spec §4.7): each change is saved immediately (optimistic, rolled back
  * on error). Times are chosen from a list (every 30 min). The per-kind switches stay usable when push
  * is off: they also control the in-app notification list (push only decides whether the phone pings).
- * The OS permission prompt when push is first enabled comes with push registration in step 30.
+ * Turning push on asks for the OS permission and registers the device (step 30).
  */
 import { StyleSheet, View } from 'react-native';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -12,6 +12,7 @@ import { getNotificationSettings, putNotificationSettings, type NotificationSett
 import { queryClient } from '@/api/queryClient';
 import { Card, ErrorBanner, Screen, Select, SkeletonCard } from '@/components';
 import { ToggleRow } from '@/features/settings/SettingsRow';
+import { registerForPush } from '@/lib/push';
 import { useUiStore } from '@/stores';
 import { space } from '@/theme';
 
@@ -44,8 +45,17 @@ export default function NotificationSettings() {
   const s = settings.data;
   const toggle = (key: BoolKey, labelKey: string, hintKey?: string, disabled?: boolean) => (
     <ToggleRow key={key} label={t(labelKey)} hint={hintKey ? t(hintKey) : undefined} value={!!s?.[key]} disabled={disabled}
-      onChange={(v) => save.mutate({ [key]: v })} />
+      onChange={(v) => {
+        save.mutate({ [key]: v });
+        if (key === 'push_enabled' && v) void enablePush();
+      }} />
   );
+  // Turning push on asks the OS for permission and registers this device (spec §4.9).
+  const enablePush = async () => {
+    const r = await registerForPush(true);
+    if (r === 'denied') useUiStore.getState().showToast(t('settings.notifications.pushDenied'), 'error');
+    else if (r === 'unsupported' || r === 'no_project') useUiStore.getState().showToast(t('settings.notifications.pushInAppOnly'), 'info');
+  };
   const timeOptions = TIMES.map((v) => ({ value: v, label: v }));
 
   return (

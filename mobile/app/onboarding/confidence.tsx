@@ -41,7 +41,7 @@ export default function Confidence() {
           onPress={() => (last ? submit.mutate(answers as number[]) : setIndex(index + 1))} />
       }>
       <View style={styles.center}>
-        <Mascot pose="thinking" size={120} />
+        <Mascot pose="thinking" size={110} variant="bust" />
         <AppText variant="caption" muted>{t('onboarding.confidence.progress', { n: index + 1, total: QUESTIONS })}</AppText>
         <AppText variant="h2" align="center">{t(`onboarding.confidence.q${index + 1}`)}</AppText>
       </View>

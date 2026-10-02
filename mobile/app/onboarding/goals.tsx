@@ -19,7 +19,7 @@ import { apiDate, inr } from '@/lib/format';
 import { GOAL_HORIZONS } from '@/lib/constants';
 import { refreshMe } from '@/lib/session';
 import { useSessionStore } from '@/stores/session';
-import { color, radius, space } from '@/theme';
+import { color, radius, shadow, space } from '@/theme';
 
 interface Pick {
   amount: number | null;
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   tile: {
     width: '48%', flexGrow: 1, minHeight: 64, padding: space.md, borderRadius: radius.md, borderWidth: 1.5,
-    borderColor: color.border, backgroundColor: color.surface, alignItems: 'center', justifyContent: 'center',
+    borderColor: 'transparent', backgroundColor: color.surface, alignItems: 'center', justifyContent: 'center', ...shadow,
   },
   tileOn: { backgroundColor: color.primary, borderColor: color.primary },
   tick: {

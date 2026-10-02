@@ -1,16 +1,17 @@
 /**
- * Main tab bar (spec §4.2 layout, §4.5): Home, Plan, Saathi (raised circular mic in primary),
- * Learn, Profile. Guard: no session -> Welcome; onboarding unfinished -> its next step.
+ * Main tab bar (wireframe): Home, Services, Saathi (raised circular mic in primary), Goals, Profile.
+ * Plan and Learn are reached from Services. Guard: no session -> Welcome; onboarding unfinished -> its next step.
  */
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { Redirect, Tabs } from 'expo-router';
-import { BookOpen, ChartNoAxesColumn, House, Mic, UserRound } from 'lucide-react-native';
+import { House, LayoutGrid, Mic, Target, UserRound } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
 import { AppText } from '@/components';
 import { routeForSession } from '@/lib/routing';
+import { registerForPush } from '@/lib/push';
 import { useMe } from '@/lib/session';
 import { isLoggedIn, useSessionStore } from '@/stores/session';
 import { color, MIN_TOUCH, shadow } from '@/theme';
@@ -42,6 +43,9 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   const loggedIn = useSessionStore(isLoggedIn);
   const me = useMe();
+  const ready = !!me.data && !me.data.needs;
+  // Keep this device's push token registered (no permission prompt here; settings ask for it).
+  useEffect(() => { if (ready) void registerForPush(false); }, [ready]);
   if (!loggedIn) return <Redirect href="/onboarding/welcome" />;
   if (me.data && me.data.needs) return <Redirect href={routeForSession(true, me.data) as never} />;
 
@@ -56,14 +60,14 @@ export default function TabsLayout() {
         tabBarActiveTintColor: color.primary,
         tabBarInactiveTintColor: color.textMuted,
         tabBarStyle: {
-          height: 64 + insets.bottom, paddingBottom: insets.bottom + (Platform.OS === 'ios' ? 0 : 6), paddingTop: 6,
-          backgroundColor: color.surface, borderTopColor: color.border,
+          height: 66 + insets.bottom, paddingBottom: insets.bottom + (Platform.OS === 'ios' ? 0 : 8), paddingTop: 8,
+          backgroundColor: color.surface, borderTopWidth: 0, ...shadow,
         },
         sceneStyle: { backgroundColor: color.bg },
       }}
     >
       <Tabs.Screen name="home" options={{ title: t('tabs.home'), tabBarIcon: icon(House), tabBarLabel: label('tabs.home') }} />
-      <Tabs.Screen name="plan" options={{ title: t('tabs.plan'), tabBarIcon: icon(ChartNoAxesColumn), tabBarLabel: label('tabs.plan') }} />
+      <Tabs.Screen name="services" options={{ title: t('tabs.services'), tabBarIcon: icon(LayoutGrid), tabBarLabel: label('tabs.services') }} />
       <Tabs.Screen
         name="saathi"
         options={{
@@ -74,7 +78,7 @@ export default function TabsLayout() {
           ),
         }}
       />
-      <Tabs.Screen name="learn" options={{ title: t('tabs.learn'), tabBarIcon: icon(BookOpen), tabBarLabel: label('tabs.learn') }} />
+      <Tabs.Screen name="goals" options={{ title: t('tabs.goals'), tabBarIcon: icon(Target), tabBarLabel: label('tabs.goals') }} />
       <Tabs.Screen name="profile" options={{ title: t('tabs.profile'), tabBarIcon: icon(UserRound), tabBarLabel: label('tabs.profile') }} />
     </Tabs>
   );

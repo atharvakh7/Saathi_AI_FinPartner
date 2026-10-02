@@ -73,12 +73,13 @@ export function RiskGauge({ score, level, size = 220 }: { score: number; level: 
   return (
     <View style={styles.center} accessible accessibilityLabel={`${t('risk.title')}: ${score.toFixed(1)} / 5, ${t(`risk.level.${level}`)}`}>
       <Svg width={size} height={size / 2 + stroke}>
-        <Path d={arc(0, 1.66)} stroke={color.success} strokeWidth={stroke} fill="none" />
-        <Path d={arc(1.66, 3.33)} stroke={color.warning} strokeWidth={stroke} fill="none" />
-        <Path d={arc(3.33, 5)} stroke={color.danger} strokeWidth={stroke} fill="none" />
+        {/* Bands match the API's levels: low < 2.5, medium < 3.75, high above (spec §5.5). */}
+        <Path d={arc(0, 2.5)} stroke={color.success} strokeWidth={stroke} fill="none" />
+        <Path d={arc(2.5, 3.75)} stroke={color.warning} strokeWidth={stroke} fill="none" />
+        <Path d={arc(3.75, 5)} stroke={color.danger} strokeWidth={stroke} fill="none" />
         <Circle cx={nx} cy={ny} r={stroke / 2 + 4} fill={color.surface} stroke={color.text} strokeWidth={3} />
       </Svg>
-      <AppText variant="h1" style={styles.gaugeScore}>{score.toFixed(1)}</AppText>
+      <AppText variant={size < 180 ? 'h3' : 'h1'} style={{ marginTop: size < 180 ? -30 : -44 }}>{`${score.toFixed(1)}/5`}</AppText>
       <View style={[styles.levelPill, { backgroundColor: tone.bg }]}>
         <Icon color={tone.fg} size={16} />
         <AppText variant="small" tint={tone.fg}>{t(`risk.level.${level}`)}</AppText>

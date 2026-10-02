@@ -24,6 +24,9 @@ from app.modules.users.schemas import (
 )
 
 REQUIRED_CONSENTS = ("terms_privacy", "personalization")
+# Current privacy notice. A user whose terms_privacy consent is for an older version is asked again
+# (/me.needs = "consent"). 1.1: replies are written with a hosted LLM (Google Gemini).
+PRIVACY_NOTICE_VERSION = "1.1"
 # Fields S07 marks required; onboarding step "profile" is incomplete while any is null.
 REQUIRED_PROFILE_FIELDS = (
     "full_name", "age_years", "state_code", "area_type", "occupation_type", "income_pattern",
@@ -80,6 +83,8 @@ async def next_onboarding_step(
     consents = await current_consents(session, user.id)
     if not all(consents.get(t) and consents[t].granted for t in REQUIRED_CONSENTS):
         return "consent"
+    if consents["terms_privacy"].version != PRIVACY_NOTICE_VERSION:
+        return "consent"  # the notice changed since they agreed
     if profile is None or any(getattr(profile, f) is None for f in REQUIRED_PROFILE_FIELDS):
         return "profile"
     # Skipping the assessment stores [] so it is not asked again (ASSUMPTIONS C2).

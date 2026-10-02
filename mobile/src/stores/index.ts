@@ -8,6 +8,9 @@ export { deviceLanguage, useLanguageStore } from './language';
 
 interface ChatState {
   activeConversationId: string | null;
+  /** True after "New chat": don't reopen the latest conversation automatically. */
+  freshChat: boolean;
+  startNewChat: () => void;
   isRecording: boolean;
   isPlaying: boolean;
   pendingTransactionDraft: TransactionDraft | null;
@@ -19,10 +22,12 @@ interface ChatState {
 
 export const useChatStore = create<ChatState>((set) => ({
   activeConversationId: null,
+  freshChat: false,
+  startNewChat: () => set({ activeConversationId: null, freshChat: true }),
   isRecording: false,
   isPlaying: false,
   pendingTransactionDraft: null,
-  setActiveConversation: (id) => set({ activeConversationId: id }),
+  setActiveConversation: (id) => set({ activeConversationId: id, freshChat: false }),
   setRecording: (v) => set({ isRecording: v }),
   setPlaying: (v) => set({ isPlaying: v }),
   setPendingDraft: (d) => set({ pendingTransactionDraft: d }),

@@ -1,7 +1,20 @@
-# Env / secrets
+# Env / secrets (API keys, JWT / encryption keys) — never commit; copy the .env.example files
 .env
 .env.*
 !.env.example
+*.pem
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Logs (backend/api.log contains login OTP codes in dev)
+*.log
+logs/
+npm-debug.*
+yarn-debug.*
+yarn-error.*
 
 # Python
 __pycache__/
@@ -11,10 +24,15 @@ venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.coverage
+htmlcov/
 
-# Model files
+# Model files (large; download per backend/ml_models/README.md)
 backend/ml_models/**
 !backend/ml_models/README.md
+
+# Benchmark downloads (FLEURS clips)
+backend/scripts/benchmarks/data/
 
 # Node / Expo
 node_modules/
@@ -23,17 +41,17 @@ mobile/dist/
 mobile/web-build/
 mobile/android/
 mobile/ios/
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
+mobile/expo-env.d.ts
+.metro-health-check*
+*.tsbuildinfo
+coverage/
+
+# Local dev helpers (machine-specific)
+expo-go-qr.png
 
 # OS / editor
 .DS_Store
 Thumbs.db
+desktop.ini
 .vscode/
 .idea/
-
-# Benchmark downloads (FLEURS clips)
-backend/scripts/benchmarks/data/

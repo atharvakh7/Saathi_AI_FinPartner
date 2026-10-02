@@ -22,15 +22,24 @@ docker compose -f backend/docker-compose.dev.yml ps
 | Postgres 16 + pgvector | 5432 | user/db `saathi` |
 | Redis 7 | 6379 | |
 | MinIO (`bitnamilegacy/minio`, dev only) | 9000 (API), 9001 (console) | buckets created on startup |
-| Ollama (NVIDIA GPU) | 11434 | `gemma4:e4b-it-qat` + `bge-m3` pulled by `ollama-init` (~7 GB on first run) |
+| Ollama (NVIDIA GPU) | 11434 | `bge-m3` embeddings (and `gemma4:e4b-it-qat` if you run the LLM locally), pulled by `ollama-init` |
 
 Follow the first model download with `docker compose -f backend/docker-compose.dev.yml logs -f ollama-init`.
+
+## LLM: local or hosted
+
+The API talks to any OpenAI-compatible endpoint. Two set-ups:
+
+- **Local (needs a GPU with ~6 GB and plenty of RAM):** Ollama `gemma4:e4b-it-qat` — `LLM_BASE_URL=http://localhost:11434/v1`, `LLM_MODEL=gemma4:e4b-it-qat`, `LLM_API_KEY=ollama`.
+- **Hosted (laptops that can't hold the model):** Google Gemini — `LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai`, `LLM_MODEL=gemini-flash-latest`, `LLM_FALLBACK_MODELS=gemini-3.8-flash,gemini-3.1-flash-lite`, `LLM_API_KEY=<key from aistudio.google.com/apikey>`, `LLM_TIMEOUT_SEC=25`. Chats are then sent to Google; the privacy notice (v1.1) says so.
+
+Embeddings stay on Ollama (`bge-m3`) either way. On a low-memory machine also set `AI_WARMUP=false` and `TRANSLATE_ON_STARTUP=false`.
 
 ## Backend setup
 
 ```sh
 cd backend
-py -3.11 -m venv .venv
+py -3.11 -m venv .venv                      # 3.12 also works
 .venv/Scripts/pip install -r requirements.txt -r requirements-ml.txt -r requirements-dev.txt
 # model files: see backend/ml_models/README.md; Tesseract: winget install UB-Mannheim.TesseractOCR
 .venv/Scripts/alembic upgrade head          # create/upgrade the schema
@@ -44,8 +53,11 @@ py -3.11 -m venv .venv
 ```
 cd mobile
 npm install
-npx expo start          # scan the QR code with the Expo Go app (Android/iOS)
+npx expo start --web    # browser preview at http://localhost:8081 (set EXPO_PUBLIC_API_BASE_URL=http://localhost:8000/api/v1)
+npx expo start          # or scan the QR code with the Expo Go app (Android/iOS)
 ```
+
+For the browser preview, add `http://localhost:8081` to `CORS_ORIGINS` in `backend/.env`. Voice works in the browser (it asks for the microphone). Push notifications need a development build and `EXPO_PUBLIC_EAS_PROJECT_ID` (`npx eas init`); in Expo Go on Android and on the web they appear only in the in-app inbox.
 
 - Phone and PC must be on the same Wi-Fi. For screens that call the API, set `EXPO_PUBLIC_API_BASE_URL` in `mobile/.env` to `http://<your PC's LAN IP>:8000/api/v1` and run the API with `--host 0.0.0.0` (the Android emulator uses `10.0.2.2`).
 - Checks: `npm run typecheck`, `npm test`, `npm run check:i18n -- --used`, `npx expo-doctor`.

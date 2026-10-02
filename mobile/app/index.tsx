@@ -37,7 +37,7 @@ export default function Index() {
   if (me.data) return <Redirect href={routeForSession(true, me.data) as never} />;
   return (
     <View style={styles.center}>
-      <Mascot pose="wave" size={160} />
+      <Mascot pose="wave" size={220} />
       {me.isError ? (
         <View style={styles.error}>
           <ErrorBanner error={me.error} onRetry={() => void me.refetch()} />

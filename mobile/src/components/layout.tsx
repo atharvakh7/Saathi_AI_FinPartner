@@ -19,17 +19,20 @@ export interface ScreenProps {
   footer?: ReactNode;
   padded?: boolean;
   refreshControl?: React.ComponentProps<typeof ScrollView>['refreshControl'];
+  /** Drawn behind everything (e.g. GradientBackground); the screen and footer become transparent. */
+  background?: ReactNode;
 }
 
 /** Safe-area wrapper with optional header, scroll, sticky footer, and the offline banner. */
-export function Screen({ title, back, right, scroll = true, children, footer, padded = true, refreshControl }: ScreenProps) {
+export function Screen({ title, back, right, scroll = true, children, footer, padded = true, refreshControl, background }: ScreenProps) {
   const { t } = useTranslation();
   const onBack = typeof back === 'function' ? back : () => (router.canGoBack() ? router.back() : router.replace('/'));
   const body = (
-    <View style={[styles.content, padded && styles.padded]}>{children}</View>
+    <View style={[styles.content, padded && styles.padded, !scroll && styles.fixed]}>{children}</View>
   );
   return (
-    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={[styles.safe, background ? styles.clear : null]} edges={['top', 'left', 'right']}>
+      {background}
       <OfflineBanner />
       {(title || back || right) && (
         <View style={styles.header}>
@@ -51,9 +54,9 @@ export function Screen({ title, back, right, scroll = true, children, footer, pa
           {body}
         </ScrollView>
       ) : (
-        <View style={styles.flex}>{body}</View>
+        <View style={styles.fill}>{body}</View>
       )}
-      {footer ? <View style={styles.footer}>{footer}</View> : null}
+      {footer ? <View style={[styles.footer, background ? styles.footerClear : null]}>{footer}</View> : null}
     </SafeAreaView>
   );
 }
@@ -84,7 +87,7 @@ export function Chip({ label, selected, onPress, icon }: {
       style={[styles.chip, selected && styles.chipOn]}
     >
       {icon}
-      <AppText variant="small" tint={selected ? color.onPrimary : color.primary}>{label}</AppText>
+      <AppText variant="small" tint={selected ? color.onPrimary : color.text}>{label}</AppText>
     </Pressable>
   );
 }
@@ -99,7 +102,8 @@ export function SegmentedTabs<T extends string>({ options, value, onChange }: {
         return (
           <Pressable key={o.value} onPress={() => onChange(o.value)} accessibilityRole="tab"
             accessibilityState={{ selected: on }} style={[styles.segment, on && styles.segmentOn]}>
-            <AppText variant="small" tint={on ? color.onPrimary : color.textMuted} numberOfLines={1}>{o.label}</AppText>
+            <AppText variant={on ? 'bodyMedium' : 'small'} tint={on ? color.primary : color.textMuted} numberOfLines={1}
+              style={on ? styles.segmentOnText : undefined}>{o.label}</AppText>
           </Pressable>
         );
       })}
@@ -127,31 +131,35 @@ export function StepList({ steps }: { steps: { title: string; description?: stri
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: color.bg },
+  clear: { backgroundColor: color.surface },
+  footerClear: { backgroundColor: 'transparent', borderTopWidth: 0 },
   flex: { flex: 1 },
+  // Non-scrolling screens host their own list: the body must be exactly the space left (minHeight 0),
+  // otherwise the list grows to its content and never scrolls (seen on web).
+  fill: { flex: 1, minHeight: 0 },
+  fixed: { flex: 1, minHeight: 0 },
   header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: space.sm, minHeight: 56 },
   iconBtn: { width: MIN_TOUCH, height: MIN_TOUCH, alignItems: 'center', justifyContent: 'center' },
   title: { flex: 1, textAlign: 'center' },
   headerRight: { minWidth: MIN_TOUCH, alignItems: 'flex-end', paddingRight: space.sm },
   scroll: { flexGrow: 1 },
-  content: { flexGrow: 1, width: '100%', maxWidth: MAX_CONTENT_WIDTH, alignSelf: 'center', gap: space.lg },
+  content: { flexGrow: 1, width: '100%', maxWidth: MAX_CONTENT_WIDTH, alignSelf: 'center', gap: space.xl },
   padded: { paddingHorizontal: SCREEN_PADDING, paddingVertical: space.lg },
   footer: {
-    paddingHorizontal: SCREEN_PADDING, paddingVertical: space.md, borderTopWidth: 1, borderTopColor: color.border,
-    backgroundColor: color.surface, width: '100%', maxWidth: MAX_CONTENT_WIDTH, alignSelf: 'center',
+    paddingHorizontal: SCREEN_PADDING, paddingTop: space.sm, paddingBottom: space.lg,
+    backgroundColor: color.bg, width: '100%', maxWidth: MAX_CONTENT_WIDTH, alignSelf: 'center',
   },
-  card: {
-    backgroundColor: color.surface, borderRadius: radius.md, borderWidth: 1, borderColor: color.border,
-    padding: space.lg, gap: space.sm, ...shadow,
-  },
+  card: { backgroundColor: color.surface, borderRadius: radius.md, padding: space.xl, gap: space.md, ...shadow },
   pressed: { opacity: 0.9 },
   chip: {
-    flexDirection: 'row', alignItems: 'center', gap: space.xs, minHeight: 36, paddingHorizontal: space.md,
-    borderRadius: radius.pill, borderWidth: 1, borderColor: color.primary, backgroundColor: color.surface,
+    flexDirection: 'row', alignItems: 'center', gap: space.xs, minHeight: 36, paddingHorizontal: space.lg,
+    borderRadius: radius.pill, backgroundColor: color.fill,
   },
   chipOn: { backgroundColor: color.primary },
-  segments: { flexDirection: 'row', backgroundColor: color.primaryTint, borderRadius: radius.pill, padding: space.xs },
-  segment: { flex: 1, minHeight: 40, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, paddingHorizontal: space.sm },
-  segmentOn: { backgroundColor: color.primary },
+  segments: { flexDirection: 'row', backgroundColor: color.fill, borderRadius: radius.md, padding: 4 },
+  segment: { flex: 1, minHeight: 40, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm + 4, paddingHorizontal: space.sm },
+  segmentOn: { backgroundColor: color.surface, ...shadow },
+  segmentOnText: { color: color.primary },
   step: { flexDirection: 'row', gap: space.md },
   stepNo: {
     width: 28, height: 28, borderRadius: 14, backgroundColor: color.primary, alignItems: 'center', justifyContent: 'center', marginTop: 2,

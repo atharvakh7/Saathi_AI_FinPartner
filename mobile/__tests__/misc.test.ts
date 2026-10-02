@@ -37,3 +37,12 @@ test('i18n files have identical keys and placeholders in all four languages', ()
   const out = execFileSync('node', [path.join(__dirname, '..', 'scripts', 'check-i18n.js')]).toString();
   expect(out).toMatch(/i18n OK/);
 });
+
+test('API base URL: localhost becomes the PC address on a phone (Expo Go), unchanged on web', () => {
+  const { resolveApiBase } = require('@/config');
+  expect(resolveApiBase('http://localhost:8000/api/v1', 'android', '192.168.1.20:8081')).toBe('http://192.168.1.20:8000/api/v1');
+  expect(resolveApiBase('http://localhost:8000/api/v1/', 'ios', '10.0.0.5:8081')).toBe('http://10.0.0.5:8000/api/v1');
+  expect(resolveApiBase('http://localhost:8000/api/v1', 'web', '192.168.1.20:8081')).toBe('http://localhost:8000/api/v1');
+  expect(resolveApiBase('https://api.saathi.in/api/v1', 'android', '192.168.1.20:8081')).toBe('https://api.saathi.in/api/v1');
+  expect(resolveApiBase('http://localhost:8000/api/v1', 'android', null)).toBe('http://localhost:8000/api/v1');
+});

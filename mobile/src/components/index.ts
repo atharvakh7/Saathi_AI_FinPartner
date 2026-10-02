@@ -4,6 +4,8 @@ export { ChatCard, MessageBubble, MicButton, TermSheet } from './chat';
 export type { ChatCardData } from './chat';
 export { splitHighlights } from '@/lib/highlight';
 export type { TermSpan } from '@/lib/highlight';
+export { GradientBackground, IconBadge, Logo, PageHeader, ProgressBar, SectionHeader } from './brand';
+export { DateField } from './DateField';
 export { InsightCard, MetricCard, ProgressRing, RiskGauge, SchemeCard } from './data';
 export type { InsightTone, MatchStatus, RiskLevel } from './data';
 export {

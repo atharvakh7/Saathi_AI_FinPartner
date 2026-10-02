@@ -63,6 +63,62 @@ export function displayMonth(ym: string): string {
   return m ? `${MONTHS[Number(m[2]) - 1]} ${m[1]}` : ym;
 }
 
+/** Local month -> "YYYY-MM". */
+export function apiMonth(d: Date = new Date()): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+/** "2026-09" + 1 -> "2026-10"; "2026-01" - 1 -> "2025-12". */
+export function shiftMonth(ym: string, delta: number): string {
+  const [y, m] = ym.split('-').map(Number) as [number, number];
+  const index = y * 12 + (m - 1) + delta;
+  return `${Math.floor(index / 12)}-${String((index % 12) + 1).padStart(2, '0')}`;
+}
+
+/** "YYYY-MM-DD" -> Date at local midnight (no TZ shift). */
+export function parseApiDate(value: string): Date {
+  const [y, m, d] = value.slice(0, 10).split('-').map(Number) as [number, number, number];
+  return new Date(y, m - 1, d);
+}
+
+/** Weeks of the month as rows of 7 cells (Sunday first); null = padding. */
+export function monthGrid(ym: string): (string | null)[][] {
+  const [y, m] = ym.split('-').map(Number) as [number, number];
+  const first = new Date(y, m - 1, 1).getDay();
+  const days = new Date(y, m, 0).getDate();
+  const cells: (string | null)[] = Array.from({ length: first }, () => null);
+  for (let d = 1; d <= days; d++) cells.push(`${ym}-${String(d).padStart(2, '0')}`);
+  while (cells.length % 7) cells.push(null);
+  const rows: (string | null)[][] = [];
+  for (let i = 0; i < cells.length; i += 7) rows.push(cells.slice(i, i + 7));
+  return rows;
+}
+
+/** Today / Yesterday / "30 Sep 2026" for list headers: returns an i18n key or the formatted date. */
+export function dayLabel(value: string, now: Date = new Date()): { key?: 'common.today' | 'common.yesterday'; text: string } {
+  const today = apiDate(now);
+  const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+  if (value === today) return { key: 'common.today', text: displayDate(value) };
+  if (value === apiDate(y)) return { key: 'common.yesterday', text: displayDate(value) };
+  return { text: displayDate(value) };
+}
+
+/** "2026-09" -> "Sep" (chart axis labels). */
+export function shortMonth(ym: string): string {
+  return MONTHS[Number(ym.slice(5, 7)) - 1] ?? ym;
+}
+
+/** Compact rupees for chart labels: 1500 -> "₹1.5k", 240000 -> "₹2.4L". */
+export function inrShort(value: number): string {
+  const abs = Math.abs(value);
+  const sign = value < 0 ? '-' : '';
+  const trim = (n: number) => String(Number(n.toFixed(1)));
+  if (abs >= 1e7) return `${sign}₹${trim(abs / 1e7)}Cr`;
+  if (abs >= 1e5) return `${sign}₹${trim(abs / 1e5)}L`;
+  if (abs >= 1e3) return `${sign}₹${trim(abs / 1e3)}k`;
+  return `${sign}₹${Math.round(abs)}`;
+}
+
 /** Minutes/hours/days ago, for lists; returns [i18n key, count]. */
 export function relativeTime(iso: string, now: Date = new Date()): [string, number] {
   const seconds = Math.max(0, (now.getTime() - new Date(iso).getTime()) / 1000);

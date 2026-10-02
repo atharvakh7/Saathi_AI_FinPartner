@@ -23,6 +23,7 @@ import { Poppins_600SemiBold } from '@expo-google-fonts/poppins/600SemiBold';
 import '@/i18n';
 import { queryClient } from '@/api/queryClient';
 import { setupApi } from '@/api/setup';
+import { setupNotificationHandling } from '@/lib/push';
 import { Toast } from '@/components';
 import { useLanguageStore } from '@/stores/language';
 import { useSessionStore } from '@/stores/session';
@@ -30,6 +31,7 @@ import { color } from '@/theme';
 
 void SplashScreen.preventAutoHideAsync().catch(() => undefined);
 setupApi();
+setupNotificationHandling();
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({

@@ -6,7 +6,7 @@ import { router } from 'expo-router';
 import { Bell, Brain, Gauge, Info, Languages, LogOut, Shield, UserPen } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
-import { AppText, Card, Chip, ConfirmDialog, ErrorBanner, Mascot, Screen, SkeletonCard } from '@/components';
+import { AppText, Card, Chip, ConfirmDialog, ErrorBanner, Mascot, PageHeader, Screen, SkeletonCard } from '@/components';
 import { SettingsRow } from '@/features/settings/SettingsRow';
 import { signOut, useMe } from '@/lib/session';
 import { useLanguageStore } from '@/stores/language';
@@ -31,12 +31,13 @@ export default function Profile() {
   };
 
   return (
-    <Screen title={t('tabs.profile')}>
+    <Screen>
+      <PageHeader title={t('tabs.profile')} pose={null} />
       {me.isPending ? <SkeletonCard /> : null}
       {me.error ? <ErrorBanner error={me.error} onRetry={() => void me.refetch()} /> : null}
       {user ? (
         <Card style={styles.header}>
-          <Mascot pose="wave" size={72} bounce={false} />
+          <Mascot pose="wave" size={64} variant="avatar" />
           <View style={styles.flex}>
             <AppText variant="h3">{profile?.full_name ?? user.first_name ?? ''}</AppText>
             <AppText muted>{user.phone_masked}</AppText>

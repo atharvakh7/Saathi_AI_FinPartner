@@ -39,7 +39,6 @@ from app.modules.users.schemas import (
 router = APIRouter(prefix="/me", tags=["users"])
 legal_router = APIRouter(prefix="/legal", tags=["legal"])
 
-PRIVACY_NOTICE_VERSION = "1.0"
 LEGAL_DIR = Path(__file__).resolve().parents[2] / "seed" / "legal"
 
 
@@ -166,7 +165,7 @@ async def privacy_notice(request: Request, lang: str | None = None):
     language = resolve_language(request, lang)
     markdown = (
         _privacy_template(language)
-        .replace("{{VERSION}}", PRIVACY_NOTICE_VERSION)
+        .replace("{{VERSION}}", service.PRIVACY_NOTICE_VERSION)
         .replace("{{GRIEVANCE_EMAIL}}", settings.GRIEVANCE_EMAIL)
     )
-    return PrivacyNoticeOut(version=PRIVACY_NOTICE_VERSION, language=language, markdown=markdown)
+    return PrivacyNoticeOut(version=service.PRIVACY_NOTICE_VERSION, language=language, markdown=markdown)

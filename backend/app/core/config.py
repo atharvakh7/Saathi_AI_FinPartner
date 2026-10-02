@@ -48,6 +48,8 @@ class Settings(BaseSettings):
     # LLM / embeddings
     LLM_BASE_URL: str = "http://ollama:11434/v1"
     LLM_MODEL: str = "gemma4:e4b-it-qat"
+    # Comma-separated models tried in order when LLM_MODEL is overloaded (503/429) or fails; blank = none.
+    LLM_FALLBACK_MODELS: str = ""
     LLM_API_KEY: str = "ollama"
     LLM_TIMEOUT_SEC: int = 60
     LLM_MAX_CONCURRENCY: int = 2
@@ -117,6 +119,12 @@ class Settings(BaseSettings):
             if not (self.MSG91_AUTH_KEY and self.MSG91_TEMPLATE_ID):
                 raise ValueError("MSG91_AUTH_KEY and MSG91_TEMPLATE_ID are required in production")
         return self
+
+    @property
+    def llm_models(self) -> list[str]:
+        """LLM_MODEL first, then the fallbacks (duplicates removed)."""
+        models = [self.LLM_MODEL, *(m.strip() for m in self.LLM_FALLBACK_MODELS.split(","))]
+        return list(dict.fromkeys(m for m in models if m))
 
     @property
     def cors_origins(self) -> list[str]:

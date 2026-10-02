@@ -17,7 +17,7 @@ export function EmptyState({ pose = 'wave', message, actionLabel, onAction }: {
 }) {
   return (
     <View style={styles.empty}>
-      <Mascot pose={pose} size={140} />
+      <Mascot pose={pose} size={170} />
       <AppText align="center" muted>{message}</AppText>
       {actionLabel && onAction ? <Button label={actionLabel} onPress={onAction} fullWidth={false} /> : null}
     </View>
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   empty: { alignItems: 'center', gap: space.lg, paddingVertical: space.xxxl, paddingHorizontal: space.xl },
   banner: { flexDirection: 'row', alignItems: 'center', gap: space.sm, padding: space.md, borderRadius: radius.md },
   skeletonCard: {
-    backgroundColor: color.surface, borderRadius: radius.md, borderWidth: 1, borderColor: color.border, padding: space.lg, gap: space.sm,
+    backgroundColor: color.surface, borderRadius: radius.md, padding: space.xl, gap: space.sm,
   },
   toast: {
     position: 'absolute', left: space.lg, right: space.lg, bottom: 96, padding: space.lg, borderRadius: radius.md, ...shadow,

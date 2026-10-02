@@ -69,7 +69,7 @@ export function ChatCard({ card, onOpen }: { card: ChatCardData; onOpen?: (route
   switch (card.type) {
     case 'term':
       return (
-        <Card onPress={onOpen ? () => onOpen(`/learn/term/${card.payload.slug}`) : undefined}>
+        <Card onPress={onOpen ? () => onOpen(`/term/${card.payload.slug}`) : undefined}>
           <AppText variant="bodyMedium">{card.payload.term}</AppText>
           <AppText variant="small" muted>{card.payload.definition}</AppText>
         </Card>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   right: { justifyContent: 'flex-end' },
   bubble: { maxWidth: '85%', padding: space.md, borderRadius: radius.md, gap: space.sm },
   mine: { backgroundColor: color.primary, borderBottomRightRadius: radius.sm },
-  theirs: { backgroundColor: color.surface, borderWidth: 1, borderColor: color.border, borderBottomLeftRadius: radius.sm },
+  theirs: { backgroundColor: color.surface, borderBottomLeftRadius: radius.sm, ...shadow },
   term: { textDecorationLine: 'underline', textDecorationStyle: 'dotted' },
   meta: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: space.sm },
   speak: { minWidth: 32, minHeight: 32, alignItems: 'center', justifyContent: 'center' },

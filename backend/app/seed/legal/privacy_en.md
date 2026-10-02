@@ -25,11 +25,12 @@ Voice recordings are turned into text and deleted immediately. Screenshots are r
 - To check messages for scam signs.
 - To keep your account secure.
 
-We do not sell your data or use it for advertising. Saathi's AI runs on servers we control; your chats are not sent to outside AI companies.
+We do not sell your data or use it for advertising. Saathi writes its replies with **Google's Gemini AI service**: to answer you, the text of your chats, your profile details (name, age, place, work, income range, household size), your goals and this month's money totals, and the facts Saathi remembers are sent to Google. Voice is turned into text on our servers first. Your mobile number is never sent.
 
 ## Who else receives some data
 
 - An **SMS provider** receives your mobile number to send login codes.
+- **Google (Gemini API)** receives the text of your chats, scam messages you check and the details listed above, to write Saathi's replies and explanations. Google processes it for us under its API terms.
 - **Expo's push service** receives your device token and the reminder text, only if you allow notifications.
 
 ## How long we keep it

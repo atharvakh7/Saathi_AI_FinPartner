@@ -5,6 +5,7 @@ with Pydantic (spec §8.2): the caller gets a validated object or `AIOutputError
 half-parsed JSON.
 """
 
+import asyncio
 import json
 import logging
 import re
@@ -53,23 +54,40 @@ def parse_json(text: str) -> Any:
         raise
 
 
-async def _post(body: dict, timeout: float) -> dict:
+RETRY_STATUS = {429, 500, 502, 503, 504}  # overloaded / rate-limited: worth a pause and another try
+RETRY_PAUSE_SEC = 1.5
+
+
+async def _post_model(body: dict, timeout: float) -> dict:
+    """One model: a second try after a short pause on transport errors, 429 and 5xx."""
     last_exc: Exception | None = None
-    for attempt in range(2):  # one retry on transport errors / 5xx
+    for attempt in range(2):
         try:
             async with httpx.AsyncClient(timeout=timeout) as client:
                 resp = await client.post(_url("chat/completions"), json=body, headers=_headers())
-            if resp.status_code >= 500:
-                raise httpx.HTTPStatusError(f"{resp.status_code}", request=resp.request, response=resp)
             resp.raise_for_status()
             return resp.json()
         except (httpx.TransportError, httpx.HTTPStatusError) as exc:
             last_exc = exc
             status = getattr(getattr(exc, "response", None), "status_code", None)
-            if status is not None and status < 500:
-                break  # 4xx: retrying won't help
-            log.warning("llm request failed", extra={"attempt": attempt + 1, "error": repr(exc)})
+            log.warning("llm request failed", extra={"model": body.get("model"), "attempt": attempt + 1, "error": repr(exc)})
+            if status is not None and status not in RETRY_STATUS:
+                break  # other 4xx: retrying the same request won't help
+            if attempt == 0:
+                await asyncio.sleep(RETRY_PAUSE_SEC)
     raise AIUnavailable(f"LLM request failed: {last_exc!r}") from last_exc
+
+
+async def _post(body: dict, timeout: float) -> tuple[dict, str]:
+    """Try LLM_MODEL, then each LLM_FALLBACK_MODELS entry; returns (response, model used)."""
+    last: AIUnavailable | None = None
+    for model in settings.llm_models:
+        try:
+            return await _post_model({**body, "model": model}, timeout), model
+        except AIUnavailable as exc:
+            last = exc
+    assert last is not None
+    raise last
 
 
 async def chat_completion(
@@ -98,13 +116,13 @@ async def chat_completion(
     started = time.perf_counter()
     async with limiter("llm", settings.LLM_MAX_CONCURRENCY):
         try:
-            payload = await _post(body, timeout or settings.LLM_TIMEOUT_SEC)
+            payload, model_used = await _post(body, timeout or settings.LLM_TIMEOUT_SEC)
         except AIUnavailable:
             if json_schema is None:
                 raise
             # Some OpenAI-compatible servers only support plain JSON mode.
             body["response_format"] = {"type": "json_object"}
-            payload = await _post(body, timeout or settings.LLM_TIMEOUT_SEC)
+            payload, model_used = await _post(body, timeout or settings.LLM_TIMEOUT_SEC)
 
     try:
         text = payload["choices"][0]["message"]["content"] or ""
@@ -114,7 +132,7 @@ async def chat_completion(
     log.info(
         "llm completion",
         extra={
-            "model": settings.LLM_MODEL,
+            "model": model_used,
             "ms": round((time.perf_counter() - started) * 1000),
             "tokens_in": usage.get("prompt_tokens"),
             "tokens_out": usage.get("completion_tokens"),
@@ -140,7 +158,8 @@ async def is_available() -> bool:
         async with httpx.AsyncClient(timeout=2.0) as client:
             resp = await client.get(_url("models"), headers=_headers())
         resp.raise_for_status()
-        ok = settings.LLM_MODEL in {m.get("id") for m in resp.json().get("data", [])}
+        ids = {m.get("id") for m in resp.json().get("data", [])}
+        ok = any(m in ids or f"models/{m}" in ids for m in settings.llm_models)  # Gemini lists "models/<id>"
     except Exception:
         ok = False
     _availability = (now, ok)

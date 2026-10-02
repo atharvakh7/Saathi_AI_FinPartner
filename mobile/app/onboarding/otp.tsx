@@ -93,7 +93,7 @@ export default function Otp() {
   return (
     <Screen back>
       <View style={styles.center}>
-        <Mascot pose="listening" size={120} />
+        <Mascot pose="listening" size={110} variant="bust" />
         <AppText variant="h2" align="center">{t('onboarding.otp.title')}</AppText>
         <AppText muted align="center">{t('onboarding.otp.sentTo', { phone: `+91 ${phone.slice(0, 5)} ${phone.slice(5)}` })}</AppText>
       </View>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   center: { alignItems: 'center', gap: space.sm },
   boxes: { flexDirection: 'row', justifyContent: 'center', gap: space.sm },
   box: {
-    width: 46, height: 56, borderRadius: radius.sm, borderWidth: 1.5, borderColor: color.border, backgroundColor: color.surface,
+    width: 46, height: 56, borderRadius: radius.sm + 4, borderWidth: 1.5, borderColor: 'transparent', backgroundColor: color.fill,
     alignItems: 'center', justifyContent: 'center',
   },
   boxActive: { borderColor: color.primary },

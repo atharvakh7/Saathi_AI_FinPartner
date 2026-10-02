@@ -23,7 +23,7 @@ export interface ButtonProps {
 
 const VARIANTS: Record<ButtonVariant, { bg: string; fg: string; border: string }> = {
   primary: { bg: color.primary, fg: color.onPrimary, border: color.primary },
-  secondary: { bg: color.surface, fg: color.primary, border: color.primary },
+  secondary: { bg: color.primaryTint, fg: color.primary, border: color.primaryTint },
   ghost: { bg: 'transparent', fg: color.primary, border: 'transparent' },
   danger: { bg: color.danger, fg: color.onPrimary, border: color.danger },
 };
@@ -68,7 +68,7 @@ export function Button({
 
 const styles = StyleSheet.create({
   base: {
-    minHeight: MIN_TOUCH,
+    minHeight: MIN_TOUCH + 4,
     paddingHorizontal: space.xl,
     paddingVertical: space.md,
     borderRadius: radius.pill,
