@@ -1,6 +1,6 @@
 # Saathi
 
-Multilingual, voice-first AI financial companion. The full specification is in `SPEC.md`; decisions and deviations are in `ASSUMPTIONS.md`.
+Multilingual, voice-first AI financial companion. The full specification is in `SPEC.md`; decisions and deviations are in `ASSUMPTIONS.md`; what is done and what is left is in `PROJECT_STATUS.md`.
 
 ```
 backend/   FastAPI API, Celery jobs, AI adapters, Alembic migrations, seed data
